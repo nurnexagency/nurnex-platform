@@ -1,6 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getDemoSessionClient } from "@/lib/demo-auth";
+import {
+  getDemoCandidateProfile,
+  saveDemoCandidateProfile,
+  checkDemoVerification,
+} from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
 import { Spinner, PageLoader } from "@/components/spinner";
 import { toast } from "@/components/toast";
@@ -13,7 +20,11 @@ type ProfileData = {
   portfolio_url: string;
   resume_url: string;
   resume_score: number | null;
-  resume_feedback: { score: number; feedback: string[]; formatting_issues: string[] } | null;
+  resume_feedback: {
+    score: number;
+    feedback: string[];
+    formatting_issues: string[];
+  } | null;
 };
 
 const FIELDS = ["Data Analyst", "Developer", "Designer", "Other"];
@@ -33,14 +44,42 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [scoring, setScoring] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
+  const [demoUserId, setDemoUserId] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
+      if (!isSupabaseConfigured()) {
+        const demo = getDemoSessionClient();
+        if (!demo) {
+          setLoading(false);
+          return;
+        }
+        setIsDemo(true);
+        setDemoUserId(demo.userId);
+        const p = getDemoCandidateProfile(demo.userId);
+        setProfile({
+          full_name: p.full_name,
+          field: p.field,
+          bio: p.bio,
+          github_url: p.github_url,
+          portfolio_url: p.portfolio_url,
+          resume_url: p.resume_url,
+          resume_score: p.resume_score,
+          resume_feedback: p.resume_feedback,
+        });
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const { data } = await supabase
         .from("profiles")
@@ -59,7 +98,8 @@ export default function ProfilePage() {
           portfolio_url: data.portfolio_url ?? "",
           resume_url: data.resume_url ?? "",
           resume_score: data.resume_score,
-          resume_feedback: data.resume_feedback as ProfileData["resume_feedback"],
+          resume_feedback:
+            data.resume_feedback as ProfileData["resume_feedback"],
         });
       }
       setLoading(false);
@@ -71,11 +111,28 @@ export default function ProfilePage() {
     e.preventDefault();
     setSaving(true);
 
+    if (isDemo && demoUserId) {
+      saveDemoCandidateProfile(demoUserId, {
+        full_name: profile.full_name,
+        field: profile.field,
+        bio: profile.bio,
+        github_url: profile.github_url,
+        portfolio_url: profile.portfolio_url,
+      });
+      checkDemoVerification(demoUserId);
+      toast("Profile updated (demo mode)", "success");
+      setSaving(false);
+      return;
+    }
+
     const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setSaving(false);
+      return;
+    }
 
     const { error } = await supabase
       .from("profiles")
@@ -93,7 +150,6 @@ export default function ProfilePage() {
       toast(error.message, "error");
     } else {
       toast("Profile updated", "success");
-
       try {
         await fetch("/api/verify", {
           method: "POST",
@@ -101,7 +157,7 @@ export default function ProfilePage() {
           body: JSON.stringify({ userId: user.id }),
         });
       } catch {
-        // verification check is best-effort
+        /* best-effort */
       }
     }
     setSaving(false);
@@ -111,15 +167,29 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (isDemo && demoUserId) {
+      setUploading(true);
+      await new Promise((r) => setTimeout(r, 800));
+      const fakeUrl = `demo-resume://${file.name}`;
+      saveDemoCandidateProfile(demoUserId, { resume_url: fakeUrl });
+      setProfile((prev) => ({ ...prev, resume_url: fakeUrl }));
+      toast("Resume uploaded (demo mode)", "success");
+      setUploading(false);
+      simulateDemoScore();
+      return;
+    }
+
     setUploading(true);
     const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setUploading(false);
+      return;
+    }
 
     const path = `${user.id}/resume.pdf`;
-
     const { error: uploadError } = await supabase.storage
       .from("resumes")
       .upload(path, file, { upsert: true });
@@ -142,8 +212,40 @@ export default function ProfilePage() {
     setProfile((prev) => ({ ...prev, resume_url: publicUrl }));
     toast("Resume uploaded", "success");
     setUploading(false);
-
     scoreResume(user.id);
+  }
+
+  function simulateDemoScore() {
+    if (!demoUserId) return;
+    setScoring(true);
+    setTimeout(() => {
+      const score = 65 + Math.floor(Math.random() * 25);
+      const feedback = {
+        score,
+        feedback: [
+          "Clear structure and relevant experience highlighted",
+          "Skills section is well-organized and keyword-rich",
+          "Consider adding measurable achievements with numbers",
+          "Education section is complete and well-formatted",
+        ],
+        formatting_issues:
+          score < 75
+            ? ["Some sections could use more whitespace for readability"]
+            : [],
+      };
+      saveDemoCandidateProfile(demoUserId, {
+        resume_score: score,
+        resume_feedback: feedback,
+      });
+      setProfile((prev) => ({
+        ...prev,
+        resume_score: score,
+        resume_feedback: feedback,
+      }));
+      checkDemoVerification(demoUserId);
+      toast(`Resume scored: ${score}/100 (demo)`, "success");
+      setScoring(false);
+    }, 2000);
   }
 
   async function scoreResume(userId: string) {
@@ -162,13 +264,11 @@ export default function ProfilePage() {
           resume_feedback: data,
         }));
         toast(`Resume scored: ${data.score}/100`, "success");
-
         await fetch("/api/score-skills", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
         });
-
         await fetch("/api/verify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -193,7 +293,9 @@ export default function ProfilePage() {
       <form onSubmit={handleSave} className="space-y-6">
         <div className="bg-card border border-border rounded-xl p-6 space-y-4">
           <div>
-            <label className="block text-sm text-muted mb-1.5">Full Name</label>
+            <label className="block text-sm text-muted mb-1.5">
+              Full Name
+            </label>
             <input
               type="text"
               value={profile.full_name}
@@ -268,7 +370,9 @@ export default function ProfilePage() {
         <div className="bg-card border border-border rounded-xl p-6">
           <label className="block text-sm text-muted mb-3">Resume (PDF)</label>
           {profile.resume_url && (
-            <p className="text-xs text-primary mb-3">✓ Resume uploaded</p>
+            <p className="text-xs text-primary mb-3">
+              &#10003; Resume uploaded
+            </p>
           )}
           <input
             type="file"
@@ -307,8 +411,14 @@ export default function ProfilePage() {
                 <p className="text-sm text-muted mb-2">Feedback:</p>
                 <ul className="space-y-1">
                   {profile.resume_feedback.feedback.map((f, i) => (
-                    <li key={i} className="text-sm text-foreground flex items-start gap-2">
-                      <span className="text-primary mt-0.5">•</span> {f}
+                    <li
+                      key={i}
+                      className="text-sm text-foreground flex items-start gap-2"
+                    >
+                      <span className="text-primary mt-0.5">
+                        &#8226;
+                      </span>{" "}
+                      {f}
                     </li>
                   ))}
                 </ul>
@@ -326,7 +436,7 @@ export default function ProfilePage() {
                         key={i}
                         className="text-sm text-red-400 flex items-start gap-2"
                       >
-                        <span className="mt-0.5">⚠</span> {f}
+                        <span className="mt-0.5">&#9888;</span> {f}
                       </li>
                     ))}
                   </ul>

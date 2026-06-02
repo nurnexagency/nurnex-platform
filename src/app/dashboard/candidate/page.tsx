@@ -1,8 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getDemoSessionClient } from "@/lib/demo-auth";
+import {
+  getDemoCandidateProfile,
+  getDemoCandidateVideos,
+  checkDemoVerification,
+} from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
-import { type VerificationChecklist } from "@/lib/verification";
 import Link from "next/link";
 import { PageLoader } from "@/components/spinner";
 
@@ -13,23 +19,66 @@ type Profile = {
   field: string | null;
 };
 
+type Checklist = {
+  hasResume: boolean;
+  resumeScorePassing: boolean;
+  hasIntroVideo: boolean;
+  hasProjectVideo: boolean;
+  hasExpectationsVideo: boolean;
+  hasPortfolioUrl: boolean;
+  allMet: boolean;
+};
+
 export default function CandidateDashboard() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [checklist, setChecklist] = useState<VerificationChecklist | null>(null);
+  const [checklist, setChecklist] = useState<Checklist | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
+      if (!isSupabaseConfigured()) {
+        const demo = getDemoSessionClient();
+        if (!demo) {
+          setLoading(false);
+          return;
+        }
+        const p = getDemoCandidateProfile(demo.userId);
+        const v = getDemoCandidateVideos(demo.userId);
+        const allMet = checkDemoVerification(demo.userId);
+        setProfile({
+          full_name: p.full_name || null,
+          verification_status: allMet ? "verified" : p.verification_status,
+          resume_score: p.resume_score,
+          field: p.field || null,
+        });
+        setChecklist({
+          hasResume: !!p.resume_url,
+          resumeScorePassing: (p.resume_score ?? 0) >= 60,
+          hasIntroVideo: !!v.intro,
+          hasProjectVideo: !!v.project,
+          hasExpectationsVideo: !!v.expectations,
+          hasPortfolioUrl: !!(p.portfolio_url || p.github_url),
+          allMet,
+        });
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const [{ data: p }, { data: videos }] = await Promise.all([
         supabase
           .from("profiles")
-          .select("full_name, verification_status, resume_score, field, resume_url, portfolio_url, github_url")
+          .select(
+            "full_name, verification_status, resume_score, field, resume_url, portfolio_url, github_url"
+          )
           .eq("id", user.id)
           .single(),
         supabase
@@ -40,8 +89,10 @@ export default function CandidateDashboard() {
 
       setProfile(p);
 
-      const videoTypes = new Set(videos?.map((v: { type: string }) => v.type) ?? []);
-      const cl: VerificationChecklist = {
+      const videoTypes = new Set(
+        videos?.map((v: { type: string }) => v.type) ?? []
+      );
+      const cl: Checklist = {
         hasResume: !!p?.resume_url,
         resumeScorePassing: (p?.resume_score ?? 0) >= 60,
         hasIntroVideo: videoTypes.has("intro"),
@@ -67,12 +118,36 @@ export default function CandidateDashboard() {
 
   const items = checklist
     ? [
-        { label: "Upload resume", done: checklist.hasResume, href: "/dashboard/candidate/profile" },
-        { label: "Resume score ≥ 60", done: checklist.resumeScorePassing, href: "/dashboard/candidate/profile" },
-        { label: "Intro video", done: checklist.hasIntroVideo, href: "/dashboard/candidate/videos" },
-        { label: "Project video", done: checklist.hasProjectVideo, href: "/dashboard/candidate/videos" },
-        { label: "Expectations video", done: checklist.hasExpectationsVideo, href: "/dashboard/candidate/videos" },
-        { label: "Portfolio or GitHub URL", done: checklist.hasPortfolioUrl, href: "/dashboard/candidate/profile" },
+        {
+          label: "Upload resume",
+          done: checklist.hasResume,
+          href: "/dashboard/candidate/profile",
+        },
+        {
+          label: "Resume score \u2265 60",
+          done: checklist.resumeScorePassing,
+          href: "/dashboard/candidate/profile",
+        },
+        {
+          label: "Intro video",
+          done: checklist.hasIntroVideo,
+          href: "/dashboard/candidate/videos",
+        },
+        {
+          label: "Project video",
+          done: checklist.hasProjectVideo,
+          href: "/dashboard/candidate/videos",
+        },
+        {
+          label: "Expectations video",
+          done: checklist.hasExpectationsVideo,
+          href: "/dashboard/candidate/videos",
+        },
+        {
+          label: "Portfolio or GitHub URL",
+          done: checklist.hasPortfolioUrl,
+          href: "/dashboard/candidate/profile",
+        },
       ]
     : [];
 
@@ -84,9 +159,9 @@ export default function CandidateDashboard() {
         Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
       </h1>
       <p className="text-muted text-sm mb-8">
-        {profile?.field ? profile.field + " • " : ""}
+        {profile?.field ? profile.field + " \u2022 " : ""}
         {profile?.verification_status === "verified" ? (
-          <span className="text-accent">✦ Verified</span>
+          <span className="text-accent">\u2726 Verified</span>
         ) : (
           "Complete your profile to get verified"
         )}
@@ -94,7 +169,9 @@ export default function CandidateDashboard() {
 
       {profile?.verification_status === "verified" ? (
         <div className="bg-accent/10 border border-accent/30 rounded-xl p-6">
-          <h2 className="text-accent font-semibold mb-2">You&apos;re Verified</h2>
+          <h2 className="text-accent font-semibold mb-2">
+            You&apos;re Verified
+          </h2>
           <p className="text-sm text-muted">
             Your profile is visible to recruiters. Browse open positions and
             wait for interview invitations.
@@ -103,7 +180,7 @@ export default function CandidateDashboard() {
             href="/dashboard/candidate/jobs"
             className="inline-block mt-4 text-sm text-primary hover:underline"
           >
-            Browse Jobs →
+            Browse Jobs \u2192
           </Link>
         </div>
       ) : (
@@ -118,7 +195,7 @@ export default function CandidateDashboard() {
             <div
               className="bg-primary h-2 rounded-full transition-all"
               style={{
-                width: `${(completedCount / items.length) * 100}%`,
+                width: `${items.length ? (completedCount / items.length) * 100 : 0}%`,
               }}
             />
           </div>
@@ -136,7 +213,7 @@ export default function CandidateDashboard() {
                       : "border-border text-transparent"
                   }`}
                 >
-                  ✓
+                  \u2713
                 </span>
                 <span
                   className={

@@ -1,6 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getDemoSessionClient } from "@/lib/demo-auth";
+import {
+  getDemoJobsForCandidates,
+  getDemoCandidateAppliedJobIds,
+  createDemoCandidateApplication,
+} from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
 import { Spinner, PageLoader } from "@/components/spinner";
 import { toast } from "@/components/toast";
@@ -22,9 +29,34 @@ export default function CandidateJobsPage() {
   const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
   const [skillFilter, setSkillFilter] = useState("");
   const [fieldFilter, setFieldFilter] = useState("");
+  const [isDemo, setIsDemo] = useState(false);
+  const [demoUserId, setDemoUserId] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
+      if (!isSupabaseConfigured()) {
+        const demo = getDemoSessionClient();
+        setIsDemo(true);
+        if (demo) {
+          setDemoUserId(demo.userId);
+          setAppliedJobs(getDemoCandidateAppliedJobIds(demo.userId));
+        }
+        const dj = getDemoJobsForCandidates();
+        setJobs(
+          dj.map((j) => ({
+            id: j.id,
+            title: j.title,
+            description: j.description,
+            skills_required: j.skills_required,
+            experience_level: j.experience_level,
+            created_at: j.created_at,
+            booking_url: j.booking_url,
+          }))
+        );
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const {
         data: { user },
@@ -56,11 +88,23 @@ export default function CandidateJobsPage() {
 
   async function handleApply(jobId: string) {
     setApplying(jobId);
+
+    if (isDemo && demoUserId) {
+      createDemoCandidateApplication(demoUserId, jobId);
+      setAppliedJobs((prev) => new Set(prev).add(jobId));
+      toast("Interview requested! (demo mode)", "success");
+      setApplying(null);
+      return;
+    }
+
     const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setApplying(null);
+      return;
+    }
 
     const { error } = await supabase.from("applications").insert({
       candidate_id: user.id,
@@ -170,7 +214,7 @@ export default function CandidateJobsPage() {
               <div className="mt-4">
                 {appliedJobs.has(job.id) ? (
                   <span className="text-sm text-primary">
-                    ✓ Interview Requested
+                    &#10003; Interview Requested
                   </span>
                 ) : (
                   <button

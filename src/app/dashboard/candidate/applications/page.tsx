@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getDemoSessionClient } from "@/lib/demo-auth";
+import { getDemoCandidateApplications } from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
 import { PageLoader } from "@/components/spinner";
 
@@ -8,7 +11,7 @@ type Application = {
   id: string;
   stage: string;
   meeting_link: string | null;
-  scheduled_at: string | null;
+  scheduled_at?: string | null;
   created_at: string;
   jobs: { title: string; description: string | null } | null;
 };
@@ -19,11 +22,32 @@ export default function ApplicationsPage() {
 
   useEffect(() => {
     async function load() {
+      if (!isSupabaseConfigured()) {
+        const demo = getDemoSessionClient();
+        if (demo) {
+          const apps = getDemoCandidateApplications(demo.userId);
+          setApplications(
+            apps.map((a) => ({
+              id: a.id,
+              stage: a.stage,
+              meeting_link: a.meeting_link,
+              created_at: a.created_at,
+              jobs: a.jobs,
+            }))
+          );
+        }
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const { data } = await supabase
         .from("applications")
@@ -62,6 +86,9 @@ export default function ApplicationsPage() {
       {applications.length === 0 ? (
         <div className="bg-card border border-border rounded-xl p-12 text-center">
           <p className="text-muted">No applications yet.</p>
+          <p className="text-sm text-muted mt-2">
+            Browse jobs and request interviews to see them here.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -76,8 +103,7 @@ export default function ApplicationsPage() {
                     {app.jobs?.title ?? "Unknown Job"}
                   </h3>
                   <p className="text-sm text-muted mt-1">
-                    Applied{" "}
-                    {new Date(app.created_at).toLocaleDateString()}
+                    Applied {new Date(app.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <span
@@ -92,7 +118,10 @@ export default function ApplicationsPage() {
                   const currentIdx = stageSteps.indexOf(app.stage);
                   const isActive = i <= currentIdx;
                   return (
-                    <div key={step} className="flex items-center gap-1 flex-1">
+                    <div
+                      key={step}
+                      className="flex items-center gap-1 flex-1"
+                    >
                       <div
                         className={`h-1.5 rounded-full flex-1 ${
                           isActive ? "bg-primary" : "bg-border"
@@ -110,7 +139,7 @@ export default function ApplicationsPage() {
                   rel="noopener noreferrer"
                   className="inline-block text-sm text-primary hover:underline"
                 >
-                  Join Meeting →
+                  Join Meeting \u2192
                 </a>
               )}
             </div>

@@ -312,3 +312,240 @@ export function getDemoCandidate(
 ): DemoCandidate | undefined {
   return SAMPLE_CANDIDATES.find((c) => c.id === candidateId);
 }
+
+// ─── Candidate-side demo storage ─────────────────────────────────────────
+
+const CAND_PROFILE_KEY = "nurnex-demo-cand-profile:";
+const CAND_VIDEOS_KEY = "nurnex-demo-cand-videos:";
+const CAND_APPS_KEY = "nurnex-demo-cand-apps";
+
+export type DemoCandidateProfile = {
+  full_name: string;
+  field: string;
+  bio: string;
+  github_url: string;
+  portfolio_url: string;
+  resume_url: string;
+  resume_score: number | null;
+  resume_feedback: {
+    score: number;
+    feedback: string[];
+    formatting_issues: string[];
+  } | null;
+  verification_status: "pending" | "verified" | "rejected";
+};
+
+export type DemoCandidateVideoStatus = {
+  intro: string;
+  project: string;
+  expectations: string;
+};
+
+export type DemoCandidateApp = {
+  id: string;
+  candidate_id: string;
+  job_id: string;
+  stage: "requested" | "scheduled" | "completed" | "rejected";
+  meeting_link: string | null;
+  created_at: string;
+};
+
+const DEFAULT_PROFILE: DemoCandidateProfile = {
+  full_name: "",
+  field: "",
+  bio: "",
+  github_url: "",
+  portfolio_url: "",
+  resume_url: "",
+  resume_score: null,
+  resume_feedback: null,
+  verification_status: "pending",
+};
+
+export function getDemoCandidateProfile(userId: string): DemoCandidateProfile {
+  if (typeof window === "undefined") return { ...DEFAULT_PROFILE };
+  try {
+    const raw = localStorage.getItem(CAND_PROFILE_KEY + userId);
+    if (!raw) return { ...DEFAULT_PROFILE };
+    return { ...DEFAULT_PROFILE, ...JSON.parse(raw) };
+  } catch {
+    return { ...DEFAULT_PROFILE };
+  }
+}
+
+export function saveDemoCandidateProfile(
+  userId: string,
+  data: Partial<DemoCandidateProfile>
+) {
+  if (typeof window === "undefined") return;
+  const existing = getDemoCandidateProfile(userId);
+  const merged = { ...existing, ...data };
+  localStorage.setItem(CAND_PROFILE_KEY + userId, JSON.stringify(merged));
+}
+
+export function checkDemoVerification(userId: string): boolean {
+  const p = getDemoCandidateProfile(userId);
+  const v = getDemoCandidateVideos(userId);
+  const allMet =
+    !!p.resume_url &&
+    (p.resume_score ?? 0) >= 60 &&
+    !!v.intro &&
+    !!v.project &&
+    !!v.expectations &&
+    !!(p.portfolio_url || p.github_url);
+  if (allMet && p.verification_status !== "verified") {
+    saveDemoCandidateProfile(userId, { verification_status: "verified" });
+  }
+  return allMet;
+}
+
+export function getDemoCandidateVideos(
+  userId: string
+): DemoCandidateVideoStatus {
+  if (typeof window === "undefined")
+    return { intro: "", project: "", expectations: "" };
+  try {
+    const raw = localStorage.getItem(CAND_VIDEOS_KEY + userId);
+    if (!raw) return { intro: "", project: "", expectations: "" };
+    return JSON.parse(raw);
+  } catch {
+    return { intro: "", project: "", expectations: "" };
+  }
+}
+
+export function saveDemoCandidateVideo(
+  userId: string,
+  type: "intro" | "project" | "expectations",
+  url: string
+) {
+  const existing = getDemoCandidateVideos(userId);
+  existing[type] = url;
+  localStorage.setItem(CAND_VIDEOS_KEY + userId, JSON.stringify(existing));
+}
+
+export function getDemoJobsForCandidates(): DemoJob[] {
+  const fromRecruiters = readList<DemoJob>(JOBS_KEY).filter(
+    (j) => j.status === "active"
+  );
+
+  const sampleJobs: DemoJob[] = SAMPLE_CANDIDATE_JOBS.filter(
+    (sj) => !fromRecruiters.some((rj) => rj.id === sj.id)
+  );
+
+  return [...fromRecruiters, ...sampleJobs].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+}
+
+export function getDemoCandidateApplications(
+  userId: string
+): (DemoCandidateApp & { jobs: { title: string; description: string | null } })[] {
+  const apps = readList<DemoCandidateApp>(CAND_APPS_KEY).filter(
+    (a) => a.candidate_id === userId
+  );
+  const allJobs = getDemoJobsForCandidates();
+  return apps.map((a) => {
+    const job = allJobs.find((j) => j.id === a.job_id);
+    return {
+      ...a,
+      jobs: {
+        title: job?.title ?? "Unknown Job",
+        description: job?.description ?? null,
+      },
+    };
+  });
+}
+
+export function createDemoCandidateApplication(
+  userId: string,
+  jobId: string
+): DemoCandidateApp {
+  const app: DemoCandidateApp = {
+    id: uid(),
+    candidate_id: userId,
+    job_id: jobId,
+    stage: "requested",
+    meeting_link: null,
+    created_at: new Date().toISOString(),
+  };
+  const all = readList<DemoCandidateApp>(CAND_APPS_KEY);
+  all.push(app);
+  writeList(CAND_APPS_KEY, all);
+  return app;
+}
+
+export function getDemoCandidateAppliedJobIds(userId: string): Set<string> {
+  const apps = readList<DemoCandidateApp>(CAND_APPS_KEY).filter(
+    (a) => a.candidate_id === userId
+  );
+  return new Set(apps.map((a) => a.job_id));
+}
+
+const SAMPLE_CANDIDATE_JOBS: DemoJob[] = [
+  {
+    id: "demo-job-001",
+    recruiter_id: "demo-recruiter",
+    title: "Senior Frontend Developer",
+    description:
+      "Build modern React/Next.js applications for our SaaS platform. You will lead component architecture and mentor junior engineers.",
+    skills_required: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+    experience_level: "Senior",
+    booking_url: null,
+    status: "active",
+    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+  },
+  {
+    id: "demo-job-002",
+    recruiter_id: "demo-recruiter",
+    title: "Data Analyst",
+    description:
+      "Analyze business metrics, build dashboards, and deliver insights to leadership. SQL, Python, and BI tools required.",
+    skills_required: ["SQL", "Python", "Tableau", "Power BI"],
+    experience_level: "Mid-Level",
+    booking_url: null,
+    status: "active",
+    created_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+  },
+  {
+    id: "demo-job-003",
+    recruiter_id: "demo-recruiter",
+    title: "Product Designer",
+    description:
+      "Own the end-to-end design process for our B2B platform. Figma expertise and design system experience required.",
+    skills_required: ["Figma", "Design Systems", "User Research", "Prototyping"],
+    experience_level: "Senior",
+    booking_url: null,
+    status: "active",
+    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+  },
+  {
+    id: "demo-job-004",
+    recruiter_id: "demo-recruiter",
+    title: "Backend Engineer (Go)",
+    description:
+      "Design and build distributed microservices in Go. Experience with Kubernetes and cloud infrastructure preferred.",
+    skills_required: ["Go", "Kubernetes", "AWS", "PostgreSQL"],
+    experience_level: "Mid-Level",
+    booking_url: null,
+    status: "active",
+    created_at: new Date(Date.now() - 7 * 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 7 * 86400000).toISOString(),
+  },
+  {
+    id: "demo-job-005",
+    recruiter_id: "demo-recruiter",
+    title: "ML Engineer",
+    description:
+      "Build and deploy machine learning models at scale. Strong Python, TensorFlow/PyTorch, and MLOps skills needed.",
+    skills_required: ["Python", "TensorFlow", "MLOps", "SQL"],
+    experience_level: "Senior",
+    booking_url: null,
+    status: "active",
+    created_at: new Date(Date.now() - 10 * 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 10 * 86400000).toISOString(),
+  },
+];

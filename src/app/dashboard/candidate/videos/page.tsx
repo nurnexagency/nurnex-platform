@@ -1,6 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getDemoSessionClient } from "@/lib/demo-auth";
+import {
+  getDemoCandidateVideos,
+  saveDemoCandidateVideo,
+  checkDemoVerification,
+} from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
 import { Spinner, PageLoader } from "@/components/spinner";
 import { toast } from "@/components/toast";
@@ -15,37 +22,65 @@ type VideoCard = {
   uploading: boolean;
 };
 
-const VIDEO_CONFIG: { type: VideoType; title: string; description: string }[] = [
-  {
-    type: "intro",
-    title: "Introduction",
-    description: "Introduce yourself — who you are, your background, and what drives you.",
-  },
-  {
-    type: "project",
-    title: "Project Explanation",
-    description: "Walk through a project you're proud of — what you built and why.",
-  },
-  {
-    type: "expectations",
-    title: "Expectations",
-    description: "Share what you're looking for — role type, culture, and growth goals.",
-  },
-];
+const VIDEO_CONFIG: { type: VideoType; title: string; description: string }[] =
+  [
+    {
+      type: "intro",
+      title: "Introduction",
+      description:
+        "Introduce yourself \u2014 who you are, your background, and what drives you.",
+    },
+    {
+      type: "project",
+      title: "Project Explanation",
+      description:
+        "Walk through a project you\u2019re proud of \u2014 what you built and why.",
+    },
+    {
+      type: "expectations",
+      title: "Expectations",
+      description:
+        "Share what you\u2019re looking for \u2014 role type, culture, and growth goals.",
+    },
+  ];
 
 export default function VideosPage() {
   const [videos, setVideos] = useState<VideoCard[]>(
     VIDEO_CONFIG.map((v) => ({ ...v, url: null, uploading: false }))
   );
   const [loading, setLoading] = useState(true);
+  const [isDemo, setIsDemo] = useState(false);
+  const [demoUserId, setDemoUserId] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
+      if (!isSupabaseConfigured()) {
+        const demo = getDemoSessionClient();
+        if (!demo) {
+          setLoading(false);
+          return;
+        }
+        setIsDemo(true);
+        setDemoUserId(demo.userId);
+        const v = getDemoCandidateVideos(demo.userId);
+        setVideos((prev) =>
+          prev.map((card) => ({
+            ...card,
+            url: v[card.type] || null,
+          }))
+        );
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const { data } = await supabase
         .from("candidate_videos")
@@ -72,6 +107,20 @@ export default function VideosPage() {
       prev.map((v) => (v.type === type ? { ...v, uploading: true } : v))
     );
 
+    if (isDemo && demoUserId) {
+      const blobUrl = URL.createObjectURL(file);
+      await new Promise((r) => setTimeout(r, 600));
+      saveDemoCandidateVideo(demoUserId, type, blobUrl);
+      checkDemoVerification(demoUserId);
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.type === type ? { ...v, url: blobUrl, uploading: false } : v
+        )
+      );
+      toast(`${type} video uploaded (demo mode)`, "success");
+      return;
+    }
+
     const supabase = createClient();
     const {
       data: { user },
@@ -79,7 +128,6 @@ export default function VideosPage() {
     if (!user) return;
 
     const path = `${user.id}/${type}.mp4`;
-
     const { error: uploadError } = await supabase.storage
       .from("videos")
       .upload(path, file, { upsert: true });
@@ -107,7 +155,6 @@ export default function VideosPage() {
       toast(`Failed to save: ${upsertError.message}`, "error");
     } else {
       toast(`${type} video uploaded`, "success");
-
       try {
         await fetch("/api/verify", {
           method: "POST",
@@ -115,7 +162,7 @@ export default function VideosPage() {
           body: JSON.stringify({ userId: user.id }),
         });
       } catch {
-        // best-effort verification check
+        /* best-effort */
       }
     }
 
@@ -167,9 +214,9 @@ export default function VideosPage() {
               </div>
               <div className="text-2xl">
                 {video.url ? (
-                  <span className="text-primary">✓</span>
+                  <span className="text-primary">&#10003;</span>
                 ) : (
-                  <span className="text-border">○</span>
+                  <span className="text-border">&#9675;</span>
                 )}
               </div>
             </div>
