@@ -114,6 +114,15 @@ export function updateDemoJobStatus(
   }
 }
 
+export function deleteDemoJob(jobId: string) {
+  const all = readList<DemoJob>(JOBS_KEY).filter((j) => j.id !== jobId);
+  writeList(JOBS_KEY, all);
+  const apps = readList<DemoApplication>(APPS_KEY).filter(
+    (a) => a.job_id !== jobId
+  );
+  writeList(APPS_KEY, apps);
+}
+
 // ─── Applications ────────────────────────────────────────────────────────
 
 export function getDemoApplications(jobId: string): (DemoApplication & {

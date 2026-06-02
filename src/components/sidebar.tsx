@@ -86,7 +86,7 @@ export function Sidebar({ role }: { role: "candidate" | "recruiter" }) {
           Home
         </Link>
         <Link
-          href="/#vision"
+          href="/about"
           className="flex items-center gap-3 px-2 py-2 text-sm text-muted hover:text-foreground hover:bg-white/5 rounded-lg transition-colors"
         >
           <span className="text-xs">◇</span>

@@ -11,6 +11,8 @@ import {
 } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { HeroMovingBackdrop } from "@/components/HeroMovingBackdrop";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 function AnimatedCounter({
   target,
@@ -150,63 +152,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <motion.header
-        initial={reduceMotion ? false : { opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: reduceMotion ? 0 : 0.9 }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-background/40 border-b border-white/[0.06]"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center shadow-lg shadow-primary/25 ring-1 ring-white/10">
-              <span className="text-white font-black text-sm">N</span>
-            </div>
-            <span className="text-foreground font-black text-lg tracking-tight uppercase">
-              Nurnex
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-8 text-[13px] text-muted uppercase tracking-wider font-semibold">
-            <a
-              href="#vision"
-              className="hover:text-foreground transition-colors duration-300"
-            >
-              Vision
-            </a>
-            <a
-              href="#candidates"
-              className="hover:text-foreground transition-colors duration-300"
-            >
-              Candidates
-            </a>
-            <a
-              href="#recruiters"
-              className="hover:text-foreground transition-colors duration-300"
-            >
-              Recruiters
-            </a>
-            <Link
-              href="/about"
-              className="hover:text-foreground transition-colors duration-300"
-            >
-              About
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-[13px] text-muted hover:text-foreground transition-colors px-4 py-2 uppercase tracking-wider font-semibold"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="text-[13px] bg-white text-background px-5 py-2.5 rounded-full font-bold uppercase tracking-wider transition-all hover:shadow-lg hover:shadow-white/25 hover:scale-[1.03]"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </motion.header>
+      <SiteHeader />
 
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -902,30 +848,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="border-t border-white/5 py-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <span className="text-white font-black text-xs">N</span>
-            </div>
-            <span className="font-black uppercase tracking-tight">Nurnex</span>
-          </div>
-          <p className="text-xs text-muted">
-            © {new Date().getFullYear()} Nurnex. All rights reserved.
-          </p>
-          <div className="flex gap-8 text-xs text-muted uppercase tracking-wider">
-            <Link href="/about" className="hover:text-foreground transition-colors">
-              About
-            </Link>
-            <a
-              href="mailto:MovlanAliyev@Nurnex.com"
-              className="hover:text-foreground transition-colors"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

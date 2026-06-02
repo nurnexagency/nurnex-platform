@@ -8,6 +8,7 @@ import {
   getDemoApplications,
   updateDemoApplicationStage,
   updateDemoJobStatus,
+  deleteDemoJob,
   type DemoJob,
 } from "@/lib/demo-data";
 import { createClient } from "@/lib/supabase/client";
@@ -200,6 +201,58 @@ export default function RecruiterJobsPage() {
       });
   }
 
+  function handleReactivateJob(jobId: string) {
+    if (isDemo) {
+      updateDemoJobStatus(jobId, "active");
+      setJobs((prev) =>
+        prev.map((j) => (j.id === jobId ? { ...j, status: "active" } : j))
+      );
+      toast("Job reactivated", "success");
+      return;
+    }
+    const supabase = createClient();
+    supabase
+      .from("jobs")
+      .update({ status: "active" })
+      .eq("id", jobId)
+      .then(({ error }) => {
+        if (error) {
+          toast(error.message, "error");
+          return;
+        }
+        setJobs((prev) =>
+          prev.map((j) => (j.id === jobId ? { ...j, status: "active" } : j))
+        );
+        toast("Job reactivated", "success");
+      });
+  }
+
+  function handleDeleteJob(jobId: string) {
+    if (!confirm("Delete this job and all its applications? This cannot be undone."))
+      return;
+    if (isDemo) {
+      deleteDemoJob(jobId);
+      setJobs((prev) => prev.filter((j) => j.id !== jobId));
+      if (expandedJob === jobId) setExpandedJob(null);
+      toast("Job deleted", "success");
+      return;
+    }
+    const supabase = createClient();
+    supabase
+      .from("jobs")
+      .delete()
+      .eq("id", jobId)
+      .then(({ error }) => {
+        if (error) {
+          toast(error.message, "error");
+          return;
+        }
+        setJobs((prev) => prev.filter((j) => j.id !== jobId));
+        if (expandedJob === jobId) setExpandedJob(null);
+        toast("Job deleted", "success");
+      });
+  }
+
   if (loading) return <PageLoader />;
 
   const stageBadge = (stage: string) => {
@@ -278,11 +331,25 @@ export default function RecruiterJobsPage() {
                     {job.status === "active" && (
                       <button
                         onClick={() => handleCloseJob(job.id)}
-                        className="text-xs text-red-400 hover:underline"
+                        className="text-xs text-yellow-400 hover:underline"
                       >
                         Close
                       </button>
                     )}
+                    {job.status === "closed" && (
+                      <button
+                        onClick={() => handleReactivateJob(job.id)}
+                        className="text-xs text-green-400 hover:underline"
+                      >
+                        Reactivate
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleDeleteJob(job.id)}
+                      className="text-xs text-red-400 hover:underline"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
 

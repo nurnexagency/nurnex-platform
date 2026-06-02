@@ -294,21 +294,26 @@ export default function ProfilePage() {
         <div className="bg-card border border-border rounded-xl p-6 space-y-4">
           <div>
             <label className="block text-sm text-muted mb-1.5">
-              Full Name
+              Full Name <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
+              required
               value={profile.full_name}
               onChange={(e) =>
                 setProfile((p) => ({ ...p, full_name: e.target.value }))
               }
               className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+              placeholder="Your full name"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-muted mb-1.5">Field</label>
+            <label className="block text-sm text-muted mb-1.5">
+              Field <span className="text-red-400">*</span>
+            </label>
             <select
+              required
               value={profile.field}
               onChange={(e) =>
                 setProfile((p) => ({ ...p, field: e.target.value }))
