@@ -1,0 +1,436 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0B0B0B;
+  --foreground: #FFFFFF;
+  --card: #111111;
+  --border: #1F1F1F;
+  --primary: #3B82F6;
+  --accent: #D4AF37;
+  --muted: #A1A1AA;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", sans-serif;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.45;
+  }
+  33% {
+    transform: translate3d(4%, -3%, 0) scale(1.06);
+    opacity: 0.65;
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.96);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.45;
+  }
+}
+
+@keyframes shimmer-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero: slow brand mesh — structure + depth without clutter */
+@keyframes hero-mesh-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04) translate3d(-1.5%, 1%, 0);
+  }
+}
+
+.hero-mesh {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 65% at 15% 25%, rgba(59, 130, 246, 0.18), transparent 52%),
+    radial-gradient(ellipse 75% 55% at 88% 72%, rgba(212, 175, 55, 0.12), transparent 48%),
+    radial-gradient(ellipse 55% 45% at 48% 48%, rgba(255, 255, 255, 0.04), transparent 58%);
+  animation: hero-mesh-breathe 28s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.hero-grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
+.hero-aurora-a {
+  animation: aurora-drift 18s ease-in-out infinite;
+}
+
+.hero-aurora-b {
+  animation: aurora-drift 22s ease-in-out infinite reverse;
+}
+
+.hero-shimmer-text {
+  background-size: 200% auto;
+  animation: shimmer-shift 8s linear infinite;
+}
+
+/* Real SVG vector motion (hero) */
+/* Hero: AI sentinel backdrop (SVG-driven) */
+@keyframes hero-ai-atmos-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.04);
+    opacity: 0.82;
+  }
+}
+
+@keyframes hero-ai-atmos-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate3d(-3%, -4%, 0) scale(1.05);
+    opacity: 0.78;
+  }
+}
+
+@keyframes hero-ai-hex-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-ai-hex-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes hero-ai-bot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes hero-ai-visor-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(26px);
+  }
+}
+
+@keyframes hero-ai-core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-ai-core-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.78;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes hero-ai-antenna {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes hero-ai-data-dash {
+  to {
+    stroke-dashoffset: -520;
+  }
+}
+
+@keyframes hero-ai-rail-move {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes hero-ai-node-float {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.72;
+    transform: translateY(-5px);
+  }
+}
+
+.hero-ai-root {
+  pointer-events: none;
+}
+
+.hero-ai-atmos-a {
+  animation: hero-ai-atmos-a 36s ease-in-out infinite;
+  transform-origin: 220px 240px;
+  will-change: transform;
+}
+
+.hero-ai-atmos-b {
+  animation: hero-ai-atmos-b 44s ease-in-out infinite;
+  transform-origin: 780px 480px;
+  will-change: transform;
+}
+
+.hero-ai-hex-rot {
+  transform-origin: 0px 0px;
+  animation: hero-ai-hex-spin 100s linear infinite;
+}
+
+.hero-ai-hex-rot-rev {
+  transform-origin: 0px 0px;
+  animation: hero-ai-hex-spin-rev 74s linear infinite;
+}
+
+.hero-ai-bot-float {
+  transform-origin: 0px 0px;
+  animation: hero-ai-bot-float 7.2s ease-in-out infinite;
+}
+
+.hero-ai-visor-scan {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hero-ai-visor-scan 4.5s ease-in-out infinite;
+}
+
+.hero-ai-core-spin {
+  transform-origin: 0px 78px;
+  animation: hero-ai-core-spin 28s linear infinite;
+}
+
+.hero-ai-core-pulse {
+  transform-origin: 0px 78px;
+  transform-box: fill-box;
+  animation: hero-ai-core-pulse 3.4s ease-in-out infinite;
+}
+
+.hero-ai-antenna {
+  animation: hero-ai-antenna 2.6s ease-in-out infinite;
+}
+
+.hero-ai-antenna--r {
+  animation-delay: 0.65s;
+}
+
+.hero-ai-data-line--a {
+  stroke-dasharray: 16 24;
+  stroke-dashoffset: 0;
+  animation: hero-ai-data-dash 42s linear infinite;
+}
+
+.hero-ai-data-line--b {
+  stroke-dasharray: 12 20;
+  stroke-dashoffset: 0;
+  animation: hero-ai-data-dash 54s linear infinite reverse;
+}
+
+.hero-ai-data-line--c {
+  stroke-dasharray: 8 18;
+  stroke-dashoffset: 0;
+  animation: hero-ai-data-dash 36s linear infinite;
+}
+
+.hero-ai-rail--l {
+  animation: hero-ai-rail-move 22s linear infinite;
+}
+
+.hero-ai-rail--r {
+  animation: hero-ai-rail-move 26s linear infinite reverse;
+}
+
+.hero-ai-node--1 {
+  animation: hero-ai-node-float 5.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.hero-ai-node--2 {
+  animation: hero-ai-node-float 6.2s ease-in-out 0.4s infinite;
+  transform-origin: center;
+}
+
+.hero-ai-node--3 {
+  animation: hero-ai-node-float 4.8s ease-in-out 0.2s infinite;
+  transform-origin: center;
+}
+
+.hero-ai-node--4 {
+  animation: hero-ai-node-float 5.9s ease-in-out 0.8s infinite;
+  transform-origin: center;
+}
+
+.hero-corners {
+  pointer-events: none;
+  position: absolute;
+  inset: clamp(0.75rem, 3vw, 2.25rem);
+  z-index: 3;
+  border-radius: 1rem;
+}
+
+.hero-corners span {
+  position: absolute;
+  width: clamp(2.5rem, 6vw, 4rem);
+  height: clamp(2.5rem, 6vw, 4rem);
+  border-color: rgba(255, 255, 255, 0.14);
+  border-style: solid;
+  border-width: 0;
+}
+
+.hero-corners .tl {
+  top: 0;
+  left: 0;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-top-left-radius: 0.75rem;
+}
+
+.hero-corners .tr {
+  top: 0;
+  right: 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-right-radius: 0.75rem;
+}
+
+.hero-corners .bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.hero-corners .br {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  border-bottom-right-radius: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora-a,
+  .hero-aurora-b {
+    animation: none;
+  }
+
+  .hero-shimmer-text {
+    animation: none;
+  }
+
+  .hero-mesh {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .hero-ai-atmos-a,
+  .hero-ai-atmos-b,
+  .hero-ai-hex-rot,
+  .hero-ai-hex-rot-rev,
+  .hero-ai-bot-float,
+  .hero-ai-visor-scan,
+  .hero-ai-core-spin,
+  .hero-ai-core-pulse,
+  .hero-ai-antenna,
+  .hero-ai-data-line--a,
+  .hero-ai-data-line--b,
+  .hero-ai-data-line--c,
+  .hero-ai-rail--l,
+  .hero-ai-rail--r,
+  .hero-ai-node--1,
+  .hero-ai-node--2,
+  .hero-ai-node--3,
+  .hero-ai-node--4 {
+    animation: none !important;
+  }
+
+  .hero-ai-core-pulse {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  .hero-ai-data-line--a,
+  .hero-ai-data-line--b,
+  .hero-ai-data-line--c {
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+input[type="file"]::file-selector-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+input[type="file"]::file-selector-button:hover {
+  opacity: 0.9;
+}
