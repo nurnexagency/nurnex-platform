@@ -62,24 +62,40 @@ function SignupForm() {
       }
 
       if (data.user) {
+        const hasSession = !!data.session;
+
         const { error: profileError } = await supabase
           .from("profiles")
           .insert({ id: data.user.id, email, role });
 
-        if (profileError) {
-          toast("Account created but profile setup failed. Try logging in.", "error");
+        if (profileError && !profileError.message.includes("duplicate")) {
+          toast(
+            hasSession
+              ? "Account created but profile setup failed. Try logging in."
+              : "Account created! Check your email to confirm, then sign in.",
+            hasSession ? "error" : "success"
+          );
           setLoading(false);
           return;
         }
 
-        toast("Account created!", "success");
-        router.push(
-          role === "recruiter"
-            ? "/dashboard/recruiter/onboarding"
-            : "/dashboard/candidate"
-        );
+        if (hasSession) {
+          toast("Account created!", "success");
+          router.push(
+            role === "recruiter"
+              ? "/dashboard/recruiter/onboarding"
+              : "/dashboard/candidate"
+          );
+        } else {
+          toast(
+            "Account created! Check your email to confirm, then sign in.",
+            "success"
+          );
+          router.push("/login");
+        }
       } else {
         toast("Check your email to confirm your account.", "success");
+        router.push("/login");
       }
     } catch (err) {
       if (isNetworkAuthError(err)) {
