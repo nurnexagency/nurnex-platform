@@ -129,6 +129,14 @@ export default function LoginPage() {
             {loading && <Spinner className="h-4 w-4" />}
             Sign In
           </button>
+          <div className="text-right">
+            <Link
+              href="/forgot-password"
+              className="text-xs text-muted hover:text-primary transition-colors"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </form>
 
         <p className="text-center text-sm text-muted mt-6">
