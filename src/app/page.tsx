@@ -118,7 +118,6 @@ const ROTATING_LINES = [
 
 export default function LandingPage() {
   const [hoveredEye, setHoveredEye] = useState<"left" | "right" | null>(null);
-  const [videoReady, setVideoReady] = useState(false);
   const [lineIdx, setLineIdx] = useState(0);
   const reduceMotion = useReducedMotion();
 
@@ -232,21 +231,6 @@ export default function LandingPage() {
         </div>
 
         <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 -translate-y-[1%] scale-[1.07]">
-            <motion.video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover transition-[opacity,filter] duration-[1.4s] brightness-[0.9] contrast-[1.07] saturate-[1.12]"
-              style={{ opacity: videoReady ? 0.66 : 0 }}
-              onLoadedData={() => setVideoReady(true)}
-              onError={() => setVideoReady(false)}
-            >
-              <source src="/videoplayback.mp4" type="video/mp4" />
-            </motion.video>
-          </div>
-          {/* Grade: align footage with primary / gold trust signals */}
           <div
             className="absolute inset-0 mix-blend-soft-light opacity-[0.38]"
             style={{
@@ -256,7 +240,6 @@ export default function LandingPage() {
             aria-hidden
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-background" />
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/95 via-background/35 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_38%,transparent_0%,transparent_28%,rgba(11,11,11,0.45)_65%,rgba(11,11,11,0.94)_100%)]" />
         </div>
 
@@ -557,13 +540,6 @@ export default function LandingPage() {
             </Link>
           </motion.div>
 
-          {!videoReady && (
-            <p className="text-[11px] text-muted/60 max-w-md mx-auto mb-10 leading-relaxed">
-              Place <span className="text-foreground/80 font-mono">videoplayback.mp4</span>{" "}
-              in <span className="text-foreground/80 font-mono">public/</span> for the
-              muted hero background.
-            </p>
-          )}
 
           <motion.div
             initial={reduceMotion ? false : { opacity: 0 }}
