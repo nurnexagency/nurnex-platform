@@ -185,6 +185,12 @@ export default function LandingPage() {
             >
               Recruiters
             </a>
+            <Link
+              href="/about"
+              className="hover:text-foreground transition-colors duration-300"
+            >
+              About
+            </Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link
@@ -932,13 +938,13 @@ export default function LandingPage() {
             © {new Date().getFullYear()} Nurnex. All rights reserved.
           </p>
           <div className="flex gap-8 text-xs text-muted uppercase tracking-wider">
-            <a href="#" className="hover:text-foreground transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Terms
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            <Link href="/about" className="hover:text-foreground transition-colors">
+              About
+            </Link>
+            <a
+              href="mailto:MovlanAliyev@Nurnex.com"
+              className="hover:text-foreground transition-colors"
+            >
               Contact
             </a>
           </div>
