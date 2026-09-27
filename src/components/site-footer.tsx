@@ -1,121 +1,103 @@
-import Link from "next/link";
+import Image from "next/image";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_TEL } from "@/lib/contact";
 
-export function SiteFooter() {
+export default function SiteFooter() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-white/5 py-12">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-10 mb-10">
-          <div>
+    <footer className="relative bg-ink-navy border-t border-white/5">
+      <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none bg-gradient-to-b from-[rgba(196,120,43,0.03)] to-transparent" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+          <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <span className="text-white font-black text-xs">N</span>
-              </div>
-              <span className="font-black uppercase tracking-tight">
-                Nurnex
+              <Image
+                src="/nurnex-logo.jpg"
+                alt="Nurnex Consulting"
+                width={32}
+                height={32}
+                className="rounded-full ring-1 ring-copper/30 h-auto w-8"
+              />
+              <span className="text-white font-semibold tracking-[0.2em] text-sm">
+                NURNEX CONSULTING
               </span>
             </div>
-            <p className="text-xs text-muted leading-relaxed max-w-[220px]">
-              Verified hiring graph. AI scores, video proof, direct invites.
-              Built by Movlan Aliyev.
+            <p className="text-muted text-sm leading-relaxed max-w-md">
+              Microsoft analytics, automation, and cloud consulting — plus
+              websites and iOS &amp; Android apps — for organizations across
+              Europe, Asia, and the Middle East. Guiding enterprises forward.
             </p>
           </div>
 
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground/80 mb-4">
-              Platform
-            </p>
-            <div className="flex flex-col gap-2.5">
-              <Link
-                href="/signup?role=candidate"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                Join as Candidate
-              </Link>
-              <Link
-                href="/signup?role=recruiter"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                Join as Recruiter
-              </Link>
-              <Link
-                href="/login"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                Sign In
-              </Link>
-            </div>
+            <h4 className="text-white text-sm font-medium tracking-wide mb-4">
+              Navigation
+            </h4>
+            <ul className="space-y-2">
+              {[
+                { label: "Services", href: "/#services" },
+                { label: "Work", href: "/#work" },
+                { label: "Process", href: "/#process" },
+                { label: "About", href: "/#about" },
+                { label: "Regions", href: "/#regions" },
+                { label: "Contact", href: "/#contact" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="text-muted hover:text-copper transition-colors text-sm"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground/80 mb-4">
-              Company
-            </p>
-            <div className="flex flex-col gap-2.5">
-              <Link
-                href="/about"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                About Us
-              </Link>
-              <a
-                href="mailto:MovlanAliyev@Nurnex.com"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                Contact
-              </a>
-              <a
-                href="https://domtechacademy.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                DOM Tech Academy
-              </a>
-              <a
-                href="https://domchessacademy.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                DOM Chess Academy
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground/80 mb-4">
-              Contact
-            </p>
-            <div className="flex flex-col gap-2.5 text-sm text-muted">
-              <a
-                href="mailto:MovlanAliyev@Nurnex.com"
-                className="hover:text-foreground transition-colors"
-              >
-                MovlanAliyev@Nurnex.com
-              </a>
-              <p>Nurnex Agency</p>
-            </div>
+            <h4 className="text-white text-sm font-medium tracking-wide mb-4">
+              Get in Touch
+            </h4>
+            <ul className="space-y-2 text-sm text-muted">
+              <li>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="hover:text-copper transition-colors"
+                >
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={CONTACT_TEL}
+                  className="hover:text-copper transition-colors"
+                >
+                  {CONTACT_PHONE}
+                </a>
+              </li>
+              <li className="pt-1">Boston · Dubai · Baku · Warsaw</li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted">
-            &copy; {new Date().getFullYear()} Nurnex. Designed by Movlan
-            Aliyev. All rights reserved.
+        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-muted text-xs">
+            © {year} Nurnex Consulting. All rights reserved.
           </p>
-          <div className="flex gap-6 text-xs text-muted">
-            <Link
-              href="/about"
-              className="hover:text-foreground transition-colors"
-            >
-              About
-            </Link>
+          <div className="flex items-center gap-5">
             <a
-              href="mailto:MovlanAliyev@Nurnex.com"
-              className="hover:text-foreground transition-colors"
+              href="/privacy"
+              className="text-muted hover:text-copper transition-colors text-xs"
             >
-              Contact
+              Privacy
             </a>
+            <a
+              href="/terms"
+              className="text-muted hover:text-copper transition-colors text-xs"
+            >
+              Terms
+            </a>
+            <p className="text-muted/60 text-xs">Guiding enterprises forward.</p>
           </div>
         </div>
       </div>
