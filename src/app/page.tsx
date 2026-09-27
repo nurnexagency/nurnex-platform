@@ -6,6 +6,7 @@ import ProcessSection from "@/components/process-section";
 import MapSection from "@/components/map-section";
 import AboutSection from "@/components/about-section";
 import IndustriesSection from "@/components/industries-section";
+import AmbassadorSection from "@/components/ambassador-section";
 import ContactSection from "@/components/contact-section";
 import SiteFooter from "@/components/site-footer";
 import SectionDivider from "@/components/section-divider";
@@ -32,6 +33,8 @@ export default function Home() {
         <MapSection />
         <SectionDivider />
         <IndustriesSection />
+        <SectionDivider />
+        <AmbassadorSection />
         <SectionDivider />
         <ContactSection />
       </main>

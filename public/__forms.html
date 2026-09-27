@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Forms</title>
+  </head>
+  <body>
+    <!-- Netlify detects forms from static HTML at build time; the live form is rendered by React. Keep field names in sync with ambassador-section.tsx. -->
+    <form name="ambassador-application" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="ambassador-application" />
+      <input name="bot-field" />
+      <input name="name" />
+      <input name="email" type="email" />
+      <input name="phone" />
+      <input name="country" />
+      <input name="city" />
+      <input name="languages" />
+      <input name="linkedin" />
+      <textarea name="background"></textarea>
+      <input name="source" />
+      <input name="consent" type="checkbox" />
+    </form>
+  </body>
+</html>

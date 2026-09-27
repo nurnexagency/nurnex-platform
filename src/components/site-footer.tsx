@@ -40,6 +40,7 @@ export default function SiteFooter() {
                 { label: "Process", href: "/#process" },
                 { label: "About", href: "/#about" },
                 { label: "Regions", href: "/#regions" },
+                { label: "Ambassadors", href: "/#ambassadors" },
                 { label: "Contact", href: "/#contact" },
               ].map((item) => (
                 <li key={item.href}>

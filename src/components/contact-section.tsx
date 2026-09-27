@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import {
+  CATALOGUE_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
   CONTACT_PHONE,
@@ -42,7 +43,11 @@ export default function ContactSection() {
           </p>
           <p className="text-muted/70 text-sm max-w-xl mx-auto mb-10 leading-relaxed">
             Prefer a regional partner first? You can also start through a Nurnex
-            Ambassador — either path leads to the same discovery process.
+            Ambassador — either path leads to the same discovery process.{" "}
+            <a href="#ambassadors" className="text-copper hover:underline">
+              Become an Ambassador
+            </a>
+            .
           </p>
         </motion.div>
 
@@ -53,12 +58,21 @@ export default function ContactSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-12"
         >
-          <a
-            href={CONTACT_MAILTO}
-            className="inline-block bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-lg font-medium tracking-wide transition-all duration-300 hover:shadow-xl hover:shadow-copper/20 text-base cta-float"
-          >
-            Email Us to Schedule
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={CONTACT_MAILTO}
+              className="inline-block bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-lg font-medium tracking-wide transition-all duration-300 hover:shadow-xl hover:shadow-copper/20 text-base cta-float"
+            >
+              Email Us to Schedule
+            </a>
+            <a
+              href={CATALOGUE_URL}
+              download="Nurnex_Consulting_Catalogue.pdf"
+              className="inline-block border border-copper/50 text-white hover:bg-copper/10 px-8 py-4 rounded-lg font-medium tracking-wide transition-all duration-300 text-base"
+            >
+              Download Catalogue (PDF)
+            </a>
+          </div>
           <p className="text-muted/50 text-xs mt-3">
             Opens your email to {CONTACT_EMAIL}
           </p>

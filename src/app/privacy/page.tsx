@@ -31,6 +31,12 @@ export default function PrivacyPage() {
               company, and project details).
             </p>
             <p>
+              If you apply to the Ambassador Program through our website form, we receive the details
+              you submit (such as your name, email, phone, country, city, languages, LinkedIn profile,
+              and background). We use them only to review your application and contact you about the
+              program. Form submissions are processed by our hosting provider, Netlify.
+            </p>
+            <p>
               Our website is primarily informational. We do not sell personal data. Standard web
               server and hosting logs may record technical data such as IP address, browser type,
               and pages visited for security and reliability.

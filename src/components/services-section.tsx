@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ConstellationBg from "@/components/bg/constellation-bg";
+import { CATALOGUE_URL } from "@/lib/contact";
 
 interface ServiceData {
   icon: React.ReactNode;
@@ -509,6 +510,16 @@ export default function ServicesSection() {
             Microsoft analytics, automation, and cloud — plus websites and iOS &amp; Android
             applications when you need the full digital stack.
           </p>
+          <a
+            href={CATALOGUE_URL}
+            download="Nurnex_Consulting_Catalogue.pdf"
+            className="inline-flex items-center gap-2 mt-6 text-copper hover:text-white border border-copper/40 hover:border-copper hover:bg-copper/10 px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide transition-all"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4" aria-hidden>
+              <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" />
+            </svg>
+            Download Full Catalogue (PDF)
+          </a>
         </motion.div>
 
         <div className="mb-14">
