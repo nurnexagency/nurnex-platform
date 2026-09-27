@@ -1,90 +1,57 @@
-# Nurnex Platform
+# Nurnex Consulting — nurnex.com
 
-A premium verified hiring platform. Candidates get AI-scored and verified before recruiters see them. No resume noise — only qualified, verified talent.
+Marketing website for Nurnex Consulting: Microsoft analytics, automation, websites and iOS / Android apps.
 
-## Tech Stack
+Live: https://nurnex.com
 
-- **Frontend:** Next.js 16 (App Router), TypeScript, Tailwind CSS
-- **Backend:** Supabase (Auth, Postgres, Storage)
-- **AI:** OpenAI GPT-4o-mini for resume scoring and skill extraction
-- **Hosting:** Vercel
+## Stack
 
-## Getting Started
+- Next.js 16 (App Router, Turbopack), React 19, TypeScript
+- Tailwind CSS 4, Framer Motion
+- WebGL ocean + Canvas 2D interactive section backgrounds
+- Hosted on Netlify (static output)
 
-### Prerequisites
+## Run locally
 
-- Node.js 18+
-- A Supabase project ([supabase.com](https://supabase.com))
-- (Optional) An OpenAI API key for AI scoring
-
-### Setup
-
-1. **Clone and install:**
-
-   ```bash
-   cd nurnex-platform
-   npm install
-   ```
-
-2. **Configure environment:**
-
-   ```bash
-   cp .env.local.example .env.local
-   ```
-
-   Fill in your Supabase URL, anon key, and (optionally) OpenAI API key.
-
-3. **Set up the database:**
-
-   Run `supabase/schema.sql` in your Supabase SQL Editor to create all tables, RLS policies, and storage buckets.
-
-4. **Create storage buckets:**
-
-   In Supabase Dashboard → Storage, create two buckets:
-   - `resumes` (private)
-   - `videos` (private)
-
-5. **Run the dev server:**
-
-   ```bash
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000).
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/                  # AI scoring & verification endpoints
-│   ├── dashboard/
-│   │   ├── candidate/        # Candidate portal pages
-│   │   └── recruiter/        # Recruiter portal pages
-│   ├── login/                # Authentication
-│   ├── signup/
-│   └── page.tsx              # Landing page
-├── components/               # Shared UI components
-└── lib/
-    ├── supabase/             # Supabase client utilities
-    └── verification.ts       # Verification logic
+```bash
+nvm use            # Node 22 (see .nvmrc)
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-## Features
+Before pushing:
 
-- **AI Resume Scoring:** Resumes scored 0-100 with feedback
-- **Skill Extraction:** Automatic skill identification and scoring
-- **Video Introductions:** Three video uploads (intro, project, expectations)
-- **Verification Gate:** Candidates must pass all checks before being visible
-- **Job Board:** Recruiters post jobs, candidates browse and request interviews
-- **Application Tracking:** Stage-based pipeline (Requested → Scheduled → Completed)
+```bash
+npm run lint
+npm run build
+```
+
+## Project layout
+
+| Path | What it is |
+|------|------------|
+| `src/app/page.tsx` | Home page — section order |
+| `src/app/privacy`, `src/app/terms` | Legal pages |
+| `src/components/*-section.tsx` | Page sections (hero, services, portfolio, process, about, map, industries, contact) |
+| `src/components/bg/` | Interactive section backgrounds (`canvas-scene.tsx` is the shared engine) |
+| `src/components/scroll-waves.tsx` | WebGL ocean shader |
+| `src/components/sun-arc.tsx`, `src/lib/sun-clock.ts` | Rising / setting sun shared with the ocean |
+| `src/lib/contact.ts` | Email and phone used everywhere on the site |
+| `public/` | Static assets (logo, icons) |
+
+## How we collaborate
+
+1. Create a branch from `master`: `git checkout -b feature/short-name`
+2. Commit and push the branch, then open a Pull Request into `master`.
+3. **CI** (GitHub Actions) runs lint, type-check and a production build on every PR.
+4. **Netlify** posts a deploy preview link on the PR — check it on desktop and mobile.
+5. When CI is green and the other person has reviewed, merge.
 
 ## Deployment
 
-Deploy to Vercel:
+- Every merge / push to `master` deploys automatically to **nurnex.com** via Netlify's GitHub integration.
+- Pull requests get their own Netlify preview URL; production is untouched until merge.
+- DNS: `nurnex.com` → Netlify load balancer, `www` → CNAME to the Netlify site.
+- To roll back, use **Deploys → Publish deploy** on an earlier deploy in Netlify, or revert the commit on `master`.
 
-```bash
-npx vercel
-```
-
-Set environment variables in Vercel Dashboard → Settings → Environment Variables.
+The previous recruiting-platform codebase is preserved on the `backup/recruiting-platform` branch.

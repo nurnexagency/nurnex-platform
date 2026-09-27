@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const navItems = [
   { label: "Services", href: "/#services" },
@@ -30,7 +31,7 @@ export default function SiteHeader() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <a href="/" className="flex items-center gap-3 group">
+            <Link href="/" className="flex items-center gap-3 group">
               <Image
                 src="/nurnex-logo.jpg"
                 alt="Nurnex Consulting"
@@ -41,25 +42,25 @@ export default function SiteHeader() {
               <span className="text-white font-semibold tracking-[0.2em] text-sm sm:text-base">
                 NURNEX
               </span>
-            </a>
+            </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className="text-muted hover:text-white transition-colors text-sm tracking-wide"
                 >
                   {item.label}
-                </a>
-              ))}
-              <a
+              </Link>
+            ))}
+              <Link
                 href="/#contact"
                 className="bg-copper hover:bg-copper/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide transition-all hover:shadow-lg hover:shadow-copper/20"
               >
                 Email Us
-              </a>
+              </Link>
             </nav>
 
             {/* Mobile Toggle */}
@@ -99,22 +100,22 @@ export default function SiteHeader() {
             >
               <nav className="flex flex-col px-4 py-4 gap-3">
                 {navItems.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className="text-muted hover:text-white transition-colors py-2 text-sm tracking-wide"
                   >
                     {item.label}
-                  </a>
-                ))}
-                <a
+              </Link>
+            ))}
+                <Link
                   href="/#contact"
                   onClick={() => setMobileOpen(false)}
                   className="bg-copper text-white px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide text-center mt-2"
                 >
                   Email Us
-                </a>
+                </Link>
               </nav>
             </motion.div>
           )}
