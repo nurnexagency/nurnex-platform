@@ -32,19 +32,19 @@ export const metadata: Metadata = {
     url: "https://nurnex.com",
     images: [
       {
-        url: "/nurnex-logo.jpg",
-        width: 512,
-        height: 512,
-        alt: "Nurnex Consulting",
+        url: "/nurnex-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Nurnex Consulting — Guiding enterprises forward.",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Nurnex Consulting — Guiding enterprises forward.",
     description:
       "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps.",
-    images: ["/nurnex-logo.jpg"],
+    images: ["/nurnex-og.png"],
   },
 };
 

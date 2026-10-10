@@ -10,17 +10,15 @@ export default function SiteFooter() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-5">
               <Image
-                src="/nurnex-logo.jpg"
+                src="/nurnex-logo-white.svg"
                 alt="Nurnex Consulting"
-                width={32}
-                height={32}
-                className="rounded-full ring-1 ring-copper/30 h-auto w-8"
+                width={945}
+                height={152}
+                unoptimized
+                className="h-8 w-auto"
               />
-              <span className="text-white font-semibold tracking-[0.2em] text-sm">
-                NURNEX CONSULTING
-              </span>
             </div>
             <p className="text-muted text-sm leading-relaxed max-w-md">
               Microsoft analytics, automation, and cloud consulting — plus

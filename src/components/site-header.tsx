@@ -31,17 +31,16 @@ export default function SiteHeader() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/" className="flex items-center group" aria-label="Nurnex Consulting home">
               <Image
-                src="/nurnex-logo.jpg"
+                src="/nurnex-logo-white.svg"
                 alt="Nurnex Consulting"
-                width={36}
-                height={36}
-                className="rounded-full ring-1 ring-copper/30 group-hover:ring-copper/60 transition-all h-auto w-9"
+                width={945}
+                height={152}
+                priority
+                unoptimized
+                className="h-7 sm:h-8 w-auto opacity-95 group-hover:opacity-100 transition-opacity"
               />
-              <span className="text-white font-semibold tracking-[0.2em] text-sm sm:text-base">
-                NURNEX
-              </span>
             </Link>
 
             {/* Desktop Nav */}
