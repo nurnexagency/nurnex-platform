@@ -177,13 +177,13 @@ function PhaseCard({ phase, index, isExpanded, onToggle }: {
                 {phase.icon}
               </div>
             </div>
-            <span className="text-copper/40 text-[10px] font-mono tracking-wider mt-2">{phase.num}</span>
+            <span className="text-copper/60 text-[11px] font-mono tracking-wider mt-2">{phase.num}</span>
           </div>
 
           {/* Right: Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-copper text-[10px] font-bold tracking-[0.3em] uppercase bg-copper/10 px-2.5 py-0.5 rounded-full">
+              <span className="text-copper text-[11px] font-bold tracking-[0.3em] uppercase bg-copper/10 px-2.5 py-0.5 rounded-full">
                 {phase.tag}
               </span>
             </div>
@@ -313,7 +313,7 @@ export default function ProcessSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-16 sm:mt-20"
         >
-          <p className="text-center text-white/40 text-xs tracking-[0.3em] uppercase mb-6">
+          <p className="text-center text-white/55 text-xs tracking-[0.3em] uppercase mb-6">
             Governance & Transparency Stack
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">

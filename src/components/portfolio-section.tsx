@@ -110,10 +110,10 @@ export default function PortfolioSection() {
 
               <div className="relative p-7 sm:p-9 flex flex-col h-full">
                 <div className="flex items-center justify-between gap-3 mb-5">
-                  <span className="text-copper text-[10px] font-bold tracking-[0.25em] uppercase bg-copper/10 px-2.5 py-1 rounded-full">
+                  <span className="text-copper text-[11px] font-bold tracking-[0.25em] uppercase bg-copper/10 px-2.5 py-1 rounded-full">
                     {project.category}
                   </span>
-                  <span className="text-white/30 text-[10px] tracking-wider uppercase">
+                  <span className="text-white/50 text-[11px] tracking-wider uppercase">
                     {project.links.length ? "Live Product" : "Confidential"}
                   </span>
                 </div>
@@ -130,7 +130,7 @@ export default function PortfolioSection() {
                 ) : null}
 
                 <div className="mb-5">
-                  <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mb-2.5">
+                  <p className="text-white/55 text-[11px] tracking-[0.2em] uppercase mb-2.5">
                     Built
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -146,7 +146,7 @@ export default function PortfolioSection() {
                 </div>
 
                 <div className="mb-7">
-                  <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mb-2.5">
+                  <p className="text-white/55 text-[11px] tracking-[0.2em] uppercase mb-2.5">
                     Ongoing Microsoft Support
                   </p>
                   <div className="flex flex-wrap gap-2">

@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import SunArc from "@/components/sun-arc";
+import { MOTTO } from "@/lib/brand";
 
 const orbitingDiamonds = [
   { className: "diamond-orbit-1", size: 6, opacity: 0.5 },
@@ -251,6 +253,10 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 gap-6 sm:gap-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[-10%] bottom-[-5%] h-[55%] -z-10 bg-[radial-gradient(ellipse_at_center,rgba(10,31,51,0.85)_0%,rgba(10,31,51,0.55)_45%,transparent_75%)] sm:opacity-70"
+        />
         {/* Compass */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -267,11 +273,19 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col items-center gap-3 sm:gap-4 -mt-4"
         >
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.15em] text-white">
-            NURNEX CONSULTING
+          <h1>
+            <Image
+              src="/nurnex-logo-white.svg"
+              alt="Nurnex Consulting"
+              width={946}
+              height={130}
+              priority
+              unoptimized
+              className="w-[280px] sm:w-[440px] md:w-[540px] h-auto drop-shadow-[0_4px_24px_rgba(10,31,51,0.6)]"
+            />
           </h1>
-          <p className="text-copper text-lg sm:text-2xl md:text-3xl font-light tracking-[0.3em] italic">
-            Guiding enterprises forward.
+          <p className="font-display text-copper text-lg sm:text-2xl md:text-[1.75rem] font-light tracking-[0.2em] [text-shadow:0_2px_14px_rgba(10,31,51,0.95),0_0_4px_rgba(10,31,51,0.8)]">
+            {MOTTO}
           </p>
         </motion.div>
 
@@ -279,7 +293,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-muted text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed"
+          className="text-muted text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed [text-shadow:0_2px_12px_rgba(10,31,51,0.95),0_0_3px_rgba(10,31,51,0.8)]"
         >
           Microsoft analytics, automation, and cloud consulting — plus websites and iOS &amp; Android apps — for Europe, Asia, and&nbsp;the&nbsp;Middle&nbsp;East.
         </motion.p>

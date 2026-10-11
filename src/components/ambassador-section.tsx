@@ -155,7 +155,7 @@ export default function AmbassadorSection() {
               ))}
             </ul>
 
-            <p className="text-white/40 text-xs tracking-[0.3em] uppercase mb-3">Currently welcoming</p>
+            <p className="text-white/55 text-xs tracking-[0.3em] uppercase mb-3">Currently welcoming</p>
             <div className="flex flex-wrap gap-2">
               {regions.map((r) => (
                 <span

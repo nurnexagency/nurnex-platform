@@ -29,22 +29,22 @@ export default function SiteHeader() {
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-ink-navy/95 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+          <div className="flex items-center justify-between gap-10 h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center group" aria-label="Nurnex Consulting home">
+            <Link href="/" className="flex shrink-0 items-center group" aria-label="Nurnex Consulting home">
               <Image
                 src="/nurnex-logo-white.svg"
                 alt="Nurnex Consulting"
-                width={945}
-                height={152}
+                width={946}
+                height={130}
                 priority
                 unoptimized
-                className="h-7 sm:h-8 w-auto opacity-95 group-hover:opacity-100 transition-opacity"
+                className="h-7 sm:h-8 w-auto -translate-y-[2px] opacity-95 group-hover:opacity-100 transition-opacity"
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -66,7 +66,7 @@ export default function SiteHeader() {
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden text-white p-2"
+              className="lg:hidden text-white p-2"
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}
             >
@@ -95,7 +95,7 @@ export default function SiteHeader() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-ink-navy border-t border-white/5 overflow-hidden"
+              className="lg:hidden bg-ink-navy border-t border-white/5 overflow-hidden"
             >
               <nav className="flex flex-col px-4 py-4 gap-3">
                 {navItems.map((item) => (

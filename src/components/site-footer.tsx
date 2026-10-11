@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MOTTO } from "@/lib/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_TEL } from "@/lib/contact";
 
 export default function SiteFooter() {
@@ -14,8 +15,8 @@ export default function SiteFooter() {
               <Image
                 src="/nurnex-logo-white.svg"
                 alt="Nurnex Consulting"
-                width={945}
-                height={152}
+                width={946}
+                height={130}
                 unoptimized
                 className="h-8 w-auto"
               />
@@ -23,7 +24,7 @@ export default function SiteFooter() {
             <p className="text-muted text-sm leading-relaxed max-w-md">
               Microsoft analytics, automation, and cloud consulting — plus
               websites and iOS &amp; Android apps — for organizations across
-              Europe, Asia, and the Middle East. Guiding enterprises forward.
+              Europe, Asia, and the Middle East. {MOTTO}
             </p>
           </div>
 
@@ -96,7 +97,7 @@ export default function SiteFooter() {
             >
               Terms
             </a>
-            <p className="text-muted/60 text-xs">Guiding enterprises forward.</p>
+            <p className="font-display text-copper/80 text-xs tracking-[0.15em]">{MOTTO}</p>
           </div>
         </div>
       </div>

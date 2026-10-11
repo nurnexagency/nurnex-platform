@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import { MOTTO } from "@/lib/brand";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Nurnex Consulting — Guiding enterprises forward.",
+  title: `Nurnex Consulting — ${MOTTO}`,
   description:
     "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps — for Europe, Asia, and the Middle East. Power BI, Power Platform, Azure, AI readiness, and digital products.",
   keywords: [
@@ -25,7 +31,7 @@ export const metadata: Metadata = {
   ],
   metadataBase: new URL("https://nurnex.com"),
   openGraph: {
-    title: "Nurnex Consulting — Guiding enterprises forward.",
+    title: `Nurnex Consulting — ${MOTTO}`,
     description:
       "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps — for Europe, Asia, and the Middle East.",
     type: "website",
@@ -35,13 +41,13 @@ export const metadata: Metadata = {
         url: "/nurnex-og.png",
         width: 1200,
         height: 630,
-        alt: "Nurnex Consulting — Guiding enterprises forward.",
+        alt: `Nurnex Consulting — ${MOTTO}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nurnex Consulting — Guiding enterprises forward.",
+    title: `Nurnex Consulting — ${MOTTO}`,
     description:
       "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps.",
     images: ["/nurnex-og.png"],
@@ -54,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <a
           href="#main"
