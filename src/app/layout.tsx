@@ -16,7 +16,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: `Nurnex Consulting — ${MOTTO}`,
   description:
-    "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps — for Europe, Asia, and the Middle East. Power BI, Power Platform, Azure, AI readiness, and digital products.",
+    "Microsoft analytics, automation, and cloud consulting — plus websites and iOS & Android apps — for Europe, Asia, and the Middle East. Power BI, Power Platform, Azure, machine learning and AI, legacy modernization, and digital products.",
   keywords: [
     "Microsoft consulting",
     "Power BI",

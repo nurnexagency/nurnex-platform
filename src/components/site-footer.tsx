@@ -75,7 +75,7 @@ export default function SiteFooter() {
                   {CONTACT_PHONE}
                 </a>
               </li>
-              <li className="pt-1">Boston · Dubai · Baku · Warsaw</li>
+              <li className="pt-1">Boston · Warsaw · Istanbul · Baku · Dubai</li>
             </ul>
           </div>
         </div>

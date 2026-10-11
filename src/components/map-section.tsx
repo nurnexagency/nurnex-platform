@@ -22,6 +22,15 @@ const cities = [
     isHQ: false,
   },
   {
+    name: "Istanbul",
+    region: "Turkey Hub",
+    coverage: "Turkey, Balkans & Eastern Mediterranean",
+    x: 556,
+    y: 166,
+    isHQ: false,
+    labelBelow: true,
+  },
+  {
     name: "Baku",
     region: "Western Asia Hub",
     coverage: "Caucasus & Central Asia",
@@ -40,12 +49,15 @@ const cities = [
 ];
 
 const flightPaths = [
-  { from: 0, to: 1, d: "M250,175 Q395,55 540,140", primary: true, delay: 0.3 },
-  { from: 0, to: 2, d: "M250,175 Q430,50 598,165", primary: true, delay: 0.6 },
-  { from: 0, to: 3, d: "M250,175 Q455,105 648,215", primary: true, delay: 0.9 },
-  { from: 1, to: 2, d: "M540,140 Q575,110 598,165", primary: false, delay: 1.2 },
-  { from: 1, to: 3, d: "M540,140 Q620,155 648,215", primary: false, delay: 1.5 },
-  { from: 2, to: 3, d: "M598,165 Q630,185 648,215", primary: false, delay: 1.8 },
+  { d: "M250,175 Q395,55 540,140", primary: true, delay: 0.3 },
+  { d: "M250,175 Q403,80 556,166", primary: true, delay: 0.5 },
+  { d: "M250,175 Q430,50 598,165", primary: true, delay: 0.7 },
+  { d: "M250,175 Q455,105 648,215", primary: true, delay: 0.9 },
+  { d: "M540,140 Q575,110 598,165", primary: false, delay: 1.2 },
+  { d: "M540,140 Q560,150 556,166", primary: false, delay: 1.35 },
+  { d: "M556,166 Q577,150 598,165", primary: false, delay: 1.5 },
+  { d: "M556,166 Q610,200 648,215", primary: false, delay: 1.65 },
+  { d: "M598,165 Q630,185 648,215", primary: false, delay: 1.8 },
 ];
 
 const latLines = [67, 167, 267, 367, 467];
@@ -430,7 +442,7 @@ function WorldMap({ inView }: { inView: boolean }) {
           >
             <text
               x={city.x}
-              y={city.y - 24}
+              y={city.labelBelow ? city.y + 21 : city.y - 24}
               textAnchor="middle"
               fill="#FFFFFF"
               fontSize="10"
@@ -441,7 +453,7 @@ function WorldMap({ inView }: { inView: boolean }) {
             </text>
             <text
               x={city.x}
-              y={city.y - 13}
+              y={city.labelBelow ? city.y + 31 : city.y - 13}
               textAnchor="middle"
               fill="#C4782B"
               fontSize="7"
@@ -508,7 +520,7 @@ export default function MapSection() {
           </div>
 
           {/* Glass-morphism info cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 sm:mt-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-8 sm:mt-12">
             {cities.map((city, i) => (
               <motion.div
                 key={city.name}
@@ -516,7 +528,7 @@ export default function MapSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="bg-card-bg/60 backdrop-blur-md border border-white/10 rounded-xl p-5 text-center hover:border-copper/20 hover:shadow-[0_4px_20px_rgba(196,120,43,0.1)] transition-all duration-300"
+                className="last:col-span-2 sm:last:col-span-1 bg-card-bg/60 backdrop-blur-md border border-white/10 rounded-xl p-5 text-center hover:border-copper/20 hover:shadow-[0_4px_20px_rgba(196,120,43,0.1)] transition-all duration-300"
               >
                 <div
                   className={`${

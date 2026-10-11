@@ -33,8 +33,8 @@ function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: str
 }
 
 const stats = [
-  { value: "4", label: "Regional Hubs", suffix: "" },
-  { value: "12", label: "Service Lines", suffix: "" },
+  { value: "5", label: "Regional Hubs", suffix: "" },
+  { value: "15", label: "Service Lines", suffix: "" },
   { value: "5", label: "Industries Served", suffix: "" },
   { value: "1", label: "USA Headquarters", suffix: "" },
 ];
@@ -86,7 +86,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { title: "Enterprise Architecture", desc: "US enterprise-grade delivery quality — governed data models, proper security, and scalable foundations — without Big-4 overhead." },
-            { title: "Microsoft + Digital Products", desc: "Power BI, Power Platform, Azure — plus websites and iOS & Android apps when you need the full stack, with ongoing workflow automation and executive dashboard support." },
+            { title: "Microsoft, AI + Digital Products", desc: "Power BI, Power Platform, Azure, AI and machine learning, and legacy modernization — plus websites and iOS & Android apps when you need the full stack." },
             { title: "Cross-Border Delivery", desc: "Headquartered in the USA with hubs across Europe, the Middle East, and Western Asia — we deliver where your business operates." },
             { title: "Fixed-Price Clarity", desc: "Every engagement starts with a Discovery Sprint. You get a clear scope, fixed price, and no surprises — before any major build begins." },
             { title: "Supervised Quality", desc: "Senior-led architecture with review gates at every stage. Your solutions are built to last, not patched together by juniors." },

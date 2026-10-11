@@ -13,7 +13,7 @@ interface ServiceData {
   includes: string[];
   forWhom: string;
   timeline: string;
-  category: "microsoft" | "digital";
+  category: "microsoft" | "ai" | "digital";
 }
 
 const services: ServiceData[] = [
@@ -244,6 +244,79 @@ const services: ServiceData[] = [
     timeline: "Ongoing monthly",
   },
   {
+    category: "ai",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M3 3v18h18" />
+        <path d="M7 15l4-5 3 3 5-7" />
+        <circle cx="19" cy="6" r="1.5" fill="currentColor" />
+      </svg>
+    ),
+    name: "Machine Learning & Predictive Analytics",
+    shortDesc: "Models that learn from your history to forecast demand, flag risk, and catch what people miss.",
+    fullDesc:
+      "Your data already holds the patterns that show what is likely to happen next. We turn those patterns into working prediction models — forecasting sales or enrollment, scoring churn and credit risk, detecting unusual transactions or operational issues — and surface the results where decisions are made, inside Power BI and your everyday apps.\n\nEvery model comes with plain-language explanations of what drives each prediction, accuracy tracking against real outcomes, and a retraining schedule, so the results stay trustworthy as your business changes.",
+    includes: [
+      "Use-case and data feasibility check",
+      "Model training on Azure Machine Learning or Microsoft Fabric",
+      "Forecasting, classification, and anomaly detection",
+      "Explainable results in Power BI or your apps",
+      "Accuracy monitoring and retraining schedule",
+      "Model documentation and handover",
+    ],
+    forWhom: "Finance, operations, sales, and risk teams with at least a year of historical data",
+    timeline: "6–14 weeks",
+  },
+  {
+    category: "ai",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8Z" />
+        <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" />
+        <path d="M5 16l.6 1.4L7 18l-1.4.6L5 20l-.6-1.4L3 18l1.4-.6Z" />
+      </svg>
+    ),
+    name: "Applied AI & Intelligent Automation",
+    shortDesc: "Generative AI, document intelligence, and AI agents built into the way your teams already work.",
+    fullDesc:
+      "We put practical AI to work on the tasks that consume your team's day: reading invoices, contracts, and forms; answering questions from your own policies and documents; sorting incoming requests; and drafting replies for a person to approve. Solutions are built with Azure OpenAI, Azure AI services, AI Builder, and Copilot Studio inside your own Microsoft tenant, so your data stays yours.\n\nEvery solution keeps a human in the loop and launches with clear usage rules, cost controls, and ongoing quality checks — because an AI tool only creates value when people can trust what it produces.",
+    includes: [
+      "Document extraction for invoices, forms, and contracts",
+      "Knowledge assistants grounded in your own content",
+      "Custom AI agents with Copilot Studio",
+      "Human review steps and approval rules",
+      "AI usage policy, cost, and quality monitoring",
+      "Integration with Power Automate, Teams, and SharePoint",
+    ],
+    forWhom: "Operations, finance, HR, legal, and customer-service teams handling high volumes of documents or requests",
+    timeline: "4–12 weeks",
+  },
+  {
+    category: "ai",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5" />
+        <path d="M20 3.5v5h-5" />
+        <path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.5" />
+        <path d="M4 20.5v-5h5" />
+      </svg>
+    ),
+    name: "Legacy System Modernization",
+    shortDesc: "Move aging databases, spreadsheets, and on-premise tools onto a secure, modern Microsoft platform.",
+    fullDesc:
+      "Old Access databases, macro-heavy spreadsheets, on-premise SharePoint, and in-house systems nobody dares to touch still run critical parts of many organizations. We map what those systems really do, keep the logic that works, and rebuild them on Power Platform, Azure, Dataverse, or Microsoft Fabric — with clean data, proper security, and current vendor support.\n\nThe move happens in planned stages with data checks and a parallel run, so daily operations never stop. Old tools are switched off only once the new system has proven itself, and your team is trained before the change.",
+    includes: [
+      "Inventory and assessment of current systems",
+      "Target architecture and phased migration plan",
+      "Data cleanup, migration, and reconciliation",
+      "Rebuild on Power Platform, Azure, or Fabric",
+      "Parallel run and go-live support",
+      "Retirement plan for old systems and user training",
+    ],
+    forWhom: "Organizations relying on Access, legacy Excel/VBA, on-premise servers, or end-of-life applications",
+    timeline: "8–24 weeks depending on scope",
+  },
+  {
     category: "digital",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
@@ -293,6 +366,7 @@ const services: ServiceData[] = [
 ];
 
 const microsoftServices = services.filter((s) => s.category === "microsoft");
+const aiServices = services.filter((s) => s.category === "ai");
 const digitalServices = services.filter((s) => s.category === "digital");
 
 const cardVariants = {
@@ -507,8 +581,8 @@ export default function ServicesSection() {
           <p className="text-copper text-sm tracking-[0.3em] uppercase mb-3">Our Expertise</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">What We Deliver</h2>
           <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Microsoft analytics, automation, and cloud — plus websites and iOS &amp; Android
-            applications when you need the full digital stack.
+            Microsoft analytics, automation, and cloud, AI and machine learning, and modernization of
+            legacy systems — plus websites and iOS &amp; Android applications when you need the full digital stack.
           </p>
           <a
             href={CATALOGUE_URL}
@@ -532,6 +606,26 @@ export default function ServicesSection() {
             style={{ perspective: "1200px" }}
           >
             {microsoftServices.map((service, i) => (
+              <ServiceCard
+                key={service.name}
+                service={service}
+                index={i}
+                onOpen={() => openByName(service.name)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-14">
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">AI &amp; Modernization</h3>
+          <p className="text-muted text-sm mb-6 max-w-2xl">
+            Machine learning, applied AI, and the replacement of aging systems — built securely on the Microsoft cloud.
+          </p>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+            style={{ perspective: "1200px" }}
+          >
+            {aiServices.map((service, i) => (
               <ServiceCard
                 key={service.name}
                 service={service}
