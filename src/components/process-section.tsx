@@ -53,7 +53,7 @@ const phases = [
     details: [
       "A formal proposal meeting covers the full solution architecture, milestones, deliverables, and the exact team members who will support your project.",
       "You see the complete picture: project timeline, bi-weekly client check-ins, escalation paths, and how we measure success at each stage.",
-      "We outline the tools that govern quality: Confluence for all documentation and findings, Jira for every ticket, comment, and change request — fully transparent.",
+      "We outline how quality is governed: one project board for every task, comment, and change request, and documentation for every finding — fully transparent.",
     ],
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
@@ -73,7 +73,7 @@ const phases = [
     details: [
       "Every project is led by a Project Manager who owns the schedule and a QA Analyst who controls every change before it reaches your environment.",
       "Bi-weekly meetings with your team ensure alignment. Your ambassador stays the direct bridge — no chasing emails or waiting for updates.",
-      "All work is documented in Confluence in real-time. Every task, comment, and decision lives in Jira — creating a complete audit trail you own.",
+      "All work is documented as we build. Every task, comment, and decision lives on the project board — creating a complete audit trail you own.",
     ],
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
@@ -91,10 +91,10 @@ const phases = [
     num: "05",
     tag: "HANDOVER",
     title: "Complete Ownership Transfer",
-    summary: "Everything we built, documented, and tracked becomes yours — Confluence pages, Jira boards, technical assets, and trained team knowledge.",
+    summary: "Everything we built, documented, and tracked becomes yours — a full project board and documentation, written as we build and handed over to you.",
     details: [
-      "On completion, you receive the full Confluence knowledge base: architecture decisions, runbooks, configuration guides, and lessons learned.",
-      "Your Jira board with every ticket, status change, comment, and resolution is preserved — a complete project history for audit or future reference.",
+      "On completion, you receive the full documentation: architecture decisions, runbooks, configuration guides, and lessons learned.",
+      "Your project board with every task, status change, comment, and resolution is handed over — a complete project history for audit or future reference.",
       "Knowledge transfer sessions ensure your internal team can operate, modify, and extend everything independently.",
     ],
     icon: (
@@ -127,8 +127,8 @@ const phases = [
 ];
 
 const toolBadges = [
-  { name: "Confluence", desc: "Documentation & Knowledge Base" },
-  { name: "Jira", desc: "Ticketing & Change Control" },
+  { name: "Documentation", desc: "Written as We Build, Yours to Keep" },
+  { name: "Project Board", desc: "Every Task & Change Tracked" },
   { name: "Bi-Weekly Reviews", desc: "Client Alignment Meetings" },
   { name: "Review Gates", desc: "QA-Controlled Deployments" },
 ];
