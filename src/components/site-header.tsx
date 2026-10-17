@@ -12,6 +12,7 @@ const navItems = [
   { label: "About", href: "/#about" },
   { label: "Regions", href: "/#regions" },
   { label: "Contact", href: "/#contact" },
+  { label: "Partner Portal", href: "https://portal.nurnex.com" },
 ];
 
 export default function SiteHeader() {

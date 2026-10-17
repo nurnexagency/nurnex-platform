@@ -41,6 +41,7 @@ export default function SiteFooter() {
                 { label: "Regions", href: "/#regions" },
                 { label: "Ambassadors", href: "/#ambassadors" },
                 { label: "Contact", href: "/#contact" },
+                { label: "Partner Portal", href: "https://portal.nurnex.com" },
               ].map((item) => (
                 <li key={item.href}>
                   <a
