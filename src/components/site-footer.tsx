@@ -3,7 +3,7 @@ import { MOTTO } from "@/lib/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_TEL } from "@/lib/contact";
 
 export default function SiteFooter() {
-  const year = new Date().getFullYear();
+  const year = 2025;
 
   return (
     <footer className="relative bg-ink-navy border-t border-white/5">
