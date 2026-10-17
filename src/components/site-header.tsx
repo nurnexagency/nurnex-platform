@@ -12,7 +12,6 @@ const navItems = [
   { label: "About", href: "/#about" },
   { label: "Regions", href: "/#regions" },
   { label: "Contact", href: "/#contact" },
-  { label: "Partner Portal", href: "https://portal.nurnex.com" },
 ];
 
 export default function SiteHeader() {
@@ -28,7 +27,23 @@ export default function SiteHeader() {
         style={{ scaleX, boxShadow: "0 0 8px rgba(196,120,43,0.4), 0 0 2px rgba(196,120,43,0.6)" }}
       />
 
-      <header className="fixed top-0 left-0 right-0 z-50 bg-ink-navy/95 backdrop-blur-md border-b border-white/5">
+      {/* Top utility bar - Internal Portal */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-[#061525] border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-end h-8">
+          <a
+            href="https://portal.nurnex.com"
+            className="flex items-center gap-1.5 text-[11px] tracking-wide text-white/50 hover:text-copper transition-colors"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Internal Portal Sign In
+          </a>
+        </div>
+      </div>
+
+      <header className="fixed top-8 left-0 right-0 z-50 bg-ink-navy/95 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-10 h-16 sm:h-20">
             {/* Logo */}
@@ -109,6 +124,16 @@ export default function SiteHeader() {
                     {item.label}
               </Link>
             ))}
+                <a
+                  href="https://portal.nurnex.com"
+                  className="text-muted hover:text-copper transition-colors py-2 text-sm tracking-wide flex items-center gap-2"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  Internal Portal Sign In
+                </a>
                 <Link
                   href="/#contact"
                   onClick={() => setMobileOpen(false)}
