@@ -22,19 +22,19 @@ interface Demo {
 
 const demos: Demo[] = [
   {
-    id: "crm-sales-pipeline",
-    title: "CRM Sales Pipeline",
-    subtitle: "Interactive sales analytics dashboard",
+    id: "corporate-financial-report",
+    title: "Corporate Financial Report",
+    subtitle: "Interactive financial overview and analysis",
     category: "power-bi",
     categoryLabel: "Power BI",
     description:
-      "Explore a live CRM sales pipeline dashboard built with Power BI. " +
-      "Filter by region, sales stage, rep, and time period. " +
-      "See how executive dashboards turn raw CRM data into actionable insights " +
-      "with drill-through, KPI cards, and trend analysis.",
-    embedUrl: null,
+      "Explore a live corporate financial dashboard built with Power BI. " +
+      "Analyze revenue, expenses, margins, and trends across business units. " +
+      "See how executive dashboards turn financial data into actionable insights " +
+      "with drill-through, KPI cards, and comparative analysis.",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDllYzViMWItYjcxYS00MzM0LWE4NDEtZTYxNDU3YThhMGRiIiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9&pageName=48bf016e084dec8e6dcc",
     embedType: "powerbi",
-    tags: ["Sales Analytics", "CRM", "KPIs", "Drill-Through"],
+    tags: ["Finance", "Revenue", "KPIs", "Drill-Through"],
   },
   {
     id: "hr-analytics",
