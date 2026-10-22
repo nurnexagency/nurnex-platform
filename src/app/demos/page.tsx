@@ -10,6 +10,11 @@ import {
   PowerAppCardPreview,
   powerAppMetas,
 } from "@/components/power-app-showcase";
+import {
+  SolutionShowcaseView,
+  SolutionCardPreview,
+  solutionMetas,
+} from "@/components/solution-showcase";
 
 /* ================================================================
    Demo Types & Data
@@ -19,14 +24,15 @@ interface Demo {
   id: string;
   title: string;
   subtitle: string;
-  category: "power-bi" | "power-apps" | "power-automate" | "azure" | "web";
+  category: "power-bi" | "power-apps" | "power-automate" | "data" | "ai" | "azure" | "web";
   categoryLabel: string;
   description: string;
   embedUrl: string | null;
-  embedType: "powerbi" | "power-app-showcase" | "video" | "image";
+  embedType: "powerbi" | "power-app-showcase" | "solution-showcase" | "video" | "image";
   tags: string[];
   comingSoon?: boolean;
   powerAppId?: string;
+  solutionId?: string;
 }
 
 const demos: Demo[] = [
@@ -124,6 +130,22 @@ const demos: Demo[] = [
       powerAppId: app.id,
     })
   ),
+
+  /* ── Solution Showcases (Automate, Data, AI) ────────── */
+  ...solutionMetas.map(
+    (sol): Demo => ({
+      id: sol.id,
+      title: sol.title,
+      subtitle: sol.subtitle,
+      category: sol.category === "power-automate" ? "power-automate" : sol.category === "data" ? "data" : "ai",
+      categoryLabel: sol.categoryLabel,
+      description: "",
+      embedUrl: null,
+      embedType: "solution-showcase",
+      tags: sol.tags,
+      solutionId: sol.id,
+    })
+  ),
 ];
 
 /* ================================================================
@@ -134,6 +156,8 @@ const categoryColors: Record<string, string> = {
   "power-bi": "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
   "power-apps": "bg-purple-500/10 text-purple-400 border-purple-500/20",
   "power-automate": "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  data: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  ai: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
   azure: "bg-sky-500/10 text-sky-400 border-sky-500/20",
   web: "bg-green-500/10 text-green-400 border-green-500/20",
 };
@@ -156,6 +180,19 @@ const categoryIcons: Record<string, React.ReactNode> = {
       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
     </svg>
   ),
+  data: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
+      <path d="M12 2L2 7l10 5 10-5-10-5Z" />
+      <path d="M2 12l10 5 10-5" />
+      <path d="M2 17l10 5 10-5" />
+    </svg>
+  ),
+  ai: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
+      <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8Z" />
+      <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" />
+    </svg>
+  ),
   azure: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -167,6 +204,15 @@ const categoryIcons: Record<string, React.ReactNode> = {
       <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
     </svg>
   ),
+};
+
+const categoryLabels: Record<string, string> = {
+  "all": "All",
+  "power-bi": "Power BI",
+  "power-apps": "Power Apps",
+  "power-automate": "Power Automate",
+  "data": "Data Platform",
+  "ai": "AI Solutions",
 };
 
 /* ================================================================
@@ -195,14 +241,7 @@ export default function DemosPage() {
             href="/"
             className="inline-flex items-center gap-2 text-muted hover:text-copper transition-colors text-sm mb-8"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Back to home
@@ -212,8 +251,9 @@ export default function DemosPage() {
             Interactive Demos
           </h1>
           <p className="text-muted text-lg sm:text-xl max-w-2xl leading-relaxed">
-            Explore live dashboards, app showcases, and solution templates we
-            build for clients. Click any demo to interact with it directly.
+            Explore live dashboards, app showcases, automation workflows, data
+            pipelines, and AI solutions. Click any demo to interact with it
+            directly.
           </p>
         </section>
 
@@ -221,10 +261,7 @@ export default function DemosPage() {
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => {
-              const label =
-                cat === "all"
-                  ? "All"
-                  : demos.find((d) => d.category === cat)?.categoryLabel || cat;
+              const label = categoryLabels[cat] || cat;
               return (
                 <button
                   key={cat}
@@ -274,6 +311,8 @@ export default function DemosPage() {
                     </div>
                   ) : demo.embedType === "power-app-showcase" && demo.powerAppId ? (
                     <PowerAppCardPreview appId={demo.powerAppId} />
+                  ) : demo.embedType === "solution-showcase" && demo.solutionId ? (
+                    <SolutionCardPreview solutionId={demo.solutionId} />
                   ) : (
                     <div className="flex flex-col items-center gap-3 text-muted/40">
                       <div className="w-16 h-16 rounded-xl bg-border/30 flex items-center justify-center">
@@ -319,9 +358,7 @@ export default function DemosPage() {
 
                 {!demo.comingSoon && (
                   <div className="absolute top-4 right-4 bg-copper/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                    {demo.embedType === "power-app-showcase"
-                      ? "View Showcase"
-                      : "Open Demo"}
+                    {demo.embedType === "powerbi" ? "Open Demo" : "View Showcase"}
                   </div>
                 )}
               </motion.div>
@@ -336,9 +373,8 @@ export default function DemosPage() {
               Want solutions like these for your business?
             </h2>
             <p className="text-muted text-sm sm:text-base max-w-xl mx-auto mb-6">
-              We build custom Power BI dashboards, Power Apps, and automations
-              tailored to your data and workflows. Start with a free discovery
-              call.
+              We build custom dashboards, apps, automations, data platforms,
+              and AI solutions tailored to your data and workflows.
             </p>
             <Link
               href="/#contact"
@@ -353,23 +389,24 @@ export default function DemosPage() {
 
       {/* ── Fullscreen Modals ─────────────────────────── */}
       <AnimatePresence>
-        {/* Power Apps Showcase Modal */}
+        {/* Power Apps Showcase */}
         {activeDemo && activeDemo.embedType === "power-app-showcase" && activeDemo.powerAppId && (
-          <PowerAppShowcaseView
-            appId={activeDemo.powerAppId}
-            onClose={() => setActiveDemo(null)}
-          />
+          <PowerAppShowcaseView appId={activeDemo.powerAppId} onClose={() => setActiveDemo(null)} />
+        )}
+
+        {/* Solution Showcase (Automate / Data / AI) */}
+        {activeDemo && activeDemo.embedType === "solution-showcase" && activeDemo.solutionId && (
+          <SolutionShowcaseView solutionId={activeDemo.solutionId} onClose={() => setActiveDemo(null)} />
         )}
 
         {/* Power BI / Standard Modal */}
-        {activeDemo && activeDemo.embedType !== "power-app-showcase" && (
+        {activeDemo && activeDemo.embedType !== "power-app-showcase" && activeDemo.embedType !== "solution-showcase" && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col"
           >
-            {/* Modal header */}
             <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-ink-navy border-b border-border">
               <div className="flex items-center gap-3">
                 <span
@@ -390,20 +427,12 @@ export default function DemosPage() {
                 className="text-muted hover:text-white transition-colors p-2"
                 aria-label="Close demo"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            {/* Embed area */}
             <div className="flex-1 relative">
               {activeDemo.embedUrl ? (
                 <iframe
@@ -419,25 +448,16 @@ export default function DemosPage() {
                     <div className="w-20 h-20 rounded-2xl bg-card border border-border flex items-center justify-center mx-auto mb-6 text-muted">
                       {categoryIcons[activeDemo.category]}
                     </div>
-                    <h3 className="text-white text-xl font-semibold mb-3">
-                      Demo coming soon
-                    </h3>
-                    <p className="text-muted text-sm leading-relaxed mb-2">
-                      {activeDemo.description}
-                    </p>
-                    <p className="text-copper text-xs">
-                      The interactive embed will appear here once published.
-                    </p>
+                    <h3 className="text-white text-xl font-semibold mb-3">Demo coming soon</h3>
+                    <p className="text-muted text-sm leading-relaxed mb-2">{activeDemo.description}</p>
+                    <p className="text-copper text-xs">The interactive embed will appear here once published.</p>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Description bar */}
             <div className="px-4 sm:px-6 py-3 bg-ink-navy border-t border-border">
-              <p className="text-muted text-xs sm:text-sm max-w-3xl">
-                {activeDemo.description}
-              </p>
+              <p className="text-muted text-xs sm:text-sm max-w-3xl">{activeDemo.description}</p>
             </div>
           </motion.div>
         )}

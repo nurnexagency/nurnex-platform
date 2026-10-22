@@ -13,7 +13,7 @@ interface ServiceData {
   includes: string[];
   forWhom: string;
   timeline: string;
-  category: "microsoft" | "ai" | "digital";
+  category: "microsoft" | "data" | "ai" | "digital";
 }
 
 const services: ServiceData[] = [
@@ -130,7 +130,7 @@ const services: ServiceData[] = [
     timeline: "4–14 weeks",
   },
   {
-    category: "microsoft",
+    category: "data",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
         <path d="M2 20h20M5 20V8l7-5 7 5v12" />
@@ -150,6 +150,76 @@ const services: ServiceData[] = [
     ],
     forWhom: "Data engineering teams, IT departments",
     timeline: "6 weeks – 6 months",
+  },
+  {
+    category: "data",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M12 2L2 7l10 5 10-5-10-5Z" />
+        <path d="M2 12l10 5 10-5" />
+        <path d="M2 17l10 5 10-5" />
+      </svg>
+    ),
+    name: "Databricks Lakehouse Analytics",
+    shortDesc: "Unified data engineering, analytics, and ML on Azure Databricks with Delta Lake.",
+    fullDesc:
+      "Combine data engineering, data science, and business analytics on a single, open platform. We design and implement Databricks lakehouses on Azure — with medallion architecture, Unity Catalog governance, and optimized Spark jobs that turn raw data into trusted insights.\n\nWhether you need batch pipelines, streaming analytics, or ML model training at scale, we architect solutions that grow with your data volumes and keep costs predictable.",
+    includes: [
+      "Lakehouse architecture design (Bronze / Silver / Gold)",
+      "Delta Lake implementation",
+      "Spark job development and optimization",
+      "Unity Catalog governance and access control",
+      "ML workflow setup with MLflow",
+      "Cost management and cluster optimization",
+    ],
+    forWhom: "Data engineering teams, analytics organizations, companies with large data volumes",
+    timeline: "6–20 weeks",
+  },
+  {
+    category: "data",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M12 2v20M17 4.5l-5 3-5-3M7 19.5l5-3 5 3" />
+        <path d="M2 12h20M4.5 7l3 5-3 5M19.5 7l-3 5 3 5" />
+      </svg>
+    ),
+    name: "Snowflake Data Cloud",
+    shortDesc: "Scalable cloud data warehousing with near-zero maintenance and instant elasticity.",
+    fullDesc:
+      "Get a modern data warehouse that scales compute and storage independently, shares data securely across teams or partners, and requires almost no tuning. We design Snowflake environments with proper data modeling, automated ingestion via Snowpipe, and cost controls that prevent bill surprises.\n\nIdeal for organizations that want enterprise-grade analytics without the complexity of traditional database administration, or need to share governed datasets across business units and external partners.",
+    includes: [
+      "Snowflake architecture and environment setup",
+      "Dimensional data modeling",
+      "Snowpipe automated ingestion",
+      "Data sharing and marketplace integration",
+      "Role-based access and governance",
+      "Cost optimization and resource monitoring",
+    ],
+    forWhom: "Analytics teams, multi-cloud organizations, companies needing scalable warehousing",
+    timeline: "4–16 weeks",
+  },
+  {
+    category: "data",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" aria-hidden>
+        <path d="M22 12h-6l-2 3h-4l-2-3H2" />
+        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z" />
+      </svg>
+    ),
+    name: "Data Ingestion & Integration",
+    shortDesc: "Connect every data source into one governed platform with reliable ETL/ELT pipelines.",
+    fullDesc:
+      "Your data lives in dozens of places — SaaS applications, databases, APIs, flat files, and spreadsheets. We build automated ingestion pipelines that pull data from every source, apply quality checks, transform it into analysis-ready formats, and land it in your warehouse or lakehouse on schedule.\n\nEvery pipeline includes error handling, retry logic, data lineage tracking, and alerting so you know immediately when something needs attention — before downstream reports break.",
+    includes: [
+      "Source connectivity assessment and mapping",
+      "ETL / ELT pipeline development",
+      "Data quality checks and validation rules",
+      "Orchestration and scheduling",
+      "Error handling and alerting",
+      "Data lineage and documentation",
+    ],
+    forWhom: "Data teams connecting SaaS, databases, APIs, files, and legacy sources",
+    timeline: "4–12 weeks",
   },
   {
     category: "microsoft",
@@ -367,6 +437,7 @@ const services: ServiceData[] = [
 
 const microsoftServices = services.filter((s) => s.category === "microsoft");
 const aiServices = services.filter((s) => s.category === "ai");
+const dataServices = services.filter((s) => s.category === "data");
 const digitalServices = services.filter((s) => s.category === "digital");
 
 const cardVariants = {
@@ -581,8 +652,8 @@ export default function ServicesSection() {
           <p className="text-copper text-sm tracking-[0.3em] uppercase mb-3">Our Expertise</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">What We Deliver</h2>
           <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Microsoft analytics, automation, and cloud, AI and machine learning, and modernization of
-            legacy systems — plus websites and iOS &amp; Android applications when you need the full digital stack.
+            Microsoft analytics and automation, data platforms including Databricks and Snowflake,
+            AI and machine learning — plus websites and mobile apps when you need the full digital stack.
           </p>
           <a
             href={CATALOGUE_URL}
@@ -606,6 +677,26 @@ export default function ServicesSection() {
             style={{ perspective: "1200px" }}
           >
             {microsoftServices.map((service, i) => (
+              <ServiceCard
+                key={service.name}
+                service={service}
+                index={i}
+                onOpen={() => openByName(service.name)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-14">
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">Data Platform</h3>
+          <p className="text-muted text-sm mb-6 max-w-2xl">
+            Databricks, Snowflake, Azure pipelines, and custom data ingestion — from raw sources to analytics-ready delivery.
+          </p>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+            style={{ perspective: "1200px" }}
+          >
+            {dataServices.map((service, i) => (
               <ServiceCard
                 key={service.name}
                 service={service}
