@@ -442,6 +442,49 @@ h1, h2, h3, h4 {
   50% { transform: translateY(-3px); }
 }
 
+/* AI Showcase: Neural core orbit */
+@keyframes ai-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes ai-orbit-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes ai-core-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+@keyframes ai-scan-line {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes ai-node-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 4px currentColor; }
+  50% { transform: scale(1.3); box-shadow: 0 0 12px currentColor; }
+}
+@keyframes confidence-fill {
+  from { width: 0%; }
+}
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes neural-drift {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+  50% { transform: translateY(-8px) translateX(4px); opacity: 0.7; }
+}
+.ai-orbit { animation: ai-orbit 20s linear infinite; }
+.ai-orbit-reverse { animation: ai-orbit-reverse 15s linear infinite; }
+.ai-core-pulse { animation: ai-core-pulse 3s ease-in-out infinite; }
+.ai-scan-line { animation: ai-scan-line 2.5s ease-in-out infinite; }
+.ai-node-pulse { animation: ai-node-pulse 2s ease-in-out infinite; }
+.confidence-fill { animation: confidence-fill 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.typing-cursor { animation: typing-cursor 1s step-end infinite; }
+.neural-drift { animation: neural-drift 4s ease-in-out infinite; }
+
 /* Grid card shimmer on hover */
 @keyframes card-shimmer {
   0% { opacity: 0; left: -40%; }

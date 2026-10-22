@@ -15,6 +15,11 @@ import {
   SolutionCardPreview,
   solutionMetas,
 } from "@/components/solution-showcase";
+import {
+  AiShowcaseView,
+  AiCardPreview,
+  isAiSolution,
+} from "@/components/ai-showcase";
 
 /* ================================================================
    Demo Types & Data
@@ -28,7 +33,7 @@ interface Demo {
   categoryLabel: string;
   description: string;
   embedUrl: string | null;
-  embedType: "powerbi" | "power-app-showcase" | "solution-showcase" | "video" | "image";
+  embedType: "powerbi" | "power-app-showcase" | "solution-showcase" | "ai-showcase" | "video" | "image";
   tags: string[];
   comingSoon?: boolean;
   powerAppId?: string;
@@ -131,21 +136,41 @@ const demos: Demo[] = [
     })
   ),
 
-  /* ── Solution Showcases (Automate, Data, AI) ────────── */
-  ...solutionMetas.map(
-    (sol): Demo => ({
-      id: sol.id,
-      title: sol.title,
-      subtitle: sol.subtitle,
-      category: sol.category === "power-automate" ? "power-automate" : sol.category === "data" ? "data" : "ai",
-      categoryLabel: sol.categoryLabel,
-      description: "",
-      embedUrl: null,
-      embedType: "solution-showcase",
-      tags: sol.tags,
-      solutionId: sol.id,
-    })
-  ),
+  /* ── Solution Showcases (Automate, Data) ─────────────── */
+  ...solutionMetas
+    .filter((sol) => sol.category !== "ai")
+    .map(
+      (sol): Demo => ({
+        id: sol.id,
+        title: sol.title,
+        subtitle: sol.subtitle,
+        category: sol.category === "power-automate" ? "power-automate" : "data",
+        categoryLabel: sol.categoryLabel,
+        description: "",
+        embedUrl: null,
+        embedType: "solution-showcase",
+        tags: sol.tags,
+        solutionId: sol.id,
+      })
+    ),
+
+  /* ── AI Showcases ───────────────────────────────────── */
+  ...solutionMetas
+    .filter((sol) => sol.category === "ai")
+    .map(
+      (sol): Demo => ({
+        id: sol.id,
+        title: sol.title,
+        subtitle: sol.subtitle,
+        category: "ai",
+        categoryLabel: sol.categoryLabel,
+        description: "",
+        embedUrl: null,
+        embedType: "ai-showcase",
+        tags: sol.tags,
+        solutionId: sol.id,
+      })
+    ),
 ];
 
 /* ================================================================
@@ -311,6 +336,8 @@ export default function DemosPage() {
                     </div>
                   ) : demo.embedType === "power-app-showcase" && demo.powerAppId ? (
                     <PowerAppCardPreview appId={demo.powerAppId} />
+                  ) : demo.embedType === "ai-showcase" && demo.solutionId ? (
+                    <AiCardPreview solutionId={demo.solutionId} />
                   ) : demo.embedType === "solution-showcase" && demo.solutionId ? (
                     <SolutionCardPreview solutionId={demo.solutionId} />
                   ) : (
@@ -394,13 +421,18 @@ export default function DemosPage() {
           <PowerAppShowcaseView appId={activeDemo.powerAppId} onClose={() => setActiveDemo(null)} />
         )}
 
-        {/* Solution Showcase (Automate / Data / AI) */}
+        {/* Solution Showcase (Automate / Data) */}
         {activeDemo && activeDemo.embedType === "solution-showcase" && activeDemo.solutionId && (
           <SolutionShowcaseView solutionId={activeDemo.solutionId} onClose={() => setActiveDemo(null)} />
         )}
 
+        {/* AI Showcase */}
+        {activeDemo && activeDemo.embedType === "ai-showcase" && activeDemo.solutionId && (
+          <AiShowcaseView solutionId={activeDemo.solutionId} onClose={() => setActiveDemo(null)} />
+        )}
+
         {/* Power BI / Standard Modal */}
-        {activeDemo && activeDemo.embedType !== "power-app-showcase" && activeDemo.embedType !== "solution-showcase" && (
+        {activeDemo && activeDemo.embedType !== "power-app-showcase" && activeDemo.embedType !== "solution-showcase" && activeDemo.embedType !== "ai-showcase" && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
