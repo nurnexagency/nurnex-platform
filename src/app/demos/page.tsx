@@ -32,7 +32,7 @@ const demos: Demo[] = [
       "Analyze revenue, expenses, margins, and trends across business units. " +
       "See how executive dashboards turn financial data into actionable insights " +
       "with drill-through, KPI cards, and comparative analysis.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDllYzViMWItYjcxYS00MzM0LWE4NDEtZTYxNDU3YThhMGRiIiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9&pageName=48bf016e084dec8e6dcc",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDllYzViMWItYjcxYS00MzM0LWE4NDEtZTYxNDU3YThhMGRiIiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Finance", "Revenue", "KPIs", "Drill-Through"],
   },
@@ -327,7 +327,9 @@ export default function DemosPage() {
                   title={activeDemo.title}
                   src={activeDemo.embedUrl}
                   className="absolute inset-0 w-full h-full border-0"
+                  frameBorder={0}
                   allowFullScreen
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
