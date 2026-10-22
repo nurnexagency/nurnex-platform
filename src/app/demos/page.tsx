@@ -329,7 +329,6 @@ export default function DemosPage() {
                   className="absolute inset-0 w-full h-full border-0"
                   frameBorder={0}
                   allowFullScreen
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">

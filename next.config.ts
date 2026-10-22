@@ -17,6 +17,7 @@ const securityHeaders = [
       "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self'",
       "media-src 'self' blob: https:",
+      "frame-src 'self' https://app.powerbi.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
