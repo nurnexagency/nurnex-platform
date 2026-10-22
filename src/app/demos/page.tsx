@@ -37,48 +37,61 @@ const demos: Demo[] = [
     tags: ["Finance", "Revenue", "KPIs", "Drill-Through"],
   },
   {
-    id: "hr-analytics",
-    title: "HR People Analytics",
-    subtitle: "Workforce insights and retention dashboard",
+    id: "service-profit-analysis",
+    title: "Service Profit Analysis",
+    subtitle: "Revenue, expenses, and gross margin tracking",
     category: "power-bi",
     categoryLabel: "Power BI",
     description:
-      "A sample HR analytics dashboard showing headcount trends, " +
-      "turnover analysis, diversity metrics, and department comparisons. " +
-      "See how Power BI transforms HR data into strategic workforce insights.",
-    embedUrl: null,
+      "Analyze service profitability with revenue and expense breakdowns, " +
+      "gross margin trends, and monthly performance tracking. " +
+      "Interactive filters for date range, number format, and granularity " +
+      "help you drill into the data that matters.",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDE4MTg3NTctY2E0Mi00YmVkLThlNDEtMTUxNWE4NzEyMzM1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
-    tags: ["HR", "Workforce", "Retention", "Diversity"],
-    comingSoon: true,
+    tags: ["Profitability", "Revenue", "Expenses", "Margins"],
   },
   {
-    id: "approval-workflow",
-    title: "Approval Workflow Automation",
-    subtitle: "Multi-stage approval with email notifications",
-    category: "power-automate",
-    categoryLabel: "Power Automate",
+    id: "supply-chain-dashboard",
+    title: "Supply Chain Dashboard",
+    subtitle: "Warehouse and store damage and return tracking",
+    category: "power-bi",
+    categoryLabel: "Power BI",
     description:
-      "Watch how a purchase order approval moves through a multi-stage " +
-      "Power Automate flow: manager approval, finance review, auto-notifications, " +
-      "and audit trail. No code, fully governed.",
-    embedUrl: null,
-    embedType: "video",
-    tags: ["Approvals", "Workflows", "Notifications", "Governance"],
-    comingSoon: true,
+      "Track warehouse and store operations with damage and return analysis. " +
+      "Monitor supply chain KPIs, identify problem areas, and optimize logistics. " +
+      "Interactive visuals with drill-through for detailed investigation.",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiN2FmNjY1YWUtYzRkOC00ZDdhLTk3YzUtNTkwZTQyOGIxNjE5IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedType: "powerbi",
+    tags: ["Supply Chain", "Logistics", "Warehouse", "Returns"],
   },
   {
-    id: "inventory-app",
-    title: "Inventory Management App",
-    subtitle: "Mobile-first stock tracking with barcode scan",
-    category: "power-apps",
-    categoryLabel: "Power Apps",
+    id: "manufacturing-analysis",
+    title: "Manufacturing Analysis",
+    subtitle: "Factory and production performance overview",
+    category: "power-bi",
+    categoryLabel: "Power BI",
     description:
-      "A canvas Power App for warehouse teams: scan barcodes, update stock levels, " +
-      "trigger reorder alerts, and sync with Dataverse. Runs on any phone or tablet.",
-    embedUrl: null,
-    embedType: "video",
-    tags: ["Inventory", "Mobile", "Barcode", "Dataverse"],
-    comingSoon: true,
+      "A corporate-style manufacturing analytics dashboard with overview, " +
+      "factory, and production views. Track operational KPIs, equipment utilization, " +
+      "and production efficiency across your manufacturing operations.",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiODIxNzQwZWMtOTFhOC00NzI2LWE5NzEtODUyM2E3YWU5MGU1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedType: "powerbi",
+    tags: ["Manufacturing", "Production", "Factory", "Operations"],
+  },
+  {
+    id: "gradient-lime-template",
+    title: "Gradient Lime Template",
+    subtitle: "Modern dashboard design template",
+    category: "power-bi",
+    categoryLabel: "Power BI",
+    description:
+      "A sleek, modern dashboard template with gradient lime styling. " +
+      "See how clean design and thoughtful layout transform data presentation. " +
+      "Perfect starting point for client-facing executive dashboards.",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiN2VlNjhkZDItYTdmNC00MWFmLWJmNzQtZGZlNWZjNzZlMmE4IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedType: "powerbi",
+    tags: ["Template", "Design", "Executive", "Modern"],
   },
 ];
 
