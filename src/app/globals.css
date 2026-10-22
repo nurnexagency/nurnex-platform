@@ -331,25 +331,134 @@ h1, h2, h3, h4 {
 }
 
 /* ══════════════════════════════════════
-   Flow Arrow Animations (Showcases)
+   Showcase Visual System
    ══════════════════════════════════════ */
 
 @keyframes flow-h {
   from { stroke-dashoffset: 14; }
   to { stroke-dashoffset: 0; }
 }
-
 @keyframes flow-v {
   from { stroke-dashoffset: 14; }
   to { stroke-dashoffset: 0; }
 }
+.animate-flow-horizontal { animation: flow-h 1s linear infinite; }
+.animate-flow-vertical { animation: flow-v 1s linear infinite; }
 
-.animate-flow-horizontal {
-  animation: flow-h 1s linear infinite;
+/* Floating gradient orbs */
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.1); }
+  50% { transform: translate(-30px, 50px) scale(0.9); }
+  75% { transform: translate(40px, 20px) scale(1.05); }
+}
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-50px, 30px) scale(1.15); }
+  66% { transform: translate(30px, -60px) scale(0.85); }
+}
+@keyframes orb-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(0.95); }
+  50% { transform: translate(40px, 40px) scale(1.1); }
+}
+.orb-drift-1 { animation: orb-drift-1 25s ease-in-out infinite; }
+.orb-drift-2 { animation: orb-drift-2 20s ease-in-out infinite; }
+.orb-drift-3 { animation: orb-drift-3 18s ease-in-out infinite; }
+
+/* Shimmer sweep for CTA buttons */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%) rotate(15deg); }
+  100% { transform: translateX(300%) rotate(15deg); }
+}
+.shimmer-btn { position: relative; overflow: hidden; }
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shimmer-sweep 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.animate-flow-vertical {
-  animation: flow-v 1s linear infinite;
+/* Data flow particle */
+@keyframes particle-flow-h {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(40px); opacity: 0; }
+}
+@keyframes particle-flow-v {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
+}
+.particle-h { animation: particle-flow-h 1.5s ease-in-out infinite; }
+.particle-v { animation: particle-flow-v 1.5s ease-in-out infinite; }
+
+/* Glass morphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.glass-strong {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Gradient text */
+.gradient-text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Metric counter entrance */
+@keyframes metric-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.metric-pop {
+  animation: metric-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Glow ring around active element */
+@keyframes glow-ring {
+  0%, 100% { box-shadow: 0 0 15px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.3); }
+  50% { box-shadow: 0 0 30px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.5), 0 0 60px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.15); }
+}
+
+/* Card hover lift */
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Grid card shimmer on hover */
+@keyframes card-shimmer {
+  0% { opacity: 0; left: -40%; }
+  50% { opacity: 0.06; }
+  100% { opacity: 0; left: 120%; }
+}
+.card-hover-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, white, transparent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.card-hover-shimmer:hover::before {
+  animation: card-shimmer 1s ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -381,7 +490,12 @@ h1, h2, h3, h4 {
   .city-dot-double-pulse,
   .flight-path-animate,
   .animate-flow-horizontal,
-  .animate-flow-vertical {
+  .animate-flow-vertical,
+  .orb-drift-1, .orb-drift-2, .orb-drift-3,
+  .shimmer-btn::after,
+  .particle-h, .particle-v,
+  .metric-pop,
+  .card-hover-shimmer::before {
     animation: none !important;
   }
 }

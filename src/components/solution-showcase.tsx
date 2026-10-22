@@ -25,6 +25,11 @@ interface Feature {
   desc: string;
 }
 
+interface ImpactMetric {
+  value: string;
+  label: string;
+}
+
 interface SolutionDef {
   id: string;
   title: string;
@@ -39,10 +44,13 @@ interface SolutionDef {
   annotations: Annotation[];
   features: Feature[];
   tags: string[];
+  metrics: ImpactMetric[];
+  problem: string;
+  solution: string;
 }
 
 /* ================================================================
-   Shared small SVG icon builders
+   Icons
    ================================================================ */
 
 const icons = {
@@ -216,26 +224,25 @@ const icons = {
 };
 
 /* ================================================================
-   Solution Data: 7 Showcases
+   Solution Data
    ================================================================ */
 
 const solutions: SolutionDef[] = [
-  /* ?? Power Automate 1: Invoice Processing ???????????? */
   {
     id: "invoice-automation",
     title: "Invoice Processing Automation",
     subtitle: "Zero-touch invoices from receipt to ledger",
-    description:
-      "Eliminate manual invoice data entry. Invoices arrive by email or scan, " +
-      "AI extracts every field, policies are checked automatically, and the right " +
-      "manager approves with one tap. Approved invoices post to your ERP with a " +
-      "complete audit trail.",
-    accent: "#0078D4",
-    accentBg: "#D6ECFF",
-    category: "power-automate",
-    categoryLabel: "Power Automate",
-    layout: "flow",
+    description: "Eliminate manual invoice data entry. Invoices arrive by email or scan, AI extracts every field, policies are checked automatically, and the right manager approves with one tap. Approved invoices post to your ERP with a complete audit trail.",
+    accent: "#0078D4", accentBg: "#D6ECFF",
+    category: "power-automate", categoryLabel: "Power Automate", layout: "flow",
     tags: ["Invoices", "Automation", "Approvals", "AI"],
+    metrics: [
+      { value: "85%", label: "Faster Processing" },
+      { value: "99.5%", label: "Extraction Accuracy" },
+      { value: "$240K", label: "Saved Annually" },
+    ],
+    problem: "Your team manually enters invoice data, chases approvals via email, and spends hours matching POs. Errors slip through. Auditors ask questions. Staff time is wasted.",
+    solution: "AI reads every invoice automatically. Policy checks run in milliseconds. Approvals route to the right person instantly. Your ERP stays current without anyone touching a keyboard.",
     stages: [
       { icon: icons.email, title: "Receive", desc: "Invoice arrives via email or scan", subItems: ["Email trigger", "SharePoint upload", "Scanner feed"] },
       { icon: icons.scan, title: "AI Extract", desc: "OCR reads all fields automatically", subItems: ["Vendor name", "Amount", "Line items", "Due date"] },
@@ -258,22 +265,21 @@ const solutions: SolutionDef[] = [
       { label: "Audit & Compliance", desc: "Complete trail from receipt to ledger entry" },
     ],
   },
-
-  /* ?? Power Automate 2: Employee Leave ???????????????? */
   {
     id: "leave-management",
     title: "Employee Leave Management",
     subtitle: "One-tap leave requests with automatic routing",
-    description:
-      "Employees request time off from Teams or their phone. The flow checks " +
-      "balances, routes to the right manager, updates the shared calendar, notifies " +
-      "HR, and sends confirmation. No more email chains or spreadsheet tracking.",
-    accent: "#008272",
-    accentBg: "#D4F5EF",
-    category: "power-automate",
-    categoryLabel: "Power Automate",
-    layout: "flow",
+    description: "Employees request time off from Teams or their phone. The flow checks balances, routes to the right manager, updates the shared calendar, notifies HR, and sends confirmation. No more email chains or spreadsheet tracking.",
+    accent: "#008272", accentBg: "#D4F5EF",
+    category: "power-automate", categoryLabel: "Power Automate", layout: "flow",
     tags: ["HR", "Leave", "Approvals", "Teams"],
+    metrics: [
+      { value: "3 min", label: "Average Request Time" },
+      { value: "100%", label: "Digital Process" },
+      { value: "0", label: "Manual Errors" },
+    ],
+    problem: "Leave requests happen via email. Managers forget to respond. HR updates spreadsheets manually. Calendars are always out of date. Nobody knows who is available next week.",
+    solution: "One tap from Teams. Balance checked instantly. Manager approves on their phone. Calendar updates automatically. Everyone sees who is in and who is out.",
     stages: [
       { icon: icons.calendar, title: "Request", desc: "Employee submits from Teams or app", subItems: ["Date range", "Leave type", "Delegate"] },
       { icon: icons.people, title: "Manager Review", desc: "Manager approves or requests changes", subItems: ["Teams notification", "One-tap approve", "Comments"] },
@@ -296,23 +302,21 @@ const solutions: SolutionDef[] = [
       { label: "Analytics Dashboard", desc: "Leave trends, peak periods, and utilization reports" },
     ],
   },
-
-  /* ?? Power Automate 3: Incident Response ????????????? */
   {
     id: "incident-response",
     title: "Incident Response & Escalation",
     subtitle: "From alert to resolution with automatic escalation",
-    description:
-      "When something breaks, every second counts. This flow detects incidents " +
-      "from monitoring alerts, classifies severity, assigns to the right team, " +
-      "tracks resolution progress, and escalates if SLAs are at risk. Full " +
-      "post-incident reporting is generated automatically.",
-    accent: "#D83B01",
-    accentBg: "#FFE0D1",
-    category: "power-automate",
-    categoryLabel: "Power Automate",
-    layout: "flow",
+    description: "When something breaks, every second counts. This flow detects incidents from monitoring alerts, classifies severity, assigns to the right team, tracks resolution progress, and escalates if SLAs are at risk.",
+    accent: "#D83B01", accentBg: "#FFE0D1",
+    category: "power-automate", categoryLabel: "Power Automate", layout: "flow",
     tags: ["IT Ops", "Incidents", "Escalation", "SLA"],
+    metrics: [
+      { value: "90%", label: "Faster Response" },
+      { value: "99.8%", label: "SLA Compliance" },
+      { value: "4x", label: "Team Coverage" },
+    ],
+    problem: "Alerts arrive in different inboxes. Nobody knows who is handling what. Critical issues sit unnoticed. SLAs breach because escalation depends on someone remembering to check.",
+    solution: "Every alert is caught, classified, and assigned in seconds. SLA timers tick automatically. Escalation fires before deadlines pass. Post-incident reports write themselves.",
     stages: [
       { icon: icons.alert, title: "Alert", desc: "Incident detected from monitoring", subItems: ["System alert", "User report", "Threshold breach"] },
       { icon: icons.tag, title: "Classify", desc: "Auto-categorized by severity", subItems: ["Critical / High / Medium", "Category tag", "Impact scope"] },
@@ -335,23 +339,21 @@ const solutions: SolutionDef[] = [
       { label: "Post-Mortem Reports", desc: "Automated incident documentation and trend analysis" },
     ],
   },
-
-  /* ?? Data Architecture 1: Databricks Lakehouse ??????? */
   {
     id: "databricks-lakehouse",
     title: "Databricks Lakehouse Pipeline",
     subtitle: "Bronze to Gold: raw data to business-ready insights",
-    description:
-      "See how a modern Databricks lakehouse transforms raw data from dozens of " +
-      "sources into trusted, analytics-ready datasets. The medallion architecture " +
-      "(Bronze, Silver, Gold) ensures data quality improves at every layer, " +
-      "with Unity Catalog providing governance across the entire platform.",
-    accent: "#FF3621",
-    accentBg: "#FFD6D1",
-    category: "data",
-    categoryLabel: "Data Platform",
-    layout: "layers",
+    description: "See how a modern Databricks lakehouse transforms raw data from dozens of sources into trusted, analytics-ready datasets. The medallion architecture ensures data quality improves at every layer.",
+    accent: "#FF3621", accentBg: "#FFD6D1",
+    category: "data", categoryLabel: "Data Platform", layout: "layers",
     tags: ["Databricks", "Lakehouse", "Delta Lake", "Spark"],
+    metrics: [
+      { value: "10x", label: "Faster Queries" },
+      { value: "60%", label: "Cost Reduction" },
+      { value: "PB", label: "Scale Ready" },
+    ],
+    problem: "Data sits in silos. Analysts wait hours for queries. Data quality is inconsistent. Nobody trusts the numbers. Engineering spends more time fixing pipelines than building new ones.",
+    solution: "One unified lakehouse. Raw data lands in Bronze, gets cleaned in Silver, and serves business-ready Gold tables. Queries run 10x faster. Everyone trusts the single source of truth.",
     stages: [
       { icon: icons.sources, title: "Data Sources", desc: "Connect all your data origins", subItems: ["Databases", "APIs", "Files", "Streaming"] },
       { icon: icons.database, title: "Bronze Layer", desc: "Raw ingestion, exact copies", subItems: ["Raw landing zone", "Append-only", "Schema on read"] },
@@ -374,23 +376,21 @@ const solutions: SolutionDef[] = [
       { label: "Cost Optimization", desc: "Photon engine and spot instances cut compute costs" },
     ],
   },
-
-  /* ?? Data Architecture 2: Snowflake Cloud ???????????? */
   {
     id: "snowflake-analytics",
     title: "Snowflake Cloud Analytics",
     subtitle: "Scalable warehousing with zero administration",
-    description:
-      "See how Snowflake separates compute from storage to deliver instant " +
-      "scalability. Data flows from diverse sources through automated Snowpipe " +
-      "ingestion, lands in structured models, and serves dashboards, data shares, " +
-      "and APIs with near-zero maintenance.",
-    accent: "#29B5E8",
-    accentBg: "#D4F0FA",
-    category: "data",
-    categoryLabel: "Data Platform",
-    layout: "layers",
+    description: "See how Snowflake separates compute from storage to deliver instant scalability. Data flows from diverse sources through automated Snowpipe ingestion into structured models.",
+    accent: "#29B5E8", accentBg: "#D4F0FA",
+    category: "data", categoryLabel: "Data Platform", layout: "layers",
     tags: ["Snowflake", "Warehouse", "Analytics", "Data Sharing"],
+    metrics: [
+      { value: "0", label: "Admin Overhead" },
+      { value: "< 1s", label: "Scale-Up Time" },
+      { value: "100+", label: "Source Connectors" },
+    ],
+    problem: "Your warehouse is slow, expensive, and needs constant tuning. Sharing data with partners means copying files. Scaling up takes days of planning and provisioning.",
+    solution: "Snowflake scales in seconds, needs zero tuning, and shares live data without copying. Your team focuses on insights, not infrastructure. Costs stay predictable with auto-suspend.",
     stages: [
       { icon: icons.sources, title: "Data Sources", desc: "SaaS, databases, files, and APIs", subItems: ["Salesforce", "SAP", "PostgreSQL", "REST APIs"] },
       { icon: icons.snowpipe, title: "Snowpipe Ingest", desc: "Continuous automated loading", subItems: ["Auto-ingest", "Streaming", "File notification"] },
@@ -413,23 +413,21 @@ const solutions: SolutionDef[] = [
       { label: "dbt Integration", desc: "Modern analytics engineering with dbt transforms" },
     ],
   },
-
-  /* ?? AI 1: Document Intelligence ????????????????????? */
   {
     id: "document-intelligence",
     title: "Intelligent Document Processing",
     subtitle: "AI reads your documents so your team does not have to",
-    description:
-      "Invoices, contracts, forms, and applications pile up. Our AI document " +
-      "processing solution reads them, extracts every field with high accuracy, " +
-      "validates the data, and triggers the right downstream action. Humans " +
-      "review only exceptions, not every single document.",
-    accent: "#0078D4",
-    accentBg: "#D6ECFF",
-    category: "ai",
-    categoryLabel: "AI Solutions",
-    layout: "pipeline",
+    description: "Invoices, contracts, forms, and applications pile up. Our AI document processing solution reads them, extracts every field with high accuracy, validates the data, and triggers the right downstream action.",
+    accent: "#0078D4", accentBg: "#D6ECFF",
+    category: "ai", categoryLabel: "AI Solutions", layout: "pipeline",
     tags: ["AI", "Documents", "OCR", "Extraction"],
+    metrics: [
+      { value: "99%+", label: "Extraction Accuracy" },
+      { value: "80%", label: "Time Saved" },
+      { value: "24/7", label: "Processing" },
+    ],
+    problem: "Staff spend hours copying data from invoices, contracts, and forms into systems. Errors creep in. Backlogs grow. High-value employees do low-value data entry.",
+    solution: "AI reads every document in seconds with 99%+ accuracy. Only exceptions need human review. Your team focuses on decisions, not data entry. The backlog disappears.",
     stages: [
       { icon: icons.doc, title: "Document Input", desc: "Invoices, contracts, forms arrive", subItems: ["PDF / image upload", "Email attachment", "Scanner feed"] },
       { icon: icons.brain, title: "AI Extraction", desc: "Azure AI reads every field", subItems: ["Document Intelligence", "Custom models", "99%+ accuracy"] },
@@ -451,23 +449,21 @@ const solutions: SolutionDef[] = [
       { label: "Action Triggers", desc: "Auto-start approval flows, ERP posting, or alerts" },
     ],
   },
-
-  /* ?? AI 2: Predictive Analytics ?????????????????????? */
   {
     id: "predictive-analytics",
     title: "Predictive Analytics Engine",
     subtitle: "Your historical data predicts what happens next",
-    description:
-      "Turn years of transaction, sales, and operations data into forward-looking " +
-      "predictions. We build ML models that forecast demand, score churn risk, " +
-      "detect anomalies, and surface insights - all delivered inside Power BI " +
-      "dashboards your team already uses.",
-    accent: "#742774",
-    accentBg: "#EDD6ED",
-    category: "ai",
-    categoryLabel: "AI Solutions",
-    layout: "pipeline",
+    description: "Turn years of transaction, sales, and operations data into forward-looking predictions. We build ML models that forecast demand, score churn risk, detect anomalies, and surface insights - all delivered inside Power BI.",
+    accent: "#742774", accentBg: "#EDD6ED",
+    category: "ai", categoryLabel: "AI Solutions", layout: "pipeline",
     tags: ["ML", "Predictions", "Forecasting", "Analytics"],
+    metrics: [
+      { value: "92%", label: "Model Accuracy" },
+      { value: "3 mo", label: "Forecast Horizon" },
+      { value: "Real-time", label: "Scoring" },
+    ],
+    problem: "You make decisions based on what already happened. Churn surprises you. Demand forecasts are gut feel. Anomalies surface days after the damage is done.",
+    solution: "ML models trained on your history predict what happens next. Churn risk scores before customers leave. Demand forecasts plan inventory. Anomalies flag in real time.",
     stages: [
       { icon: icons.history, title: "Historical Data", desc: "Transactions, events, and metrics", subItems: ["Sales history", "Customer behavior", "Operational logs"] },
       { icon: icons.gear, title: "Feature Engineering", desc: "Transform raw data into ML features", subItems: ["Time series", "Aggregations", "Embeddings"] },
@@ -493,109 +489,176 @@ const solutions: SolutionDef[] = [
 ];
 
 /* ================================================================
-   Arrow Component (animated connecting arrow)
+   Floating Background Orbs
    ================================================================ */
 
-function FlowArrow({ accent, vertical }: { accent: string; vertical?: boolean }) {
+function FloatingOrbs({ accent }: { accent: string }) {
   return (
-    <div className={`flex items-center justify-center ${vertical ? "py-1" : "px-0 sm:px-1"}`}>
-      <svg
-        width={vertical ? 20 : 40}
-        height={vertical ? 30 : 20}
-        viewBox={vertical ? "0 0 20 30" : "0 0 40 20"}
-        className="flex-shrink-0"
-      >
-        {vertical ? (
-          <>
-            <line x1="10" y1="0" x2="10" y2="24" stroke={accent} strokeWidth="2" strokeDasharray="4 3"
-              className="animate-flow-vertical" />
-            <polygon points="6,22 10,30 14,22" fill={accent} />
-          </>
-        ) : (
-          <>
-            <line x1="0" y1="10" x2="32" y2="10" stroke={accent} strokeWidth="2" strokeDasharray="4 3"
-              className="animate-flow-horizontal" />
-            <polygon points="30,5 40,10 30,15" fill={accent} />
-          </>
-        )}
-      </svg>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.07] orb-drift-1"
+        style={{ background: accent }} />
+      <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-[0.05] orb-drift-2"
+        style={{ background: accent }} />
+      <div className="absolute top-[60%] left-[50%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-[0.04] orb-drift-3"
+        style={{ background: accent }} />
     </div>
   );
 }
 
 /* ================================================================
-   Stage Card Component
+   Impact Metrics Bar
+   ================================================================ */
+
+function ImpactMetrics({ metrics, accent }: { metrics: ImpactMetric[]; accent: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35 }}
+      className="flex flex-wrap justify-center gap-4 sm:gap-6 max-w-3xl mx-auto mb-12"
+    >
+      {metrics.map((m, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 + i * 0.12, type: "spring", stiffness: 200, damping: 15 }}
+          className="glass-strong rounded-2xl px-6 sm:px-8 py-4 sm:py-5 text-center min-w-[120px] group hover:scale-105 transition-transform duration-300"
+        >
+          <div className="text-2xl sm:text-3xl font-bold mb-1 gradient-text"
+            style={{ backgroundImage: `linear-gradient(135deg, ${accent}, white)` }}>
+            {m.value}
+          </div>
+          <div className="text-[11px] sm:text-xs text-gray-400 uppercase tracking-wider font-medium">
+            {m.label}
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
+/* ================================================================
+   Flow Arrow with animated particles
+   ================================================================ */
+
+function FlowArrow({ accent, vertical }: { accent: string; vertical?: boolean }) {
+  return (
+    <div className={`flex items-center justify-center relative ${vertical ? "py-1.5" : "px-1"}`}>
+      <svg
+        width={vertical ? 20 : 44}
+        height={vertical ? 34 : 20}
+        viewBox={vertical ? "0 0 20 34" : "0 0 44 20"}
+        className="flex-shrink-0"
+      >
+        {vertical ? (
+          <>
+            <line x1="10" y1="0" x2="10" y2="26" stroke={accent} strokeWidth="2" strokeDasharray="4 3" strokeOpacity="0.4"
+              className="animate-flow-vertical" />
+            <polygon points="6,24 10,34 14,24" fill={accent} fillOpacity="0.6" />
+          </>
+        ) : (
+          <>
+            <line x1="0" y1="10" x2="34" y2="10" stroke={accent} strokeWidth="2" strokeDasharray="4 3" strokeOpacity="0.4"
+              className="animate-flow-horizontal" />
+            <polygon points="32,5 44,10 32,15" fill={accent} fillOpacity="0.6" />
+          </>
+        )}
+      </svg>
+      {/* Animated particle */}
+      <div className={`absolute ${vertical ? "particle-v" : "particle-h"}`}
+        style={{ [vertical ? "top" : "left"]: 0 }}>
+        <div className="w-1.5 h-1.5 rounded-full" style={{ background: accent, boxShadow: `0 0 6px ${accent}` }} />
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================
+   Glass Stage Card
    ================================================================ */
 
 function StageCard({
-  stage,
-  accent,
-  index,
-  activeIndex,
-  layout,
+  stage, accent, index, activeIndex, layout,
 }: {
-  stage: Stage;
-  accent: string;
-  index: number;
-  activeIndex: number;
-  layout: "flow" | "layers" | "pipeline";
+  stage: Stage; accent: string; index: number; activeIndex: number; layout: string;
 }) {
   const isActive = index === activeIndex;
-
   const layerLabels = ["Source", "Ingest", "Process", "Model", "Serve"];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.4 }}
-      className={`relative rounded-xl border p-3 sm:p-4 transition-all duration-500 ${
-        layout === "flow" ? "min-w-[140px] sm:min-w-[160px]" :
+      transition={{ delay: index * 0.08, duration: 0.5, type: "spring", stiffness: 120 }}
+      className={`relative rounded-2xl transition-all duration-500 ${
+        layout === "flow" ? "min-w-[140px] sm:min-w-[155px]" :
         layout === "layers" ? "min-w-[130px] sm:min-w-[150px]" :
-        "min-w-[140px] sm:min-w-[170px]"
-      }`}
+        "min-w-[140px] sm:min-w-[165px]"
+      } ${isActive ? "glass-strong" : "glass"}`}
       style={{
-        background: isActive ? `${accent}15` : "rgba(14,42,66,0.6)",
-        borderColor: isActive ? `${accent}50` : "rgba(255,255,255,0.08)",
-        boxShadow: isActive ? `0 0 20px ${accent}20` : "none",
+        boxShadow: isActive
+          ? `0 0 30px ${accent}25, 0 8px 32px rgba(0,0,0,0.3)`
+          : "0 4px 16px rgba(0,0,0,0.2)",
+        transform: isActive ? "translateY(-4px)" : "translateY(0)",
       }}
     >
-      {/* Layer label for architecture layout */}
-      {layout === "layers" && (
-        <div className="text-[9px] uppercase tracking-widest mb-1.5 font-semibold"
-          style={{ color: isActive ? accent : "#6B7280" }}>
-          {layerLabels[index] || ""}
-        </div>
+      {/* Active glow ring */}
+      {isActive && (
+        <div className="absolute -inset-px rounded-2xl opacity-60"
+          style={{ background: `linear-gradient(135deg, ${accent}40, transparent, ${accent}20)` }} />
       )}
 
-      {/* Icon */}
-      <div className="mb-2 transition-colors duration-300" style={{ color: isActive ? accent : "#8B9DB5" }}>
-        {stage.icon}
+      <div className="relative p-3 sm:p-4">
+        {/* Layer label */}
+        {layout === "layers" && (
+          <div className="text-[9px] uppercase tracking-[0.15em] mb-2 font-bold"
+            style={{ color: isActive ? accent : "#6B7280" }}>
+            {layerLabels[index] || ""}
+          </div>
+        )}
+
+        {/* Step number */}
+        <div className="flex items-start justify-between mb-2">
+          <div className="p-1.5 rounded-xl transition-all duration-300"
+            style={{ background: isActive ? `${accent}20` : "rgba(255,255,255,0.04)", color: isActive ? accent : "#8B9DB5" }}>
+            {stage.icon}
+          </div>
+          <span className="text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"
+            style={{ background: isActive ? accent : "rgba(255,255,255,0.06)", color: isActive ? "white" : "#6B7280" }}>
+            {index + 1}
+          </span>
+        </div>
+
+        <h4 className="text-white text-xs sm:text-sm font-bold mb-1">{stage.title}</h4>
+        <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed mb-2">{stage.desc}</p>
+
+        {/* Sub items with stagger */}
+        {stage.subItems && (
+          <div className="space-y-0.5">
+            {stage.subItems.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={false}
+                animate={{ opacity: isActive ? 1 : 0.5 }}
+                className="flex items-center gap-1.5 text-[9px] sm:text-[10px]"
+                style={{ color: isActive ? `${accent}DD` : "#6B7280" }}
+              >
+                <div className="w-1 h-1 rounded-full flex-shrink-0"
+                  style={{ background: isActive ? accent : "#4B5563" }} />
+                {item}
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Title */}
-      <h4 className="text-white text-xs sm:text-sm font-semibold mb-1">{stage.title}</h4>
-      <p className="text-muted text-[10px] sm:text-xs leading-relaxed mb-2">{stage.desc}</p>
-
-      {/* Sub items */}
-      {stage.subItems && (
-        <div className="space-y-0.5">
-          {stage.subItems.map((item, i) => (
-            <div key={i} className="flex items-center gap-1.5 text-[9px] sm:text-[10px]"
-              style={{ color: isActive ? `${accent}CC` : "#6B7280" }}>
-              <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: isActive ? accent : "#4B5563" }} />
-              {item}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Active pulse dot */}
+      {/* Active indicator pulse */}
       {isActive && (
         <motion.div
-          className="absolute -top-1 -right-1 w-3 h-3 rounded-full"
-          style={{ background: accent }}
-          animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+          className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full"
+          style={{ background: accent, boxShadow: `0 0 12px ${accent}` }}
+          animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         />
       )}
@@ -604,59 +667,88 @@ function StageCard({
 }
 
 /* ================================================================
-   Annotation Item (reused from power-app-showcase pattern)
+   Glass Annotation
    ================================================================ */
 
 function AnnotationItem({
-  annotation,
-  accent,
-  index,
-  isVisible,
+  annotation, accent, index, isVisible,
 }: {
-  annotation: Annotation;
-  accent: string;
-  index: number;
-  isVisible: boolean;
+  annotation: Annotation; accent: string; index: number; isVisible: boolean;
 }) {
   const isLeft = annotation.side === "left";
-
   return (
     <motion.div
-      initial={{ opacity: 0, x: isLeft ? -20 : 20 }}
-      animate={isVisible ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.5 + index * 0.15 }}
-      className={`flex items-start gap-3 ${isLeft ? "flex-row" : "flex-row-reverse"} ${isLeft ? "text-right" : "text-left"}`}
+      initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+      animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0 }}
+      transition={{ duration: 0.6, delay: 0.6 + index * 0.15, type: "spring", stiffness: 80 }}
+      className={`flex items-center gap-3 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
     >
-      <div className="flex-1">
-        <div className="text-white text-sm font-semibold mb-0.5">{annotation.label}</div>
-        <div className="text-muted text-xs leading-relaxed">{annotation.desc}</div>
+      <div className={`flex-1 glass rounded-xl p-4 ${isLeft ? "text-right" : "text-left"} group hover:scale-[1.02] transition-transform duration-300`}
+        style={{ borderColor: `${accent}15` }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${accent}40`; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${accent}15`; }}>
+        <div className="text-white text-sm font-bold mb-0.5">{annotation.label}</div>
+        <div className="text-gray-400 text-xs leading-relaxed">{annotation.desc}</div>
       </div>
-      <div className="flex items-center gap-0 mt-1">
-        {isLeft && <div className="w-6 sm:w-10 h-px opacity-40" style={{ background: `linear-gradient(to right, transparent, ${accent})` }} />}
-        <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: accent, boxShadow: `0 0 8px ${accent}60` }}>
-          <motion.div className="w-full h-full rounded-full"
-            animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
-            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+
+      {/* Connecting line + pulse dot */}
+      <div className="flex items-center gap-0">
+        {isLeft && <div className="w-6 sm:w-10 h-px opacity-30" style={{ background: `linear-gradient(to right, transparent, ${accent})` }} />}
+        <div className="relative w-3 h-3 flex-shrink-0">
+          <div className="absolute inset-0 rounded-full" style={{ background: accent }} />
+          <motion.div className="absolute inset-0 rounded-full"
+            animate={{ scale: [1, 2.5, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.4 }}
             style={{ background: accent }} />
         </div>
-        {!isLeft && <div className="w-6 sm:w-10 h-px opacity-40" style={{ background: `linear-gradient(to left, transparent, ${accent})` }} />}
+        {!isLeft && <div className="w-6 sm:w-10 h-px opacity-30" style={{ background: `linear-gradient(to left, transparent, ${accent})` }} />}
       </div>
     </motion.div>
   );
 }
 
 /* ================================================================
-   Feature Icon
+   Problem / Solution Section
    ================================================================ */
 
-function FeatureIcon({ accent }: { accent: string }) {
+function ProblemSolution({ problem, solution, accent }: { problem: string; solution: string; accent: string }) {
   return (
-    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-      style={{ background: `${accent}15` }}>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5">
-        <path d="M20 6L9 17l-5-5" />
-      </svg>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8 }}
+      className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-14"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Problem */}
+        <div className="glass rounded-2xl p-6 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-red-500/60 rounded-r" />
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-red-500/10 flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </div>
+            <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Without This</span>
+          </div>
+          <p className="text-gray-400 text-sm leading-relaxed">{problem}</p>
+        </div>
+
+        {/* Solution */}
+        <div className="glass rounded-2xl p-6 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full rounded-r" style={{ background: `${accent}90` }} />
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${accent}15` }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: accent }}>With Nurnex</span>
+          </div>
+          <p className="text-gray-300 text-sm leading-relaxed">{solution}</p>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -685,163 +777,186 @@ export function SolutionShowcaseView({ solutionId, onClose }: { solutionId: stri
   }, [sol]);
 
   useEffect(() => {
-    const t = setTimeout(() => setShowAnnotations(true), 600);
+    const t = setTimeout(() => setShowAnnotations(true), 500);
     return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(nextStage, 3000);
+    const interval = setInterval(nextStage, 3500);
     return () => clearInterval(interval);
   }, [nextStage]);
 
   if (!sol) return null;
 
-  const leftAnnotations = sol.annotations.filter((a) => a.side === "left");
-  const rightAnnotations = sol.annotations.filter((a) => a.side === "right");
+  const leftAnns = sol.annotations.filter((a) => a.side === "left");
+  const rightAnns = sol.annotations.filter((a) => a.side === "right");
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-[100] bg-[#050A12] overflow-y-auto"
     >
+      <FloatingOrbs accent={sol.accent} />
+
+      {/* Close */}
       <button onClick={onClose}
-        className="fixed top-4 right-4 z-[110] text-muted hover:text-white transition-colors p-2 bg-card/50 rounded-full backdrop-blur-sm"
+        className="fixed top-4 right-4 z-[110] glass rounded-full p-2.5 text-gray-400 hover:text-white transition-colors"
         aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M18 6L6 18M6 6l12 12" />
         </svg>
       </button>
 
-      {/* Header */}
-      <div className="pt-8 sm:pt-12 pb-6 text-center px-4">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium border mb-4"
-          style={{ background: `${sol.accent}15`, borderColor: `${sol.accent}30`, color: sol.accent }}>
+      {/* Hero */}
+      <div className="relative z-10 pt-10 sm:pt-14 pb-4 text-center px-4">
+        <motion.div initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 glass rounded-full px-5 py-2 text-xs font-semibold mb-5"
+          style={{ color: sol.accent, borderColor: `${sol.accent}25` }}>
           {categoryIconMap[sol.category]}
           {sol.categoryLabel}
         </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
+
+        <motion.h1
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 gradient-text"
+          style={{ backgroundImage: `linear-gradient(135deg, white 30%, ${sol.accent})` }}
+        >
           {sol.title}
         </motion.h1>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-          className="text-muted text-base sm:text-lg max-w-xl mx-auto">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-gray-400 text-lg sm:text-xl max-w-xl mx-auto"
+        >
           {sol.subtitle}
         </motion.p>
       </div>
 
-      {/* Flow Diagram + Annotations */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-4">
+      {/* Impact Metrics */}
+      <div className="relative z-10">
+        <ImpactMetrics metrics={sol.metrics} accent={sol.accent} />
+      </div>
+
+      {/* Flow + Annotations */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-5">
           {/* Left annotations */}
-          <div className="hidden lg:flex flex-col justify-center gap-8 flex-1 max-w-xs">
-            {leftAnnotations.map((a, i) => (
+          <div className="hidden lg:flex flex-col justify-center gap-6 flex-1 max-w-[280px]">
+            {leftAnns.map((a, i) => (
               <AnnotationItem key={i} annotation={a} accent={sol.accent} index={i} isVisible={showAnnotations} />
             ))}
           </div>
 
-          {/* Stage flow diagram */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex-shrink-0"
-          >
-            {/* Glow */}
-            <div className="relative">
-              <div className="absolute -inset-6 rounded-3xl opacity-10 blur-3xl" style={{ background: sol.accent }} />
-
-              {/* Desktop: horizontal flow */}
-              <div className="hidden sm:flex items-start gap-0 relative">
-                {sol.stages.map((stage, i) => (
-                  <div key={i} className="flex items-start">
-                    <div onClick={() => setActiveStage(i)} className="cursor-pointer">
-                      <StageCard stage={stage} accent={sol.accent} index={i} activeIndex={activeStage} layout={sol.layout} />
-                    </div>
-                    {i < sol.stages.length - 1 && (
-                      <div className="flex items-center self-center mt-8">
-                        <FlowArrow accent={sol.accent} />
-                      </div>
-                    )}
+          {/* Stage Flow */}
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className="flex-shrink-0">
+            {/* Desktop: horizontal */}
+            <div className="hidden sm:flex items-start gap-0">
+              {sol.stages.map((stage, i) => (
+                <div key={i} className="flex items-start">
+                  <div onClick={() => setActiveStage(i)} className="cursor-pointer">
+                    <StageCard stage={stage} accent={sol.accent} index={i} activeIndex={activeStage} layout={sol.layout} />
                   </div>
-                ))}
-              </div>
-
-              {/* Mobile: vertical flow */}
-              <div className="sm:hidden flex flex-col items-center gap-0 relative">
-                {sol.stages.map((stage, i) => (
-                  <div key={i} className="flex flex-col items-center w-full max-w-[280px]">
-                    <div onClick={() => setActiveStage(i)} className="cursor-pointer w-full">
-                      <StageCard stage={stage} accent={sol.accent} index={i} activeIndex={activeStage} layout={sol.layout} />
+                  {i < sol.stages.length - 1 && (
+                    <div className="flex items-center self-center mt-12">
+                      <FlowArrow accent={sol.accent} />
                     </div>
-                    {i < sol.stages.length - 1 && <FlowArrow accent={sol.accent} vertical />}
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              ))}
             </div>
 
-            {/* Stage nav dots */}
-            <div className="flex items-center justify-center gap-3 mt-6">
+            {/* Mobile: vertical */}
+            <div className="sm:hidden flex flex-col items-center gap-0 max-w-[300px] mx-auto">
+              {sol.stages.map((stage, i) => (
+                <div key={i} className="flex flex-col items-center w-full">
+                  <div onClick={() => setActiveStage(i)} className="cursor-pointer w-full">
+                    <StageCard stage={stage} accent={sol.accent} index={i} activeIndex={activeStage} layout={sol.layout} />
+                  </div>
+                  {i < sol.stages.length - 1 && <FlowArrow accent={sol.accent} vertical />}
+                </div>
+              ))}
+            </div>
+
+            {/* Nav dots */}
+            <div className="flex items-center justify-center gap-4 mt-6">
               {sol.stages.map((stage, i) => (
                 <button key={i} onClick={() => setActiveStage(i)} className="flex flex-col items-center gap-1.5 group">
-                  <div className="w-2 h-2 rounded-full transition-all duration-300"
+                  <div className="w-2 h-2 rounded-full transition-all duration-500"
                     style={{
-                      background: i === activeStage ? sol.accent : "#374151",
-                      boxShadow: i === activeStage ? `0 0 8px ${sol.accent}60` : "none",
-                      transform: i === activeStage ? "scale(1.4)" : "scale(1)",
+                      background: i === activeStage ? sol.accent : "rgba(255,255,255,0.1)",
+                      boxShadow: i === activeStage ? `0 0 12px ${sol.accent}80` : "none",
+                      transform: i === activeStage ? "scale(1.5)" : "scale(1)",
                     }} />
-                  <span className={`text-[10px] transition-colors hidden sm:block ${i === activeStage ? "text-white" : "text-gray-600"}`}>
-                    {stage.title}
-                  </span>
+                  <span className={`text-[10px] transition-colors hidden sm:block ${
+                    i === activeStage ? "text-white font-medium" : "text-gray-600"
+                  }`}>{stage.title}</span>
                 </button>
               ))}
             </div>
           </motion.div>
 
           {/* Right annotations */}
-          <div className="hidden lg:flex flex-col justify-center gap-8 flex-1 max-w-xs">
-            {rightAnnotations.map((a, i) => (
+          <div className="hidden lg:flex flex-col justify-center gap-6 flex-1 max-w-[280px]">
+            {rightAnns.map((a, i) => (
               <AnnotationItem key={i} annotation={a} accent={sol.accent} index={i + 2} isVisible={showAnnotations} />
             ))}
           </div>
         </div>
 
         {/* Mobile annotations */}
-        <div className="lg:hidden mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 px-2">
+        <div className="lg:hidden mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
           {sol.annotations.map((a, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-              className="flex items-start gap-3 bg-card/50 rounded-xl p-4 border border-border/50">
+            <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.08 }}
+              className="glass rounded-xl p-4 flex items-start gap-3 hover:scale-[1.02] transition-transform">
               <div className="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1" style={{ background: sol.accent }} />
               <div>
-                <div className="text-white text-sm font-semibold">{a.label}</div>
-                <div className="text-muted text-xs mt-0.5">{a.desc}</div>
+                <div className="text-white text-sm font-bold">{a.label}</div>
+                <div className="text-gray-400 text-xs mt-0.5">{a.desc}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
+      {/* Problem / Solution */}
+      <div className="relative z-10">
+        <ProblemSolution problem={sol.problem} solution={sol.solution} accent={sol.accent} />
+      </div>
+
       {/* Features */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
-        <motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
-          className="font-display text-2xl font-bold text-white text-center mb-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
+        <motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+          className="font-display text-2xl sm:text-3xl font-bold text-white text-center mb-10">
           Key Capabilities
         </motion.h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sol.features.map((f, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 + i * 0.08 }}
-              className="bg-card/60 border border-border/50 rounded-xl p-4 hover:border-opacity-100 transition-all group"
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${sol.accent}40`; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}>
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75 + i * 0.07 }}
+              className="glass rounded-2xl p-5 group hover:scale-[1.03] transition-all duration-300 cursor-default"
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${sol.accent}40`; e.currentTarget.style.boxShadow = `0 4px 20px ${sol.accent}15`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; e.currentTarget.style.boxShadow = ""; }}
+            >
               <div className="flex items-start gap-3">
-                <FeatureIcon accent={sol.accent} />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+                  style={{ background: `${sol.accent}12` }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={sol.accent} strokeWidth="2.5">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </div>
                 <div>
-                  <div className="text-white text-sm font-semibold">{f.label}</div>
-                  <div className="text-muted text-xs mt-0.5 leading-relaxed">{f.desc}</div>
+                  <div className="text-white text-sm font-bold">{f.label}</div>
+                  <div className="text-gray-400 text-xs mt-1 leading-relaxed">{f.desc}</div>
                 </div>
               </div>
             </motion.div>
@@ -849,25 +964,40 @@ export function SolutionShowcaseView({ solutionId, onClose }: { solutionId: stri
         </div>
       </div>
 
-      {/* CTA */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16 text-center">
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
-          className="text-muted text-sm sm:text-base leading-relaxed mb-8">
+      {/* Description + CTA */}
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-14 mb-20 text-center">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
+          className="text-gray-400 text-sm sm:text-base leading-relaxed mb-10">
           {sol.description}
         </motion.p>
-        <motion.a initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }}
-          href="/#contact" onClick={onClose}
-          className="inline-block px-8 py-3.5 rounded-xl text-white font-semibold text-sm tracking-wide transition-all hover:shadow-xl"
-          style={{ background: sol.accent, boxShadow: `0 4px 20px ${sol.accent}40` }}>
+
+        <motion.a
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1 }}
+          href="/#contact"
+          onClick={onClose}
+          className="shimmer-btn inline-block px-10 py-4 rounded-2xl text-white font-bold text-sm sm:text-base tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          style={{ background: `linear-gradient(135deg, ${sol.accent}, ${sol.accent}CC)`, boxShadow: `0 8px 32px ${sol.accent}40` }}
+        >
           Build This For My Business
         </motion.a>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+          className="text-gray-500 text-xs mt-4"
+        >
+          Free discovery call - No commitment required
+        </motion.p>
       </div>
     </motion.div>
   );
 }
 
 /* ================================================================
-   Card Preview (mini flow diagram for grid cards)
+   Card Preview (enhanced with glass + glow)
    ================================================================ */
 
 export function SolutionCardPreview({ solutionId }: { solutionId: string }) {
@@ -875,40 +1005,40 @@ export function SolutionCardPreview({ solutionId }: { solutionId: string }) {
   if (!sol) return null;
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center overflow-hidden p-4">
-      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${sol.accent}08, ${sol.accent}15)` }} />
+    <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0"
+        style={{ background: `radial-gradient(ellipse at center, ${sol.accent}12, transparent 70%)` }} />
 
       {/* Mini flow preview */}
-      <div className="relative flex items-center gap-1 z-10">
+      <div className="relative flex items-center gap-1.5 z-10">
         {sol.stages.slice(0, 4).map((stage, i) => (
-          <div key={i} className="flex items-center gap-1">
-            <div className="w-16 h-16 rounded-lg border flex flex-col items-center justify-center gap-0.5"
+          <div key={i} className="flex items-center gap-1.5">
+            <div className="w-[62px] h-[62px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all duration-300"
               style={{
-                background: i === 0 ? `${sol.accent}15` : "rgba(14,42,66,0.6)",
-                borderColor: i === 0 ? `${sol.accent}40` : "rgba(255,255,255,0.06)",
+                background: i === 0 ? `${sol.accent}18` : "rgba(255,255,255,0.03)",
+                border: `1px solid ${i === 0 ? `${sol.accent}35` : "rgba(255,255,255,0.06)"}`,
+                boxShadow: i === 0 ? `0 0 16px ${sol.accent}15` : "none",
               }}>
-              <div style={{ color: i === 0 ? sol.accent : "#6B7280" }} className="scale-75">
-                {stage.icon}
-              </div>
-              <span className="text-[7px] text-gray-400 leading-tight text-center px-0.5">{stage.title}</span>
+              <div style={{ color: i === 0 ? sol.accent : "#6B7280" }} className="scale-[0.7]">{stage.icon}</div>
+              <span className="text-[6.5px] text-gray-500 leading-tight text-center px-0.5 font-medium">{stage.title}</span>
             </div>
             {i < 3 && (
-              <svg width="12" height="8" viewBox="0 0 12 8" className="flex-shrink-0">
-                <line x1="0" y1="4" x2="8" y2="4" stroke={sol.accent} strokeWidth="1" strokeOpacity="0.4" />
-                <polygon points="7,1.5 12,4 7,6.5" fill={sol.accent} fillOpacity="0.4" />
+              <svg width="14" height="8" viewBox="0 0 14 8" className="flex-shrink-0">
+                <line x1="0" y1="4" x2="9" y2="4" stroke={sol.accent} strokeWidth="1.5" strokeOpacity="0.3" strokeDasharray="2 2" />
+                <polygon points="8,1.5 14,4 8,6.5" fill={sol.accent} fillOpacity="0.35" />
               </svg>
             )}
           </div>
         ))}
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-card via-card/80 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-card via-card/80 to-transparent" />
     </div>
   );
 }
 
 /* ================================================================
-   Export metadata for demos page
+   Exports
    ================================================================ */
 
 export interface SolutionMeta {

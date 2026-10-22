@@ -48,6 +48,11 @@ interface Feature {
   desc: string;
 }
 
+interface ImpactMetric {
+  value: string;
+  label: string;
+}
+
 interface PowerAppDef {
   id: string;
   title: string;
@@ -59,6 +64,9 @@ interface PowerAppDef {
   annotations: Annotation[];
   features: Feature[];
   tags: string[];
+  metrics: ImpactMetric[];
+  problem: string;
+  solution: string;
 }
 
 /* ================================================================
@@ -383,6 +391,13 @@ const powerApps: PowerAppDef[] = [
     accent: "#7C3AED",
     accentBg: "#EDE9FE",
     tags: ["HR", "Onboarding", "Workflows", "Approvals"],
+    metrics: [
+      { value: "65%", label: "Faster Onboarding" },
+      { value: "0", label: "Paper Forms" },
+      { value: "100%", label: "Audit Trail" },
+    ],
+    problem: "New hires get lost in scattered emails, paper forms, and manual checklists. Managers forget follow-ups. IT equipment arrives late. Nobody knows the real onboarding status.",
+    solution: "Every new hire gets a digital checklist that updates in real time. Documents upload securely. Approvals route automatically. Managers see exactly where every onboarding stands.",
     screens: [
       {
         label: "Dashboard",
@@ -491,6 +506,13 @@ const powerApps: PowerAppDef[] = [
     accent: "#059669",
     accentBg: "#D1FAE5",
     tags: ["Field Service", "Inspections", "Mobile", "Offline"],
+    metrics: [
+      { value: "3x", label: "More Inspections/Day" },
+      { value: "100%", label: "Offline Capable" },
+      { value: "1 Tap", label: "PDF Reports" },
+    ],
+    problem: "Inspectors carry clipboards and paper forms. Photos get lost. Reports take days to write. Data never makes it into a system anyone can query.",
+    solution: "Inspectors complete digital checklists on their phone, even offline. Photos are GPS-tagged automatically. PDF reports generate with one tap. Everything syncs when connected.",
     screens: [
       {
         label: "Sites",
@@ -601,6 +623,13 @@ const powerApps: PowerAppDef[] = [
     accent: "#2563EB",
     accentBg: "#DBEAFE",
     tags: ["Finance", "Expenses", "Approvals", "Budgets"],
+    metrics: [
+      { value: "80%", label: "Less Processing Time" },
+      { value: "99%", label: "Policy Compliance" },
+      { value: "Real-time", label: "Budget Visibility" },
+    ],
+    problem: "Receipts pile up in drawers. Expense reports take hours to fill out. Managers approve without checking policy. Finance has no real-time view of spending.",
+    solution: "Snap a photo of the receipt. AI extracts the data. Policy rules validate automatically. The right manager approves with one tap. Budgets update in real time.",
     screens: [
       {
         label: "Dashboard",
@@ -705,6 +734,13 @@ const powerApps: PowerAppDef[] = [
     accent: "#EA580C",
     accentBg: "#FED7AA",
     tags: ["Assets", "Equipment", "Maintenance", "QR Codes"],
+    metrics: [
+      { value: "100%", label: "Asset Visibility" },
+      { value: "40%", label: "Less Downtime" },
+      { value: "Full", label: "Audit Trail" },
+    ],
+    problem: "Equipment goes missing. Nobody knows who has what. Maintenance gets skipped. Depreciation is tracked in spreadsheets that are always out of date.",
+    solution: "Scan a QR code to see everything about any asset instantly. Maintenance alerts fire before deadlines. Check-in/out creates a complete custody chain. Depreciation calculates automatically.",
     screens: [
       {
         label: "Registry",
@@ -815,6 +851,13 @@ const powerApps: PowerAppDef[] = [
     accent: "#E11D48",
     accentBg: "#FFE4E6",
     tags: ["IT Support", "Ticketing", "SLA", "Knowledge Base"],
+    metrics: [
+      { value: "45%", label: "Faster Resolution" },
+      { value: "40%", label: "Fewer Repeat Tickets" },
+      { value: "99.5%", label: "SLA Compliance" },
+    ],
+    problem: "Support requests arrive by email, chat, and hallway conversations. Nothing is tracked consistently. SLAs breach silently. The same questions get answered over and over.",
+    solution: "Every request becomes a tracked ticket with SLA timers. Auto-routing assigns the right person. A knowledge base answers common questions before they become tickets.",
     screens: [
       {
         label: "Board",
@@ -972,6 +1015,67 @@ function FeatureIcon({ accent }: { accent: string }) {
 }
 
 /* ================================================================
+   Floating Orbs + Impact Metrics + Problem/Solution (shared)
+   ================================================================ */
+
+function FloatingOrbs({ accent }: { accent: string }) {
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.07] orb-drift-1" style={{ background: accent }} />
+      <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-[0.05] orb-drift-2" style={{ background: accent }} />
+      <div className="absolute top-[60%] left-[50%] w-[300px] h-[300px] rounded-full blur-[80px] opacity-[0.04] orb-drift-3" style={{ background: accent }} />
+    </div>
+  );
+}
+
+function ImpactMetrics({ metrics, accent }: { metrics: ImpactMetric[]; accent: string }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+      className="flex flex-wrap justify-center gap-4 sm:gap-6 max-w-3xl mx-auto mb-10">
+      {metrics.map((m, i) => (
+        <motion.div key={i} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 + i * 0.12, type: "spring", stiffness: 200, damping: 15 }}
+          className="glass-strong rounded-2xl px-6 sm:px-8 py-4 sm:py-5 text-center min-w-[120px] hover:scale-105 transition-transform duration-300">
+          <div className="text-2xl sm:text-3xl font-bold mb-1 gradient-text"
+            style={{ backgroundImage: `linear-gradient(135deg, ${accent}, white)` }}>{m.value}</div>
+          <div className="text-[11px] sm:text-xs text-gray-400 uppercase tracking-wider font-medium">{m.label}</div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
+function ProblemSolution({ problem, solution, accent }: { problem: string; solution: string; accent: string }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
+      className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="glass rounded-2xl p-6 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full bg-red-500/60 rounded-r" />
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-red-500/10 flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </div>
+            <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Without This</span>
+          </div>
+          <p className="text-gray-400 text-sm leading-relaxed">{problem}</p>
+        </div>
+        <div className="glass rounded-2xl p-6 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full rounded-r" style={{ background: `${accent}90` }} />
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${accent}15` }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: accent }}>With Nurnex</span>
+          </div>
+          <p className="text-gray-300 text-sm leading-relaxed">{solution}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ================================================================
    Main Showcase View (renders inside modal)
    ================================================================ */
 
@@ -1005,48 +1109,43 @@ export function PowerAppShowcaseView({ appId, onClose }: { appId: string; onClos
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-[100] bg-[#050A12] overflow-y-auto"
     >
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className="fixed top-4 right-4 z-[110] text-muted hover:text-white transition-colors p-2 bg-card/50 rounded-full backdrop-blur-sm"
-        aria-label="Close"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <FloatingOrbs accent={app.accent} />
+
+      {/* Close */}
+      <button onClick={onClose}
+        className="fixed top-4 right-4 z-[110] glass rounded-full p-2.5 text-gray-400 hover:text-white transition-colors"
+        aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M18 6L6 18M6 6l12 12" />
         </svg>
       </button>
 
-      {/* Header badge */}
-      <div className="pt-8 sm:pt-12 pb-6 text-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium border mb-4"
-          style={{ background: `${app.accent}15`, borderColor: `${app.accent}30`, color: app.accent }}
-        >
+      {/* Hero */}
+      <div className="relative z-10 pt-10 sm:pt-14 pb-4 text-center px-4">
+        <motion.div initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 glass rounded-full px-5 py-2 text-xs font-semibold mb-5"
+          style={{ color: app.accent, borderColor: `${app.accent}25` }}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
             <rect x="5" y="2" width="14" height="20" rx="2" /><path d="M12 18h.01" />
           </svg>
           Power Apps
         </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2"
-        >
+        <motion.h1 initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 gradient-text"
+          style={{ backgroundImage: `linear-gradient(135deg, white 30%, ${app.accent})` }}>
           {app.title}
         </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-muted text-base sm:text-lg max-w-xl mx-auto"
-        >
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+          className="text-gray-400 text-lg sm:text-xl max-w-xl mx-auto">
           {app.subtitle}
         </motion.p>
+      </div>
+
+      {/* Impact Metrics */}
+      <div className="relative z-10">
+        <ImpactMetrics metrics={app.metrics} accent={app.accent} />
       </div>
 
       {/* ?? Phone + Annotations ??????????????????????????? */}
@@ -1115,54 +1214,50 @@ export function PowerAppShowcaseView({ appId, onClose }: { appId: string; onClos
           </div>
         </div>
 
-        {/* Mobile annotations (below phone) */}
-        <div className="lg:hidden mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 px-2">
+        {/* Mobile annotations */}
+        <div className="lg:hidden mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
           {app.annotations.map((a, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-              className="flex items-start gap-3 bg-card/50 rounded-xl p-4 border border-border/50"
-            >
+            <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.08 }}
+              className="glass rounded-xl p-4 flex items-start gap-3 hover:scale-[1.02] transition-transform">
               <div className="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1" style={{ background: app.accent }} />
               <div>
-                <div className="text-white text-sm font-semibold">{a.label}</div>
-                <div className="text-muted text-xs mt-0.5">{a.desc}</div>
+                <div className="text-white text-sm font-bold">{a.label}</div>
+                <div className="text-gray-400 text-xs mt-0.5">{a.desc}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* ?? Features Grid ????????????????????????????????? */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="font-display text-2xl font-bold text-white text-center mb-8"
-        >
+      {/* Problem / Solution */}
+      <div className="relative z-10">
+        <ProblemSolution problem={app.problem} solution={app.solution} accent={app.accent} />
+      </div>
+
+      {/* Features */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
+        <motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+          className="font-display text-2xl sm:text-3xl font-bold text-white text-center mb-10">
           Key Capabilities
         </motion.h2>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {app.features.map((f, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 + i * 0.08 }}
-              className="bg-card/60 border border-border/50 rounded-xl p-4 hover:border-opacity-100 transition-all"
-              style={{ ["--tw-border-opacity" as string]: 0.5 }}
-              onMouseEnter={(e) => { (e.currentTarget.style.borderColor) = `${app.accent}40`; }}
-              onMouseLeave={(e) => { (e.currentTarget.style.borderColor) = ""; }}
-            >
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75 + i * 0.07 }}
+              className="glass rounded-2xl p-5 group hover:scale-[1.03] transition-all duration-300 cursor-default"
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${app.accent}40`; e.currentTarget.style.boxShadow = `0 4px 20px ${app.accent}15`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; e.currentTarget.style.boxShadow = ""; }}>
               <div className="flex items-start gap-3">
-                <FeatureIcon accent={app.accent} />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: `${app.accent}12` }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={app.accent} strokeWidth="2.5">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </div>
                 <div>
-                  <div className="text-white text-sm font-semibold">{f.label}</div>
-                  <div className="text-muted text-xs mt-0.5 leading-relaxed">{f.desc}</div>
+                  <div className="text-white text-sm font-bold">{f.label}</div>
+                  <div className="text-gray-400 text-xs mt-1 leading-relaxed">{f.desc}</div>
                 </div>
               </div>
             </motion.div>
@@ -1170,28 +1265,22 @@ export function PowerAppShowcaseView({ appId, onClose }: { appId: string; onClos
         </div>
       </div>
 
-      {/* ?? Description + CTA ????????????????????????????? */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16 text-center">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="text-muted text-sm sm:text-base leading-relaxed mb-8"
-        >
+      {/* CTA */}
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-14 mb-20 text-center">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
+          className="text-gray-400 text-sm sm:text-base leading-relaxed mb-10">
           {app.description}
         </motion.p>
-
-        <motion.a
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          href="/#contact"
-          onClick={onClose}
-          className="inline-block px-8 py-3.5 rounded-xl text-white font-semibold text-sm tracking-wide transition-all hover:shadow-xl"
-          style={{ background: app.accent, boxShadow: `0 4px 20px ${app.accent}40` }}
-        >
+        <motion.a initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
+          href="/#contact" onClick={onClose}
+          className="shimmer-btn inline-block px-10 py-4 rounded-2xl text-white font-bold text-sm sm:text-base tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          style={{ background: `linear-gradient(135deg, ${app.accent}, ${app.accent}CC)`, boxShadow: `0 8px 32px ${app.accent}40` }}>
           Build This For My Business
         </motion.a>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
+          className="text-gray-500 text-xs mt-4">
+          Free discovery call - No commitment required
+        </motion.p>
       </div>
     </motion.div>
   );
@@ -1210,7 +1299,7 @@ export function PowerAppCardPreview({ appId }: { appId: string }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${app.accent}08, ${app.accent}20)` }} />
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, ${app.accent}15, transparent 70%)` }} />
 
       {/* Mini phone preview */}
       <div className="relative transform scale-[0.42] origin-center">

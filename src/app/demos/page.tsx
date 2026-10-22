@@ -291,7 +291,7 @@ export default function DemosPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 className={
-                  "group relative bg-card border border-border rounded-2xl overflow-hidden transition-all hover:border-copper/40 hover:shadow-lg hover:shadow-copper/5 " +
+                  "group relative bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300 hover:border-copper/40 hover:shadow-lg hover:shadow-copper/5 hover:scale-[1.02] card-hover-shimmer " +
                   (demo.comingSoon ? "opacity-60" : "cursor-pointer")
                 }
                 onClick={() => !demo.comingSoon && setActiveDemo(demo)}
