@@ -3,9 +3,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import {
+  PowerAppShowcaseView,
+  PowerAppCardPreview,
+  powerAppMetas,
+} from "@/components/power-app-showcase";
+
+/* ================================================================
+   Demo Types & Data
+   ================================================================ */
 
 interface Demo {
   id: string;
@@ -15,12 +23,14 @@ interface Demo {
   categoryLabel: string;
   description: string;
   embedUrl: string | null;
-  embedType: "powerbi" | "video" | "image";
+  embedType: "powerbi" | "power-app-showcase" | "video" | "image";
   tags: string[];
   comingSoon?: boolean;
+  powerAppId?: string;
 }
 
 const demos: Demo[] = [
+  /* ── Power BI Demos ─────────────────────────────────── */
   {
     id: "corporate-financial-report",
     title: "Corporate Financial Report",
@@ -32,7 +42,8 @@ const demos: Demo[] = [
       "Analyze revenue, expenses, margins, and trends across business units. " +
       "See how executive dashboards turn financial data into actionable insights " +
       "with drill-through, KPI cards, and comparative analysis.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDllYzViMWItYjcxYS00MzM0LWE4NDEtZTYxNDU3YThhMGRiIiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedUrl:
+      "https://app.powerbi.com/view?r=eyJrIjoiMDllYzViMWItYjcxYS00MzM0LWE4NDEtZTYxNDU3YThhMGRiIiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Finance", "Revenue", "KPIs", "Drill-Through"],
   },
@@ -47,7 +58,8 @@ const demos: Demo[] = [
       "gross margin trends, and monthly performance tracking. " +
       "Interactive filters for date range, number format, and granularity " +
       "help you drill into the data that matters.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMDE4MTg3NTctY2E0Mi00YmVkLThlNDEtMTUxNWE4NzEyMzM1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedUrl:
+      "https://app.powerbi.com/view?r=eyJrIjoiMDE4MTg3NTctY2E0Mi00YmVkLThlNDEtMTUxNWE4NzEyMzM1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Profitability", "Revenue", "Expenses", "Margins"],
   },
@@ -61,7 +73,8 @@ const demos: Demo[] = [
       "Track warehouse and store operations with damage and return analysis. " +
       "Monitor supply chain KPIs, identify problem areas, and optimize logistics. " +
       "Interactive visuals with drill-through for detailed investigation.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiN2FmNjY1YWUtYzRkOC00ZDdhLTk3YzUtNTkwZTQyOGIxNjE5IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedUrl:
+      "https://app.powerbi.com/view?r=eyJrIjoiN2FmNjY1YWUtYzRkOC00ZDdhLTk3YzUtNTkwZTQyOGIxNjE5IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Supply Chain", "Logistics", "Warehouse", "Returns"],
   },
@@ -75,7 +88,8 @@ const demos: Demo[] = [
       "A corporate-style manufacturing analytics dashboard with overview, " +
       "factory, and production views. Track operational KPIs, equipment utilization, " +
       "and production efficiency across your manufacturing operations.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiODIxNzQwZWMtOTFhOC00NzI2LWE5NzEtODUyM2E3YWU5MGU1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedUrl:
+      "https://app.powerbi.com/view?r=eyJrIjoiODIxNzQwZWMtOTFhOC00NzI2LWE5NzEtODUyM2E3YWU5MGU1IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Manufacturing", "Production", "Factory", "Operations"],
   },
@@ -89,11 +103,32 @@ const demos: Demo[] = [
       "A sleek, modern dashboard template with gradient lime styling. " +
       "See how clean design and thoughtful layout transform data presentation. " +
       "Perfect starting point for client-facing executive dashboards.",
-    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiN2VlNjhkZDItYTdmNC00MWFmLWJmNzQtZGZlNWZjNzZlMmE4IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
+    embedUrl:
+      "https://app.powerbi.com/view?r=eyJrIjoiN2VlNjhkZDItYTdmNC00MWFmLWJmNzQtZGZlNWZjNzZlMmE4IiwidCI6Ijg4NzdlNTYyLTIxNTAtNDczMC04ZjMwLTg4YTEwMDFkNjY1ZSJ9",
     embedType: "powerbi",
     tags: ["Template", "Design", "Executive", "Modern"],
   },
+
+  /* ── Power Apps Showcases ───────────────────────────── */
+  ...powerAppMetas.map(
+    (app): Demo => ({
+      id: app.id,
+      title: app.title,
+      subtitle: app.subtitle,
+      category: "power-apps",
+      categoryLabel: "Power Apps",
+      description: "",
+      embedUrl: null,
+      embedType: "power-app-showcase",
+      tags: app.tags,
+      powerAppId: app.id,
+    })
+  ),
 ];
+
+/* ================================================================
+   Category Styling
+   ================================================================ */
 
 const categoryColors: Record<string, string> = {
   "power-bi": "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
@@ -134,11 +169,18 @@ const categoryIcons: Record<string, React.ReactNode> = {
   ),
 };
 
+/* ================================================================
+   Page Component
+   ================================================================ */
+
 export default function DemosPage() {
   const [activeDemo, setActiveDemo] = useState<Demo | null>(null);
   const [filter, setFilter] = useState<string>("all");
 
-  const categories = ["all", ...Array.from(new Set(demos.map((d) => d.category)))];
+  const categories = [
+    "all",
+    ...Array.from(new Set(demos.map((d) => d.category))),
+  ];
 
   const filtered =
     filter === "all" ? demos : demos.filter((d) => d.category === filter);
@@ -153,7 +195,14 @@ export default function DemosPage() {
             href="/"
             className="inline-flex items-center gap-2 text-muted hover:text-copper transition-colors text-sm mb-8"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Back to home
@@ -163,8 +212,8 @@ export default function DemosPage() {
             Interactive Demos
           </h1>
           <p className="text-muted text-lg sm:text-xl max-w-2xl leading-relaxed">
-            Explore live dashboards and solution templates we build for clients.
-            Click any demo to interact with it directly in your browser.
+            Explore live dashboards, app showcases, and solution templates we
+            build for clients. Click any demo to interact with it directly.
           </p>
         </section>
 
@@ -212,7 +261,7 @@ export default function DemosPage() {
               >
                 {/* Preview area */}
                 <div className="relative h-48 bg-ink-navy/50 flex items-center justify-center overflow-hidden">
-                  {demo.embedUrl && demo.embedType === "powerbi" ? (
+                  {demo.embedType === "powerbi" && demo.embedUrl ? (
                     <div className="absolute inset-0 pointer-events-none">
                       <iframe
                         title={demo.title + " preview"}
@@ -223,6 +272,8 @@ export default function DemosPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
                     </div>
+                  ) : demo.embedType === "power-app-showcase" && demo.powerAppId ? (
+                    <PowerAppCardPreview appId={demo.powerAppId} />
                   ) : (
                     <div className="flex flex-col items-center gap-3 text-muted/40">
                       <div className="w-16 h-16 rounded-xl bg-border/30 flex items-center justify-center">
@@ -268,7 +319,9 @@ export default function DemosPage() {
 
                 {!demo.comingSoon && (
                   <div className="absolute top-4 right-4 bg-copper/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                    Open Demo
+                    {demo.embedType === "power-app-showcase"
+                      ? "View Showcase"
+                      : "Open Demo"}
                   </div>
                 )}
               </motion.div>
@@ -280,11 +333,12 @@ export default function DemosPage() {
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
           <div className="bg-card border border-border rounded-2xl p-8 sm:p-12 text-center">
             <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-3">
-              Want a dashboard like this for your business?
+              Want solutions like these for your business?
             </h2>
             <p className="text-muted text-sm sm:text-base max-w-xl mx-auto mb-6">
               We build custom Power BI dashboards, Power Apps, and automations
-              tailored to your data and workflows. Start with a free discovery call.
+              tailored to your data and workflows. Start with a free discovery
+              call.
             </p>
             <Link
               href="/#contact"
@@ -297,9 +351,18 @@ export default function DemosPage() {
       </main>
       <SiteFooter />
 
-      {/* Fullscreen demo modal */}
+      {/* ── Fullscreen Modals ─────────────────────────── */}
       <AnimatePresence>
-        {activeDemo && (
+        {/* Power Apps Showcase Modal */}
+        {activeDemo && activeDemo.embedType === "power-app-showcase" && activeDemo.powerAppId && (
+          <PowerAppShowcaseView
+            appId={activeDemo.powerAppId}
+            onClose={() => setActiveDemo(null)}
+          />
+        )}
+
+        {/* Power BI / Standard Modal */}
+        {activeDemo && activeDemo.embedType !== "power-app-showcase" && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -327,7 +390,14 @@ export default function DemosPage() {
                 className="text-muted hover:text-white transition-colors p-2"
                 aria-label="Close demo"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
