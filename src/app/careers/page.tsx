@@ -110,7 +110,7 @@ const jobs: Job[] = [
     location: "Warsaw, Poland (Remote)",
     type: "Full-time",
     posted: "2026-07-22",
-    status: "closed",
+    status: "open",
     description: "Support our European client engagements with data analysis, dashboard development, and reporting. Great opportunity for early-career analysts to grow in a consulting environment.",
     responsibilities: [
       "Build and maintain Power BI reports and dashboards",
@@ -182,7 +182,7 @@ const jobs: Job[] = [
     location: "Boston, MA (Hybrid)",
     type: "Contract",
     posted: "2026-09-15",
-    status: "open",
+    status: "closed",
     description: "Lead complex data platform implementations using Microsoft Fabric and Databricks for our largest US clients. 6-month contract with potential to convert to full-time.",
     responsibilities: [
       "Design end-to-end data platform architectures using Fabric and Databricks",
