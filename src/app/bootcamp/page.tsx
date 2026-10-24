@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import SiteHeader from "@/components/site-header";
@@ -110,12 +110,33 @@ export default function BootcampPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<"3" | "6">("6");
 
+  /* Countdown to enrollment deadline: Dec 15, 2026 at midnight EST */
+  const enrollDeadline = new Date("2026-12-15T00:00:00-05:00").getTime();
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const tick = () => {
+      const diff = Math.max(0, enrollDeadline - Date.now());
+      setTimeLeft({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff % 86400000) / 3600000),
+        minutes: Math.floor((diff % 3600000) / 60000),
+        seconds: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [enrollDeadline]);
+
   return (
     <>
       <SiteHeader />
       <main className="min-h-screen bg-background">
 
-        {/* ?? Hero ???????????????????????????????????????? */}
+        {/* Hero */}
         <section className="relative pt-36 sm:pt-44 pb-20 sm:pb-28 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(196,120,43,0.1)_0%,_transparent_50%)]" />
           <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-copper/5 blur-[120px]" />
@@ -125,7 +146,7 @@ export default function BootcampPage() {
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold mb-6 bg-copper/10 border border-copper/20 text-copper">
               <span className="w-2 h-2 rounded-full bg-copper animate-pulse" />
-              Now Enrolling &#8212; Limited Seats
+              Coming Soon &#8212; Classes Start January 1, 2027
             </motion.div>
 
             <motion.h1 variants={fadeUp} initial="hidden" animate="visible" custom={1}
@@ -139,11 +160,45 @@ export default function BootcampPage() {
               Graduate with the skills, portfolio, and certificate companies hire for.
             </motion.p>
 
+            {/* Countdown */}
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}
+              className="mb-10">
+              <p className="text-muted text-sm mb-4 tracking-wide uppercase">Enrollment closes December 15, 2026</p>
+              <div className="flex items-center justify-center gap-3 sm:gap-5">
+                {mounted ? (
+                  [
+                    { value: timeLeft.days, label: "Days" },
+                    { value: timeLeft.hours, label: "Hours" },
+                    { value: timeLeft.minutes, label: "Minutes" },
+                    { value: timeLeft.seconds, label: "Seconds" },
+                  ].map((unit) => (
+                    <div key={unit.label} className="flex flex-col items-center">
+                      <div className="bg-card border border-border rounded-xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                        <span className="font-display text-2xl sm:text-3xl font-bold text-copper tabular-nums">
+                          {String(unit.value).padStart(2, "0")}
+                        </span>
+                      </div>
+                      <span className="text-muted text-[10px] sm:text-xs mt-1.5 uppercase tracking-wider">{unit.label}</span>
+                    </div>
+                  ))
+                ) : (
+                  [0, 1, 2, 3].map((i) => (
+                    <div key={i} className="flex flex-col items-center">
+                      <div className="bg-card border border-border rounded-xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                        <span className="font-display text-2xl sm:text-3xl font-bold text-copper">--</span>
+                      </div>
+                      <span className="text-muted text-[10px] sm:text-xs mt-1.5 uppercase tracking-wider">{["Days", "Hours", "Minutes", "Seconds"][i]}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </motion.div>
+
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}
               className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#pricing"
+              <a href="/#contact"
                 className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
-                View Programmes & Pricing
+                Reserve Your Spot
               </a>
               <a href="#syllabus"
                 className="border border-border text-muted hover:text-white hover:border-copper/40 px-8 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
@@ -429,13 +484,16 @@ export default function BootcampPage() {
           <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}>
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Start Your Data Career?</h2>
-              <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
-                Limited to 10&#8211;15 students per group. Apply now to secure your seat in the next cohort.
+              <p className="text-muted text-lg mb-3 max-w-xl mx-auto">
+                Limited to 10&#8211;15 students per group. Reserve your seat before enrollment closes.
+              </p>
+              <p className="text-copper font-semibold text-base mb-10">
+                Classes start January 1, 2027 &#8212; Enrollment closes December 15, 2026
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
                 <a href="/#contact"
                   className="bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
-                  Apply Now
+                  Reserve Your Spot
                 </a>
                 <a href="#syllabus"
                   className="border border-border text-muted hover:text-white hover:border-copper/40 px-10 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
