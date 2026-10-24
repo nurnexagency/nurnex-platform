@@ -4,15 +4,15 @@
   --ink-navy: #0A1F33;
   --copper: #C4782B;
   --paper: #F7F4EF;
-  --dark-bg: #0F2B44;
-  --card-bg: #143654;
-  --muted-text: #94A9BF;
+  --dark-bg: #162F4A;
+  --card-bg: #1C3A5C;
+  --muted-text: #9BB1C8;
   --white: #FFFFFF;
 
   --background: var(--dark-bg);
   --foreground: var(--white);
   --card: var(--card-bg);
-  --border: #1C4266;
+  --border: #264D73;
   --primary: var(--ink-navy);
   --accent: var(--copper);
   --muted: var(--muted-text);
