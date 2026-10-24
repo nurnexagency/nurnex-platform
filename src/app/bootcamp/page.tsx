@@ -145,9 +145,9 @@ export default function BootcampPage() {
                 className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
                 View Programmes & Pricing
               </a>
-              <a href="/Nurnex_Bootcamp_Syllabus.pdf" target="_blank" rel="noopener"
+              <a href="#syllabus"
                 className="border border-border text-muted hover:text-white hover:border-copper/40 px-8 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
-                Download Full Syllabus (PDF)
+                See What You Will Learn
               </a>
             </motion.div>
           </div>
@@ -194,7 +194,7 @@ export default function BootcampPage() {
         </section>
 
         {/* ?? What You Will Learn (Syllabus Overview) ????? */}
-        <section className="py-20 sm:py-28 bg-card/30">
+        <section id="syllabus" className="py-20 sm:py-28 bg-card/30">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} className="text-center mb-14">
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">What You Will Learn</h2>
@@ -249,11 +249,7 @@ export default function BootcampPage() {
 
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
               className="text-center mt-10">
-              <a href="/Nurnex_Bootcamp_Syllabus.pdf" target="_blank" rel="noopener"
-                className="inline-flex items-center gap-2 text-copper hover:text-white transition-colors text-sm font-medium">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="M7 10l5 5 5-5" /><path d="M12 15V3" /></svg>
-                Download the full week-by-week syllabus (PDF)
-              </a>
+              <p className="text-muted text-sm">Full week-by-week breakdown available upon request. <a href="/#contact" className="text-copper hover:text-white transition-colors">Contact us</a> for details.</p>
             </motion.div>
           </div>
         </section>
@@ -441,9 +437,9 @@ export default function BootcampPage() {
                   className="bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
                   Apply Now
                 </a>
-                <a href="/Nurnex_Bootcamp_Syllabus.pdf" target="_blank" rel="noopener"
+                <a href="#syllabus"
                   className="border border-border text-muted hover:text-white hover:border-copper/40 px-10 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
-                  Download Syllabus
+                  View Syllabus
                 </a>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-muted">
