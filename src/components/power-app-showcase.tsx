@@ -234,15 +234,16 @@ function RowRenderer({ row, accent }: { row: ScreenRow; accent: string }) {
           <div className="relative w-20 h-20">
             <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
               {(() => {
-                let offset = 0;
+                const offsets = row.segments.reduce<number[]>((acc, seg, i) => {
+                  acc.push(i === 0 ? 0 : acc[i - 1] + (row.segments[i - 1].value / 100) * 100);
+                  return acc;
+                }, []);
                 return row.segments.map((seg, i) => {
                   const dash = (seg.value / 100) * 100;
-                  const el = (
+                  return (
                     <circle key={i} cx="18" cy="18" r="15.9" fill="none" strokeWidth="3.5"
-                      stroke={seg.color} strokeDasharray={`${dash} ${100 - dash}`} strokeDashoffset={`-${offset}`} />
+                      stroke={seg.color} strokeDasharray={`${dash} ${100 - dash}`} strokeDashoffset={`-${offsets[i]}`} />
                   );
-                  offset += dash;
-                  return el;
                 });
               })()}
             </svg>

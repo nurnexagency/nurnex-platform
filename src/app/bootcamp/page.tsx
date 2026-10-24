@@ -112,23 +112,21 @@ export default function BootcampPage() {
 
   /* Countdown to enrollment deadline: Dec 15, 2026 at midnight EST */
   const enrollDeadline = new Date("2026-12-15T00:00:00-05:00").getTime();
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [mounted, setMounted] = useState(false);
+  const [countdown, setCountdown] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
 
   useEffect(() => {
-    setMounted(true);
     const tick = () => {
       const diff = Math.max(0, enrollDeadline - Date.now());
-      setTimeLeft({
+      setCountdown({
         days: Math.floor(diff / 86400000),
         hours: Math.floor((diff % 86400000) / 3600000),
         minutes: Math.floor((diff % 3600000) / 60000),
         seconds: Math.floor((diff % 60000) / 1000),
       });
     };
-    tick();
+    const first = setTimeout(tick, 0);
     const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    return () => { clearTimeout(first); clearInterval(id); };
   }, [enrollDeadline]);
 
   return (
@@ -165,41 +163,38 @@ export default function BootcampPage() {
               className="mb-10">
               <p className="text-muted text-sm mb-4 tracking-wide uppercase">Enrollment closes December 15, 2026</p>
               <div className="flex items-center justify-center gap-3 sm:gap-5">
-                {mounted ? (
-                  [
-                    { value: timeLeft.days, label: "Days" },
-                    { value: timeLeft.hours, label: "Hours" },
-                    { value: timeLeft.minutes, label: "Minutes" },
-                    { value: timeLeft.seconds, label: "Seconds" },
-                  ].map((unit) => (
-                    <div key={unit.label} className="flex flex-col items-center">
-                      <div className="bg-card border border-border rounded-xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
-                        <span className="font-display text-2xl sm:text-3xl font-bold text-copper tabular-nums">
-                          {String(unit.value).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <span className="text-muted text-[10px] sm:text-xs mt-1.5 uppercase tracking-wider">{unit.label}</span>
+                {(countdown
+                  ? [
+                      { value: countdown.days, label: "Days" },
+                      { value: countdown.hours, label: "Hours" },
+                      { value: countdown.minutes, label: "Minutes" },
+                      { value: countdown.seconds, label: "Seconds" },
+                    ]
+                  : [
+                      { value: null, label: "Days" },
+                      { value: null, label: "Hours" },
+                      { value: null, label: "Minutes" },
+                      { value: null, label: "Seconds" },
+                    ]
+                ).map((unit) => (
+                  <div key={unit.label} className="flex flex-col items-center">
+                    <div className="bg-card border border-border rounded-xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                      <span className="font-display text-2xl sm:text-3xl font-bold text-copper tabular-nums">
+                        {unit.value !== null ? String(unit.value).padStart(2, "0") : "--"}
+                      </span>
                     </div>
-                  ))
-                ) : (
-                  [0, 1, 2, 3].map((i) => (
-                    <div key={i} className="flex flex-col items-center">
-                      <div className="bg-card border border-border rounded-xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
-                        <span className="font-display text-2xl sm:text-3xl font-bold text-copper">--</span>
-                      </div>
-                      <span className="text-muted text-[10px] sm:text-xs mt-1.5 uppercase tracking-wider">{["Days", "Hours", "Minutes", "Seconds"][i]}</span>
-                    </div>
-                  ))
-                )}
+                    <span className="text-muted text-[10px] sm:text-xs mt-1.5 uppercase tracking-wider">{unit.label}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}
               className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="/#contact"
+              <Link href="/#contact"
                 className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
                 Reserve Your Spot
-              </a>
+              </Link>
               <a href="#syllabus"
                 className="border border-border text-muted hover:text-white hover:border-copper/40 px-8 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
                 See What You Will Learn
@@ -304,7 +299,7 @@ export default function BootcampPage() {
 
             <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
               className="text-center mt-10">
-              <p className="text-muted text-sm">Full week-by-week breakdown available upon request. <a href="/#contact" className="text-copper hover:text-white transition-colors">Contact us</a> for details.</p>
+              <p className="text-muted text-sm">Full week-by-week breakdown available upon request. <Link href="/#contact" className="text-copper hover:text-white transition-colors">Contact us</Link> for details.</p>
             </motion.div>
           </div>
         </section>
@@ -491,10 +486,10 @@ export default function BootcampPage() {
                 Classes start January 1, 2027 &#8212; Enrollment closes December 15, 2026
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                <a href="/#contact"
+                <Link href="/#contact"
                   className="bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
                   Reserve Your Spot
-                </a>
+                </Link>
                 <a href="#syllabus"
                   className="border border-border text-muted hover:text-white hover:border-copper/40 px-10 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
                   View Syllabus
