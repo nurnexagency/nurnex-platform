@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { MOTTO } from "@/lib/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_TEL } from "@/lib/contact";
+import SocialLinks from "./social-links";
 
 export default function SiteFooter() {
   const year = 2025;
@@ -78,6 +79,7 @@ export default function SiteFooter() {
               </li>
               <li className="pt-1">Boston · Warsaw · Istanbul · Baku · Dubai</li>
             </ul>
+            <SocialLinks className="mt-5" />
           </div>
         </div>
 

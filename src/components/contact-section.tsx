@@ -8,6 +8,7 @@ import {
   CONTACT_PHONE,
   CONTACT_TEL,
 } from "@/lib/contact";
+import SocialLinks from "./social-links";
 
 export default function ContactSection() {
   return (
@@ -123,6 +124,8 @@ export default function ContactSection() {
               {CONTACT_EMAIL}
             </a>
           </div>
+
+          <SocialLinks />
         </motion.div>
       </div>
     </section>
