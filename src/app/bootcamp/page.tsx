@@ -78,55 +78,6 @@ const faq = [
   { q: "How do I pay?", a: "Bank transfer (Wise, Zelle, or direct deposit). Monthly payment plans are available." },
   { q: "Will you help me find a job?", a: "Yes. Career support includes LinkedIn optimisation, resume writing, mock interviews, and recruiter introductions. Included in the 6-month programme or available as a $750 add-on for the 3-month programme." },
   { q: "How many students per class?", a: "10\u201315 maximum. Small cohorts mean more attention, more feedback, and a better learning experience." },
-  { q: "What is the Field Acceleration Program?", a: "A one-month, $400 programme: 8 live 1-hour classes (two per week) on one combined skill track, such as SQL + Power BI or Power Apps + Power Automate. It gives you a solid foundation and a method to keep learning on your own. It is not a full bootcamp." },
-  { q: "Can the Field Acceleration Program lead to work with Nurnex?", a: "Within 3 months of finishing the programme you can take the Nurnex Skills Test. Graduates who pass are considered for paid project work with Nurnex. Passing the test does not guarantee work." },
-  { q: "Do I keep access to the community after the month ends?", a: "Yes. Field Acceleration graduates stay in the Nurnex community chat, where you can post questions at any time and we reply as soon as possible." },
-];
-
-/* ================================================================
-   Field Acceleration Program
-   ================================================================ */
-const fapStats = [
-  { value: "8", label: "Live Classes" },
-  { value: "2 \u00d7 1 hr", label: "Classes Per Week" },
-  { value: "1", label: "Month" },
-  { value: "$400", label: "Per Track" },
-];
-
-const fapSteps = [
-  { title: "Pick one combo track", desc: "Two tools that are used together in real freelance and business work." },
-  { title: "8 live classes in 4 weeks", desc: "Two 1-hour classes per week in a small group, built around a real project." },
-  { title: "Own at least 50% of the skill set", desc: "You will not leave as a full professional, but with a solid working foundation and a proven method to keep teaching yourself." },
-  { title: "Stay in the community chat", desc: "After the month ends, post your questions any time with other graduates. We reply as soon as possible." },
-];
-
-const fapTracks = [
-  { name: "Data Analyst Starter", combo: "SQL + Power BI", icon: "chart",
-    who: "Freelancers who want to turn business data into dashboards.",
-    weeks: ["SQL queries, joins and aggregations on a real dataset", "Power BI data model, DAX basics and a published dashboard"] },
-  { name: "Business App Builder", combo: "Power Apps + Power Automate", icon: "rocket",
-    who: "People who want to build internal apps and automate workflows for small businesses.",
-    weeks: ["A canvas app on SharePoint lists: forms, galleries, navigation", "Approvals, notifications and scheduled flows connected to the app"] },
-  { name: "Reporting Pro", combo: "Excel + Power Query + Power BI", icon: "table",
-    who: "Office professionals ready to move from spreadsheets to automated reports.",
-    weeks: ["Power Query cleaning, merging and reusable Excel models", "Power BI reports on Excel sources with one-click refresh"] },
-  { name: "AI Automation", combo: "Power Automate + Copilot Studio", icon: "code",
-    who: "Freelancers who want to sell AI-powered automations.",
-    weeks: ["Flows, triggers and connectors across Outlook, Teams and SharePoint", "A Copilot Studio agent that answers from your documents and runs flows"] },
-  { name: "Data Engineering Starter", combo: "Python + SQL + Databricks", icon: "layers",
-    who: "Technical learners stepping into big data.",
-    weeks: ["Python and pandas for data cleaning, SQL for analysis", "Databricks: Delta tables and a bronze / silver / gold pipeline"] },
-  { name: "Fabric Fast Start", combo: "Microsoft Fabric + Power BI", icon: "cloud",
-    who: "Analysts at companies that run on Microsoft.",
-    weeks: ["Fabric lakehouse, dataflows and a first notebook", "Semantic model and a Direct Lake Power BI report"] },
-];
-
-const fapVsBootcamp = [
-  { feature: "Duration", fap: "1 month", boot: "3 or 6 months" },
-  { feature: "Live classes", fap: "8 hours", boot: "60\u2013120 hours" },
-  { feature: "Scope", fap: "One combo track", boot: "Full curriculum" },
-  { feature: "Goal", fap: "Start freelancing and keep learning", boot: "Become job-ready" },
-  { feature: "Price", fap: "$400", boot: "$2,500\u2013$5,000" },
 ];
 
 /* ================================================================
@@ -251,11 +202,11 @@ export default function BootcampPage() {
             </motion.div>
 
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={5} className="mt-8">
-              <a href="#field-acceleration"
+              <Link href="/field-acceleration"
                 className="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
                 <span className="bg-copper/15 text-copper text-xs font-semibold px-2.5 py-1 rounded-full">New</span>
                 Not ready for a bootcamp? Try the 1-month Field Acceleration Program for $400 &#8594;
-              </a>
+              </Link>
             </motion.div>
           </div>
         </section>
@@ -501,109 +452,24 @@ export default function BootcampPage() {
           </div>
         </section>
 
-        {/* Field Acceleration Program */}
-        <section id="field-acceleration" className="py-20 sm:py-28 bg-card/30 border-y border-border scroll-mt-24">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} className="text-center mb-12">
+        {/* Pointer to dedicated Field Acceleration page */}
+        <section className="py-16 sm:py-20 bg-card/30 border-y border-border">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}>
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-5 bg-copper/10 border border-copper/20 text-copper">
-                New &#8212; 1-Month Program &#183; First cohorts January 2027
+                New &#8212; 1-Month Program
               </div>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Field Acceleration Program</h2>
-              <p className="text-muted text-lg max-w-2xl mx-auto">
-                For future freelancers and fast self-learners. In one month, learn a combined skill set used in real
-                projects, get the right path from us, and keep growing on your own.
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-3">
+                Prefer a shorter start?
+              </h2>
+              <p className="text-muted text-base mb-6 max-w-xl mx-auto">
+                The Field Acceleration Program is a separate 1-month, $400 track. Pick one combo skill path
+                without committing to the full bootcamp.
               </p>
-            </motion.div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
-              {fapStats.map((s, i) => (
-                <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}
-                  className="bg-card border border-border rounded-xl p-5 text-center">
-                  <div className="text-2xl sm:text-3xl font-display font-bold text-copper">{s.value}</div>
-                  <div className="text-xs sm:text-sm text-muted mt-1">{s.label}</div>
-                </motion.div>
-              ))}
-            </div>
-
-            <h3 className="font-display text-2xl font-bold text-white mb-6 text-center">How It Works</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-              {fapSteps.map((s, i) => (
-                <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}
-                  className="bg-card border border-border rounded-xl p-5">
-                  <div className="w-8 h-8 rounded-full bg-copper/10 text-copper font-bold text-sm flex items-center justify-center mb-3">{i + 1}</div>
-                  <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
-                  <p className="text-muted text-xs leading-relaxed">{s.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-
-            <h3 className="font-display text-2xl font-bold text-white mb-2 text-center">Choose Your Combo Track</h3>
-            <p className="text-muted text-sm text-center mb-8">$400 per track &#183; 8 live classes &#183; one month</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
-              {fapTracks.map((t, i) => (
-                <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i * 0.5}
-                  className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-copper/30 transition-all hover:shadow-lg hover:shadow-copper/5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-copper/10 text-copper flex items-center justify-center flex-shrink-0">
-                      <Icon name={t.icon} />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold text-base leading-tight">{t.name}</h4>
-                      <div className="text-copper text-xs font-semibold">{t.combo}</div>
-                    </div>
-                  </div>
-                  <p className="text-muted text-sm mb-4 leading-relaxed">{t.who}</p>
-                  <div className="space-y-2 mt-auto">
-                    {t.weeks.map((w, wi) => (
-                      <div key={wi} className="flex gap-3 text-xs">
-                        <span className="text-copper font-semibold whitespace-nowrap">{wi === 0 ? "Weeks 1\u20132" : "Weeks 3\u20134"}</span>
-                        <span className="text-muted leading-relaxed">{w}</span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-              <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
-                className="bg-copper/5 border border-copper/20 rounded-2xl p-6 sm:p-8">
-                <div className="text-copper font-semibold text-sm mb-2">Path to Nurnex</div>
-                <h3 className="font-display text-xl font-bold text-white mb-3">Finish the program, pass the test, work with us</h3>
-                <p className="text-muted text-sm leading-relaxed mb-4">
-                  Within 3 months of completing the program, you can take the Nurnex Skills Test. Graduates who pass
-                  are considered for paid project work with Nurnex.
-                </p>
-                <p className="text-muted/70 text-xs">Passing the test does not guarantee work.</p>
-              </motion.div>
-
-              <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
-                className="bg-card border border-border rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-[1fr_1fr_1fr] text-sm">
-                  <div className="p-3 sm:p-4 font-semibold text-muted bg-ink-navy border-b border-border"></div>
-                  <div className="p-3 sm:p-4 font-semibold text-copper text-center bg-ink-navy border-b border-border">Field Acceleration</div>
-                  <div className="p-3 sm:p-4 font-semibold text-copper text-center bg-ink-navy border-b border-border">Bootcamp</div>
-                  {fapVsBootcamp.map((row, i) => (
-                    <div key={i} className="contents">
-                      <div className={`p-3 text-white text-xs sm:text-sm border-b border-border/50 ${i % 2 === 0 ? "bg-card" : "bg-ink-navy/30"}`}>{row.feature}</div>
-                      <div className={`p-3 text-muted text-xs text-center border-b border-border/50 ${i % 2 === 0 ? "bg-card" : "bg-ink-navy/30"}`}>{row.fap}</div>
-                      <div className={`p-3 text-muted text-xs text-center border-b border-border/50 ${i % 2 === 0 ? "bg-card" : "bg-ink-navy/30"}`}>{row.boot}</div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/#contact"
-                className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30 hover:scale-105">
-                Reserve a Track &#8212; $400
+              <Link href="/field-acceleration"
+                className="inline-flex items-center gap-2 bg-copper hover:bg-copper/90 text-white px-7 py-3.5 rounded-xl text-sm font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30">
+                View Field Acceleration Program &#8594;
               </Link>
-              <a href="mailto:bootcamp@nurnex.com?subject=Field%20Acceleration%20Program"
-                className="border border-border text-muted hover:text-white hover:border-copper/40 px-8 py-4 rounded-xl text-base font-medium tracking-wide transition-all">
-                Ask About a Track
-              </a>
             </motion.div>
           </div>
         </section>

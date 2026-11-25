@@ -44,6 +44,17 @@ const projects = [
     accent: "from-white/10 to-transparent",
   },
   {
+    client: "Voiceido",
+    category: "AI · OCR",
+    title: "Product Website",
+    description:
+      "Live product website for Voiceido — OCR AI that helps people capture, read, and understand information around them. From capture to intelligent analysis, with clear paths to add the Chrome extension and download for Mac, and privacy-first positioning for what stays on-device.",
+    stack: ["Website", "Product Positioning", "Chrome CTA", "Mac Download"],
+    support: [],
+    links: [{ label: "Live Website", href: "https://voiceido.com/" }],
+    accent: "from-copper/15 to-transparent",
+  },
+  {
     client: "Regional Operations Client",
     category: "Microsoft · Analytics",
     title: "Power BI Executive Suite + Approval Automation",
@@ -86,9 +97,9 @@ export default function PortfolioSection() {
             Selected Digital Products &amp; Microsoft Delivery
           </h2>
           <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Live websites and iOS apps we shipped, plus anonymized Microsoft
-            analytics and automation delivery. Android / Google Play builds are
-            available on request alongside iOS.
+            Live product websites and iOS apps we shipped, plus anonymized
+            Microsoft analytics and automation delivery. Android / Google Play
+            builds are available on request alongside iOS.
           </p>
         </motion.div>
 
@@ -101,7 +112,9 @@ export default function PortfolioSection() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.65, delay: i * 0.1 }}
               className={`group relative bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-copper/30 transition-all duration-300 hover:shadow-xl hover:shadow-copper/10 ${
-                i === 2 ? "lg:col-span-2 lg:max-w-2xl lg:mx-auto w-full" : ""
+                i === projects.length - 1 && projects.length % 2 === 1
+                  ? "lg:col-span-2 lg:max-w-2xl lg:mx-auto w-full"
+                  : ""
               }`}
             >
               <div
@@ -145,41 +158,43 @@ export default function PortfolioSection() {
                   </div>
                 </div>
 
-                <div className="mb-7">
-                  <p className="text-white/55 text-[11px] tracking-[0.2em] uppercase mb-2.5">
-                    Ongoing Microsoft Support
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.support.map((item) => (
-                      <span
-                        key={item}
-                        className="text-xs text-copper border border-copper/20 rounded-full px-3 py-1 bg-copper/5"
-                      >
-                        {item}
-                      </span>
-                    ))}
+                {project.support.length > 0 ? (
+                  <div className="mb-7">
+                    <p className="text-white/55 text-[11px] tracking-[0.2em] uppercase mb-2.5">
+                      Ongoing Microsoft Support
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.support.map((item) => (
+                        <span
+                          key={item}
+                          className="text-xs text-copper border border-copper/20 rounded-full px-3 py-1 bg-copper/5"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ) : null}
 
                 {project.links.length > 0 ? (
-                  <div className="flex flex-wrap gap-3 mt-auto pt-5 border-t border-white/5">
+                  <div className="flex flex-wrap gap-3 mt-auto pt-5 border-t border-white/10">
                     {project.links.map((link) => (
                       <a
                         key={link.href}
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-white hover:text-copper transition-colors font-medium"
+                        className="inline-flex items-center gap-2 rounded-full border-2 border-copper bg-copper/15 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-copper hover:text-ink-navy hover:shadow-[0_0_20px_rgba(196,120,43,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-copper focus-visible:ring-offset-2 focus-visible:ring-offset-card-bg"
                       >
                         {link.label}
-                        <span className="text-copper text-xs" aria-hidden>
+                        <span className="text-base leading-none" aria-hidden>
                           ↗
                         </span>
                       </a>
                     ))}
                   </div>
                 ) : (
-                  <div className="mt-auto pt-5 border-t border-white/5">
+                  <div className="mt-auto pt-5 border-t border-white/10">
                     <p className="text-muted text-xs">
                       Reference available under NDA on request.
                     </p>
