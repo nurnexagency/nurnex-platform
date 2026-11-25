@@ -46,8 +46,6 @@ export default function SiteHeader() {
     { label: t.nav.work, href: "/#work" },
     { label: t.nav.process, href: "/#process" },
     { label: t.nav.about, href: "/#about" },
-    { label: t.nav.careers, href: "/careers" },
-    { label: t.nav.regions, href: "/#regions" },
     { label: t.nav.contact, href: "/#contact" },
   ];
 
