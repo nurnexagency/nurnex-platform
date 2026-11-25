@@ -153,7 +153,7 @@ export default function FieldAccelerationPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-5 bg-copper/10 border border-copper/20 text-copper">
-                New — 1-Month Program · First cohorts January 2027
+                New â€” 1-Month Program Â· First cohorts January 2027
               </div>
               <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Field Acceleration Program</h1>
               <p className="text-muted text-lg max-w-2xl mx-auto mb-8">
@@ -165,7 +165,7 @@ export default function FieldAccelerationPage() {
                   href="/#contact"
                   className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30"
                 >
-                  Reserve a Track — $400
+                  Reserve a Track â€” $400
                 </Link>
                 <Link
                   href="/bootcamp"
@@ -223,7 +223,7 @@ export default function FieldAccelerationPage() {
             </div>
 
             <h2 className="font-display text-2xl font-bold text-white mb-2 text-center">Choose Your Combo Track</h2>
-            <p className="text-muted text-sm text-center mb-8">$400 per track · 8 live classes · one month</p>
+            <p className="text-muted text-sm text-center mb-8">$400 per track Â· 8 live classes Â· one month</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
               {fapTracks.map((t, i) => (
                 <motion.div
@@ -249,7 +249,7 @@ export default function FieldAccelerationPage() {
                     {t.weeks.map((w, wi) => (
                       <div key={wi} className="flex gap-3 text-xs">
                         <span className="text-copper font-semibold whitespace-nowrap">
-                          {wi === 0 ? "Weeks 1–2" : "Weeks 3–4"}
+                          {wi === 0 ? "Weeks 1â€“2" : "Weeks 3â€“4"}
                         </span>
                         <span className="text-muted leading-relaxed">{w}</span>
                       </div>
@@ -315,7 +315,7 @@ export default function FieldAccelerationPage() {
                 href="/#contact"
                 className="bg-copper hover:bg-copper/90 text-white px-8 py-4 rounded-xl text-base font-semibold tracking-wide transition-all hover:shadow-lg hover:shadow-copper/30"
               >
-                Reserve a Track — $400
+                Reserve a Track â€” $400
               </Link>
               <a
                 href="mailto:bootcamp@nurnex.com?subject=Field%20Acceleration%20Program"
