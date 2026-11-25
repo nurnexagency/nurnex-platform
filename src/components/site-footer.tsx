@@ -1,10 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import { MOTTO } from "@/lib/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_TEL } from "@/lib/contact";
+import { useI18n } from "@/lib/i18n/LanguageProvider";
 import SocialLinks from "./social-links";
 
 export default function SiteFooter() {
-  const year = 2025;
+  const { t } = useI18n();
+  const year = new Date().getFullYear();
+
+  const navLinks = [
+    { label: t.nav.services, href: "/#services" },
+    { label: t.nav.work, href: "/#work" },
+    { label: t.nav.process, href: "/#process" },
+    { label: t.nav.about, href: "/#about" },
+    { label: t.nav.regions, href: "/#regions" },
+    { label: "Ambassadors", href: "/#ambassadors" },
+    { label: t.nav.contact, href: "/#contact" },
+    { label: "Partner Portal", href: "https://portal.nurnex.com" },
+  ];
 
   return (
     <footer className="relative bg-ink-navy border-t border-white/5">
@@ -23,27 +38,16 @@ export default function SiteFooter() {
               />
             </div>
             <p className="text-muted text-sm leading-relaxed max-w-md">
-              Microsoft analytics, automation, and cloud consulting — plus
-              websites and iOS &amp; Android apps — for organizations across
-              Europe, Asia, and the Middle East. {MOTTO}
+              {t.footer.blurb} {MOTTO}
             </p>
           </div>
 
           <div>
             <h4 className="text-white text-sm font-medium tracking-wide mb-4">
-              Navigation
+              {t.footer.navigation}
             </h4>
             <ul className="space-y-2">
-              {[
-                { label: "Services", href: "/#services" },
-                { label: "Work", href: "/#work" },
-                { label: "Process", href: "/#process" },
-                { label: "About", href: "/#about" },
-                { label: "Regions", href: "/#regions" },
-                { label: "Ambassadors", href: "/#ambassadors" },
-                { label: "Contact", href: "/#contact" },
-                { label: "Partner Portal", href: "https://portal.nurnex.com" },
-              ].map((item) => (
+              {navLinks.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
@@ -58,7 +62,7 @@ export default function SiteFooter() {
 
           <div>
             <h4 className="text-white text-sm font-medium tracking-wide mb-4">
-              Get in Touch
+              {t.footer.getInTouch}
             </h4>
             <ul className="space-y-2 text-sm text-muted">
               <li>
@@ -85,7 +89,7 @@ export default function SiteFooter() {
 
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted text-xs">
-            © {year} Nurnex Consulting. All rights reserved.
+            © {year} Nurnex Consulting. {t.footer.rights}
           </p>
           <div className="flex items-center gap-5">
             <a

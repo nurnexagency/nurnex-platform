@@ -8,9 +8,12 @@ import {
   CONTACT_PHONE,
   CONTACT_TEL,
 } from "@/lib/contact";
+import { useI18n } from "@/lib/i18n/LanguageProvider";
 import SocialLinks from "./social-links";
 
 export default function ContactSection() {
+  const { t } = useI18n();
+
   return (
     <section id="contact" className="relative py-20 sm:py-28 bg-ink-navy overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[rgba(196,120,43,0.06)]" />
@@ -32,21 +35,18 @@ export default function ContactSection() {
           transition={{ duration: 0.7 }}
         >
           <p className="text-copper text-sm tracking-[0.3em] uppercase mb-3">
-            Start Your Journey
+            {t.contact.eyebrow}
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Ready to Move Forward?
+            {t.contact.title}
           </h2>
           <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto mb-4 leading-relaxed">
-            Email us to schedule a complimentary 30-minute discovery call. We&apos;ll
-            review your Microsoft landscape, website or app needs, identify quick
-            wins, and outline a roadmap — no commitment required.
+            {t.contact.body}
           </p>
           <p className="text-muted/70 text-sm max-w-xl mx-auto mb-10 leading-relaxed">
-            Prefer a regional partner first? You can also start through a Nurnex
-            Ambassador — either path leads to the same discovery process.{" "}
+            {t.contact.ambassador}{" "}
             <a href="#ambassadors" className="text-copper hover:underline">
-              Become an Ambassador
+              {t.contact.becomeAmbassador}
             </a>
             .
           </p>
@@ -64,14 +64,14 @@ export default function ContactSection() {
               href={CONTACT_MAILTO}
               className="inline-block bg-copper hover:bg-copper/90 text-white px-10 py-4 rounded-lg font-medium tracking-wide transition-all duration-300 hover:shadow-xl hover:shadow-copper/20 text-base cta-float"
             >
-              Email Us to Schedule
+              {t.contact.ctaPrimary}
             </a>
             <a
               href={CATALOGUE_URL}
               download="Nurnex_Consulting_Catalogue.pdf"
               className="inline-block border border-copper/50 text-white hover:bg-copper/10 px-8 py-4 rounded-lg font-medium tracking-wide transition-all duration-300 text-base"
             >
-              Download Catalogue (PDF)
+              {t.contact.downloadCatalogue}
             </a>
           </div>
           <p className="text-muted/50 text-xs mt-3">
@@ -83,50 +83,20 @@ export default function ContactSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12"
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 text-muted text-sm"
         >
-          <div className="flex items-center gap-3">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#C4782B"
-              strokeWidth="1.5"
-              className="w-5 h-5 flex-shrink-0"
-              aria-hidden
-            >
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" />
-            </svg>
-            <a
-              href={CONTACT_TEL}
-              className="text-muted hover:text-copper transition-colors text-sm"
-            >
-              {CONTACT_PHONE}
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#C4782B"
-              strokeWidth="1.5"
-              className="w-5 h-5 flex-shrink-0"
-              aria-hidden
-            >
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="text-muted hover:text-copper transition-colors text-sm"
-            >
-              {CONTACT_EMAIL}
-            </a>
-          </div>
-
-          <SocialLinks />
+          <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-copper transition-colors">
+            {CONTACT_EMAIL}
+          </a>
+          <a href={CONTACT_TEL} className="hover:text-copper transition-colors">
+            {CONTACT_PHONE}
+          </a>
         </motion.div>
+
+        <div className="mt-10 flex justify-center">
+          <SocialLinks />
+        </div>
       </div>
     </section>
   );

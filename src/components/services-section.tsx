@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ConstellationBg from "@/components/bg/constellation-bg";
 import { CATALOGUE_URL } from "@/lib/contact";
+import { useI18n } from "@/lib/i18n/LanguageProvider";
 
 interface ServiceData {
   icon: React.ReactNode;
@@ -621,6 +622,7 @@ function ServiceCard({
 }
 
 export default function ServicesSection() {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const openByName = (name: string) => {
@@ -649,11 +651,10 @@ export default function ServicesSection() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14 sm:mb-16"
         >
-          <p className="text-copper text-sm tracking-[0.3em] uppercase mb-3">Our Expertise</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">What We Deliver</h2>
+          <p className="text-copper text-sm tracking-[0.3em] uppercase mb-3">{t.services.eyebrow}</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">{t.services.title}</h2>
           <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Microsoft analytics and automation, data platforms including Databricks and Snowflake,
-            AI and machine learning — plus websites and mobile apps when you need the full digital stack.
+            {t.services.intro}
           </p>
           <a
             href={CATALOGUE_URL}
@@ -663,14 +664,14 @@ export default function ServicesSection() {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4" aria-hidden>
               <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" />
             </svg>
-            Download Full Catalogue (PDF)
+            {t.services.downloadCatalogue}
           </a>
         </motion.div>
 
         <div className="mb-14">
-          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">Microsoft Stack</h3>
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">{t.services.microsoft}</h3>
           <p className="text-muted text-sm mb-6 max-w-2xl">
-            Power BI, Power Platform, Azure, Copilot readiness, training, and managed support.
+            {t.services.microsoftHint}
           </p>
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
@@ -688,9 +689,9 @@ export default function ServicesSection() {
         </div>
 
         <div className="mb-14">
-          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">Data Platform</h3>
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">{t.services.data}</h3>
           <p className="text-muted text-sm mb-6 max-w-2xl">
-            Databricks, Snowflake, Azure pipelines, and custom data ingestion — from raw sources to analytics-ready delivery.
+            {t.services.dataHint}
           </p>
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
@@ -708,9 +709,9 @@ export default function ServicesSection() {
         </div>
 
         <div className="mb-14">
-          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">AI &amp; Modernization</h3>
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">{t.services.ai}</h3>
           <p className="text-muted text-sm mb-6 max-w-2xl">
-            Machine learning, applied AI, and the replacement of aging systems — built securely on the Microsoft cloud.
+            {t.services.aiHint}
           </p>
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
@@ -728,9 +729,9 @@ export default function ServicesSection() {
         </div>
 
         <div>
-          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">Digital Products</h3>
+          <h3 className="text-white font-semibold text-lg mb-2 tracking-wide">{t.services.digital}</h3>
           <p className="text-muted text-sm mb-6 max-w-2xl">
-            Websites and mobile apps — with Microsoft automation and dashboards behind them when you need both.
+            {t.services.digitalHint}
           </p>
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"

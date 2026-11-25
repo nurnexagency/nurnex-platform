@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import LanguageSwitcher from "@/components/language-switcher";
+import { useI18n } from "@/lib/i18n/LanguageProvider";
 
 type NavItem =
   | { label: string; href: string; children?: undefined }
@@ -13,40 +15,41 @@ type NavItem =
       children: { label: string; href: string; hint: string }[];
     };
 
-const navItems: NavItem[] = [
-  { label: "Services", href: "/#services" },
-  { label: "Demos", href: "/demos" },
-  {
-    label: "Bootcamp",
-    href: "/bootcamp",
-    children: [
-      {
-        label: "6-Month Bootcamp",
-        href: "/bootcamp",
-        hint: "Full career program · 3 & 6 month tracks",
-      },
-      {
-        label: "1-Month Field Acceleration",
-        href: "/field-acceleration",
-        hint: "One combo track · $400",
-      },
-    ],
-  },
-  { label: "Work", href: "/#work" },
-  { label: "Process", href: "/#process" },
-  { label: "About", href: "/#about" },
-  { label: "Careers", href: "/careers" },
-  { label: "Regions", href: "/#regions" },
-  { label: "Contact", href: "/#contact" },
-];
-
 export default function SiteHeader() {
+  const { t } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [bootcampOpen, setBootcampOpen] = useState(false);
   const [mobileBootcampOpen, setMobileBootcampOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
+  const navItems: NavItem[] = [
+    { label: t.nav.services, href: "/#services" },
+    { label: t.nav.demos, href: "/demos" },
+    {
+      label: t.nav.bootcamp,
+      href: "/bootcamp",
+      children: [
+        {
+          label: t.nav.bootcampFull,
+          href: "/bootcamp",
+          hint: t.nav.bootcampFullHint,
+        },
+        {
+          label: t.nav.fieldAccel,
+          href: "/field-acceleration",
+          hint: t.nav.fieldAccelHint,
+        },
+      ],
+    },
+    { label: t.nav.work, href: "/#work" },
+    { label: t.nav.process, href: "/#process" },
+    { label: t.nav.about, href: "/#about" },
+    { label: t.nav.careers, href: "/careers" },
+    { label: t.nav.regions, href: "/#regions" },
+    { label: t.nav.contact, href: "/#contact" },
+  ];
 
   const openBootcamp = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -74,7 +77,7 @@ export default function SiteHeader() {
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
               <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
-            Internal Portal Sign In
+            {t.nav.portal}
           </a>
         </div>
       </div>
@@ -166,18 +169,21 @@ export default function SiteHeader() {
                   </Link>
                 )
               )}
+              <LanguageSwitcher />
               <Link
                 href="/#contact"
                 className="bg-copper hover:bg-copper/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide transition-all hover:shadow-lg hover:shadow-copper/20"
               >
-                Email Us
+                {t.nav.emailUs}
               </Link>
             </nav>
 
+            <div className="lg:hidden flex items-center gap-2">
+              <LanguageSwitcher compact />
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden text-white p-2"
+              className="text-white p-2"
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}
             >
@@ -185,6 +191,7 @@ export default function SiteHeader() {
                 {mobileOpen ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
               </svg>
             </button>
+            </div>
           </div>
         </div>
 
@@ -262,14 +269,14 @@ export default function SiteHeader() {
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
-                  Internal Portal Sign In
+                  {t.nav.portal}
                 </a>
                 <Link
                   href="/#contact"
                   onClick={() => setMobileOpen(false)}
                   className="bg-copper text-white px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide text-center mt-2"
                 >
-                  Email Us
+                  {t.nav.emailUs}
                 </Link>
               </nav>
             </motion.div>

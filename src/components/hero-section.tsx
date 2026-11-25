@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import SunArc from "@/components/sun-arc";
 import { MOTTO } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n/LanguageProvider";
 
 const orbitingDiamonds = [
   { className: "diamond-orbit-1", size: 6, opacity: 0.5 },
@@ -244,6 +245,7 @@ function CompassRose() {
 }
 
 export default function HeroSection() {
+  const { t } = useI18n();
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-ink-navy overflow-hidden pt-20">
       {/* Gradient overlay */}
@@ -295,7 +297,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-muted text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed [text-shadow:0_2px_12px_rgba(10,31,51,0.95),0_0_3px_rgba(10,31,51,0.8)]"
         >
-          Microsoft analytics, automation, and cloud consulting — plus websites and iOS &amp; Android apps — for Europe, Asia, and&nbsp;the&nbsp;Middle&nbsp;East.
+          {t.hero.body}
         </motion.p>
 
         {/* CTAs */}
@@ -309,13 +311,13 @@ export default function HeroSection() {
             href="#contact"
             className="bg-copper hover:bg-copper/90 text-white px-8 py-3.5 rounded-lg font-medium tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-copper/20 text-sm sm:text-base"
           >
-            Email Us to Schedule
+            {t.hero.ctaPrimary}
           </a>
           <a
             href="#services"
             className="border border-white/20 hover:border-copper/50 text-white px-8 py-3.5 rounded-lg font-medium tracking-wide transition-all duration-300 hover:bg-white/5 text-sm sm:text-base"
           >
-            Explore Services
+            {t.hero.ctaSecondary}
           </a>
         </motion.div>
       </div>
